@@ -85,7 +85,17 @@ public class CSVReader {
 		
 	}
 	
-	
+	public String[] getColumnData(int colNumber) {
+		List<String> a = new ArrayList<>();
+		
+		for (String[] singleLineFromArray : getData()) {
+			a.add(singleLineFromArray[colNumber]);
+		}
+		
+		String[] toReturn = a.toArray(new String[0]);
+		
+		return toReturn;
+	}
 	
 	
 	
