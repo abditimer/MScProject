@@ -80,7 +80,7 @@ public class HomeScreenController  {
 	 */
 	public void visualButtonClicked() {
 		setScreenVisibility(false, true, false, false);
-		//piechart.setData(dataToGraph.piechartData());
+		piechart.setData(dataToGraph.piechartData());
 	}
 	
 	/**
