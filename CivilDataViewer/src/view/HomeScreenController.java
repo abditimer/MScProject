@@ -3,6 +3,10 @@ package view;
 import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import data.DataToJFXGraph;
+import data.DataToPieChart;
+
 import java.util.Map.Entry;
 
 import dataDownloader.PotholeEnquiry;
@@ -50,12 +54,17 @@ public class HomeScreenController  {
 	PieChart piechart;
 	//data I need to refer to 
 	PotholeEnquiry potholeData = new PotholeEnquiry();
-	GraphData graphData = new GraphData();
+	//GraphData graphData = new GraphData();
 	private MainApp mainApp;
 	//needed for movable screen
 	private double xOffset = 0;
     private double yOffset = 0;
 	
+    //To transform Data
+    DataToPieChart dataToGraph = new DataToPieChart("Pothole_Enquiries_2015");
+    
+    
+    //====================================================================
 	public void setMainApp(MainApp mainApp) {
     	this.mainApp = mainApp;
     }
@@ -71,7 +80,7 @@ public class HomeScreenController  {
 	 */
 	public void visualButtonClicked() {
 		setScreenVisibility(false, true, false, false);
-		piechart.setData(graphData.getPieChartData());
+		//piechart.setData(dataToGraph.piechartData());
 	}
 	
 	/**
