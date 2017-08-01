@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HomeScreenController">
+   <children>
+      <ImageView pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/images/OtherScreen.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="homePanel" disable="true" layoutX="63.0" layoutY="94.0" prefHeight="700.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <effect>
+            <InnerShadow />
+         </effect>
+         <children>
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/images/HomeScreen.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="visualPanel" prefHeight="726.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane layoutX="47.0" layoutY="86.0" pannable="true" prefHeight="538.0" prefWidth="1196.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0" prefWidth="1200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <LineChart prefHeight="711.0" prefWidth="522.0">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                              <PieChart fx:id="piechart" legendSide="RIGHT" minHeight="-Infinity" minWidth="-Infinity" title="Pothole Enquiry Info">
+                                 <padding>
+                                    <Insets top="15.0" />
+                                 </padding>
+                              </PieChart>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="aboutPanel" layoutX="10.0" layoutY="10.0" prefHeight="736.0" prefWidth="1300.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane layoutX="95.0" layoutY="63.0" prefHeight="587.0" prefWidth="1093.0" style="-fx-background-color: #d9dee2; -fx-opacity: 0.8;">
+               <children>
+                  <Label layoutX="441.0" layoutY="69.0" text="Map Visualisation">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="contactPanel" prefHeight="726.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane layoutX="95.0" layoutY="63.0" prefHeight="587.0" prefWidth="1093.0" style="-fx-background-color: #d9dee2; -fx-opacity: 0.8;">
+               <children>
+                  <GridPane layoutX="95.0" layoutY="196.0" prefHeight="264.0" prefWidth="508.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="0.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="328.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="161.0" minHeight="10.0" prefHeight="143.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Name" GridPane.halignment="RIGHT">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin></Label>
+                        <Label text="Email" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin></Label>
+                        <Label text="Message" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin></Label>
+                        <TextField GridPane.columnIndex="1" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextArea prefHeight="90.0" prefWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <Label layoutX="260.0" layoutY="122.0" text="Contact us">
+                     <font>
+                        <Font size="38.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="511.0" layoutY="475.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="71.0" text="Send" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../resources/images/TopOfScreen.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="moveScreenButton" mnemonicParsing="false" onAction="#handleMovingScreen" prefHeight="61.0" prefWidth="1280.0" style="-fx-opacity: 0;" text="Button" />
+            <ButtonBar layoutX="466.0" layoutY="22.0" prefHeight="40.0" prefWidth="350.0">
+               <buttons>
+                  <JFXButton onAction="#homeButtonClicked" text="HOME" textFill="#e1dddd">
+                     <font>
+                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton onAction="#visualButtonClicked" text="VISUALI" textFill="#e1dddd">
+                     <font>
+                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton onAction="#aboutButtonClicked" text="ABOUT" textFill="#e1dddd">
+                     <font>
+                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton onAction="#contactButtonClicked" text="CONTACT" textFill="#e1dddd">
+                     <font>
+                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                     </font>
+                  </JFXButton>
+               </buttons>
+            </ButtonBar>
+            <Button layoutX="1202.0" layoutY="2.0" mnemonicParsing="false" onAction="#minusButtonClicked" prefHeight="33.0" prefWidth="32.0" style="-fx-opacity: 0;" text="Button" />
+            <Button layoutX="1238.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="33.0" prefWidth="32.0" style="-fx-opacity: 0;" text="Button" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
