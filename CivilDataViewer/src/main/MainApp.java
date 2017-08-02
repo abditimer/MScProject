@@ -21,11 +21,12 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Civil Data Viewer App");
 		this.primaryStage.getIcons().add(new Image("file:resources/images/icon.png"));
-		
 		showHomeScreen();
 	}
 	
-
+	/**
+	 * This loads both the fxml file containing my gui and attaches the controller to it.
+	 */
 	public void showHomeScreen() {
 		try {
 			//load person overview.
