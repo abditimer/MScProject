@@ -1,25 +1,12 @@
 package view;
 
-import javafx.event.ActionEvent;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import data.DataToJFXGraph;
 import data.DataToPieChart;
-
-import java.util.Map.Entry;
-
-import dataDownloader.PotholeEnquiry;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import main.MainApp;
 
 public class HomeScreenController  {
@@ -52,14 +39,10 @@ public class HomeScreenController  {
 	//others
 	@FXML
 	PieChart piechart;
-	//data I need to refer to 
-	PotholeEnquiry potholeData = new PotholeEnquiry();
-	//GraphData graphData = new GraphData();
 	private MainApp mainApp;
 	//needed for movable screen
 	private double xOffset = 0;
     private double yOffset = 0;
-	
     //To transform Data
     DataToPieChart dataforPieChart = new DataToPieChart("Pothole_Enquiries_2015");
     
@@ -68,6 +51,12 @@ public class HomeScreenController  {
 	public void setMainApp(MainApp mainApp) {
     	this.mainApp = mainApp;
     }
+	
+	//=====================================================================
+	//-------------------------------------------------------------------------------------------------
+	//=====================================================================
+	
+	//The following code will now control the buttons on the top of all screens.
 	
 	/**
 	 * Button for going to the homePanel screen
@@ -95,8 +84,12 @@ public class HomeScreenController  {
 		setScreenVisibility(false, false, false, true);
 	}
 	
-
-
+	//=====================================================================
+	//-------------------------------------------------------------------------------------------------
+	//=====================================================================
+	
+	//Other methods that control GUI.
+	
 	/**
 	 * Method to decide which screen to show
 	 * @param homeScreenVisible
@@ -118,10 +111,18 @@ public class HomeScreenController  {
 		mainApp.getPrimaryStage().setIconified(true);
 	}
 	
-	public void handleCloseButtonAction(ActionEvent event) {
+	/**
+	 * This handles when the close button is pressed.
+	 * @param event
+	 */
+	public void handleCloseButtonAction() {
 		mainApp.getPrimaryStage().close();
 	}
 	
+	/**
+	 * allows for top of the screen to be movable.
+	 * invisible button above area on top of window lets screen be draggable when clicked.
+	 */
 	public void handleMovingScreen() {
 		moveScreenButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
