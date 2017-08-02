@@ -22,8 +22,8 @@ public class CSVHeaderSelector extends CSVReader {
 	
 	
 	public static void main(String[] args) {
-		CSVHeaderSelector test = new CSVHeaderSelector("Pothole_Enquiries_2015", 1);
+		//CSVHeaderSelector test = new CSVHeaderSelector("Pothole_Enquiries_2015", 1);
 		CSVHeaderSelector test2 = new CSVHeaderSelector("rainTemp", 1);
-		CSVHeaderSelector test3 = new CSVHeaderSelector("WaterTemperature", 1);
+		//CSVHeaderSelector test3 = new CSVHeaderSelector("WaterTemperature", 1);
 	}
 }

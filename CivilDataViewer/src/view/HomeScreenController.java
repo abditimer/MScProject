@@ -61,7 +61,7 @@ public class HomeScreenController  {
     private double yOffset = 0;
 	
     //To transform Data
-    DataToPieChart dataToGraph = new DataToPieChart("Pothole_Enquiries_2015");
+    DataToPieChart dataforPieChart = new DataToPieChart("Pothole_Enquiries_2015");
     
     
     //====================================================================
@@ -80,7 +80,7 @@ public class HomeScreenController  {
 	 */
 	public void visualButtonClicked() {
 		setScreenVisibility(false, true, false, false);
-		piechart.setData(dataToGraph.piechartData());
+		piechart.setData(dataforPieChart.piechartData());
 	}
 	
 	/**

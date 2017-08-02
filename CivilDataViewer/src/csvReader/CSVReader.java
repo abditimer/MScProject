@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CSVReader {
 	//List containing all the rows from csv file except for header
@@ -140,8 +142,29 @@ public class CSVReader {
 		System.out.println(count); 
 	}
 	
+	/**
+	 * This method prints the different size lengths 
+	 * of the different rows within the csv file
+	 */
+	public void printLineLengths() {
+		Set<Integer> setOfNumbers = new HashSet<>();
+		
+		
+		for (String[] singleLineFromArray : getData()) {
+			//for each row
+			setOfNumbers.add(singleLineFromArray.length);
+		}
+		
+		for ( int a : setOfNumbers) {
+			System.out.println(a);
+		}
+	}
+	
 	public static void main(String[] args) {
-		CSVReader test = new CSVReader("Pothole_Enquiries_2015");
+		//CSVReader test = new CSVReader("Pothole_Enquiries_2015");
+		//CSVReader test = new CSVReader("RainTemp");
+		CSVReader test = new CSVReader("WaterTemperature");
+		
 		//test.printLineSizeCSVFile();
 		//test.printCSVFile();
 		//test.countLinesInCSVFile();

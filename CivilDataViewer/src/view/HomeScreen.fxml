@@ -71,17 +71,13 @@
             </ScrollPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="aboutPanel" layoutX="10.0" layoutY="10.0" prefHeight="736.0" prefWidth="1300.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="aboutPanel" layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane layoutX="95.0" layoutY="63.0" prefHeight="587.0" prefWidth="1093.0" style="-fx-background-color: #d9dee2; -fx-opacity: 0.8;">
-               <children>
-                  <Label layoutX="441.0" layoutY="69.0" text="Map Visualisation">
-                     <font>
-                        <Font size="27.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/images/AboutScreen.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="contactPanel" prefHeight="726.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

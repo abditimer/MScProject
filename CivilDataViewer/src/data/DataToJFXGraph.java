@@ -45,20 +45,39 @@ public class DataToJFXGraph {
 		return reader.getColumnData(i);
 	}
 	
-
+	/**
+	 * Uses CSVReader class to read in a csv file
+	 * then splits data into header and data content
+	 * stores this info
+	 * 
+	 * @param fileName fileName of CSV file (Exclude .csv)
+	 */
 	public DataToJFXGraph(String fileName) {
 		reader = new CSVReader(fileName);
 		columnData = reader.getData();
 		headerData = reader.getHeader();
-		int count = 0;
+	}
+	
+	/**
+	 * This method prints the different headers this file has
+	 */
+	public void printHeaders() {
+		int count = 1;
 		System.out.println("These are the different headers you can choose from: " + "\n");
 		for (String colName : headerData) {
 			System.out.println(count + " " + colName);
 			count++;
-		}
+		}	
 	}
 	
-	public ArrayList<Double> stringToDoubleArray(String[] stringArray) {
+	/**
+	 * This method has been created to turn String []
+	 * from Strings -> Integers
+	 * This method considers if the string has a decimal point
+	 * @param stringArray
+	 * @return
+	 */
+	public ArrayList<Double> stringToIntNumbers(String[] stringArray) {
 		ArrayList<Double> listOfDoubles = new ArrayList<>();
 		
 		
@@ -83,8 +102,10 @@ public class DataToJFXGraph {
 	}
 	
 	/**
-	 * This method counts the repeating strings 
-	 * @return
+	 * This method counts the repeating strings in one column
+	 * It collects the instances of the words in a column
+	 * 
+	 * @return A map containing the unique words with their count
 	 */
 	public Map<String, Integer> countAndMapData(String[] words) {
 		TreeMap<String, Integer> map = new TreeMap<>();
@@ -102,21 +123,14 @@ public class DataToJFXGraph {
 		return map;
 	}
 	
-	/**
-	 * Method that will be able to pass over the list of approval status
-	 */
-	public ObservableList<PieChart.Data> getdataForPieChart(String[] arrayDataForPieChart) {
-		
-		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(); 
-		
-        for(Entry<String, Integer> e : countAndMapData(arrayDataForPieChart).entrySet()) {
-        	pieChartData.add(new PieChart.Data(e.getKey(), e.getValue()));
-        }
-        
-        return pieChartData;
-	}
+	
 	
 	public static void main(String[] args) {
-		//DataToJFXGraph test = new DataToJFXGraph("Pothole_Enquiries_2015");
+		DataToJFXGraph potholeData = new DataToJFXGraph("Pothole_Enquiries_2015");
+		DataToJFXGraph rainTempData = new DataToJFXGraph("RainTemp");
+		DataToJFXGraph waterTempData = new DataToJFXGraph("WaterTemperature");
+		potholeData.printHeaders();
+		rainTempData.printHeaders();
+		waterTempData.printHeaders();
 	}
 }
