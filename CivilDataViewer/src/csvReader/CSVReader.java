@@ -87,6 +87,11 @@ public class CSVReader {
 		
 	}
 	
+	/**
+	 * This allows you to get a string[] of a certain column
+	 * @param colNumber the column you need to extract
+	 * @return a column from the csv file as a string[]
+	 */
 	public String[] getColumnData(int colNumber) {
 		List<String> a = new ArrayList<>();
 		
@@ -98,9 +103,6 @@ public class CSVReader {
 		
 		return toReturn;
 	}
-	
-	
-	
 	
 	/**
 	 * Getter for csv data
@@ -161,12 +163,12 @@ public class CSVReader {
 	}
 	
 	public static void main(String[] args) {
-		//CSVReader test = new CSVReader("Pothole_Enquiries_2015");
+		CSVReader test = new CSVReader("Pothole_Enquiries_2015", 10);
 		//CSVReader test = new CSVReader("RainTemp");
-		CSVReader test = new CSVReader("WaterTemperature");
+		//CSVReader test = new CSVReader("WaterTemperature");
 		
-		//test.printLineSizeCSVFile();
-		//test.printCSVFile();
+		//test.printLineLengths();
+		test.printCSVFile();
 		//test.countLinesInCSVFile();
 	}
 }

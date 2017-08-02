@@ -26,7 +26,8 @@ import javafx.scene.chart.PieChart;
  * @author timer
  *
  */
-public class DataToJFXGraph {
+public class DataFormatFX {
+	
 	CSVReader reader;
 	//List containing all the rows from csv file except for header
 	private List<String[]> columnData;
@@ -40,7 +41,11 @@ public class DataToJFXGraph {
 	public String[] getHeaderData() {
 		return headerData;
 	}
-	
+	/**
+	 * Selects certain column data to return
+	 * @param i the row number needed
+	 * @return string[] of column selected
+	 */
 	public String[] getColumnData(int i) {
 		return reader.getColumnData(i);
 	}
@@ -52,7 +57,7 @@ public class DataToJFXGraph {
 	 * 
 	 * @param fileName fileName of CSV file (Exclude .csv)
 	 */
-	public DataToJFXGraph(String fileName) {
+	public DataFormatFX(String fileName) {
 		reader = new CSVReader(fileName);
 		columnData = reader.getData();
 		headerData = reader.getHeader();
@@ -62,7 +67,7 @@ public class DataToJFXGraph {
 	 * This method prints the different headers this file has
 	 */
 	public void printHeaders() {
-		int count = 1;
+		int count = 0;
 		System.out.println("These are the different headers you can choose from: " + "\n");
 		for (String colName : headerData) {
 			System.out.println(count + " " + colName);
@@ -126,9 +131,9 @@ public class DataToJFXGraph {
 	
 	
 	public static void main(String[] args) {
-		DataToJFXGraph potholeData = new DataToJFXGraph("Pothole_Enquiries_2015");
-		DataToJFXGraph rainTempData = new DataToJFXGraph("RainTemp");
-		DataToJFXGraph waterTempData = new DataToJFXGraph("WaterTemperature");
+		DataFormatFX potholeData = new DataFormatFX("Pothole_Enquiries_2015");
+		DataFormatFX rainTempData = new DataFormatFX("RainTemp");
+		DataFormatFX waterTempData = new DataFormatFX("WaterTemperature");
 		potholeData.printHeaders();
 		rainTempData.printHeaders();
 		waterTempData.printHeaders();

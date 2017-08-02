@@ -1,6 +1,7 @@
 package view;
 
-import data.DataToPieChart;
+import data.DataFormatFX;
+import data.ObservableListProvider;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -44,7 +45,9 @@ public class HomeScreenController  {
 	private double xOffset = 0;
     private double yOffset = 0;
     //To transform Data
-    DataToPieChart dataforPieChart = new DataToPieChart("Pothole_Enquiries_2015");
+    ObservableListProvider dataforPieChart = new ObservableListProvider("Pothole_Enquiries_2015");
+    
+    
     
     
     //====================================================================
@@ -69,7 +72,7 @@ public class HomeScreenController  {
 	 */
 	public void visualButtonClicked() {
 		setScreenVisibility(false, true, false, false);
-		piechart.setData(dataforPieChart.piechartData());
+		setUpChartData();
 	}
 	
 	/**
@@ -89,6 +92,11 @@ public class HomeScreenController  {
 	//=====================================================================
 	
 	//Other methods that control GUI.
+	
+	public void setUpChartData() {
+		dataforPieChart.setSingleObservableList(3);
+		piechart.setData(dataforPieChart.getPieChartObservableList());
+	}
 	
 	/**
 	 * Method to decide which screen to show
