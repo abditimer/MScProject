@@ -132,10 +132,10 @@ public class DataFormatFX {
 	
 	public static void main(String[] args) {
 		DataFormatFX potholeData = new DataFormatFX("Pothole_Enquiries_2015");
-		DataFormatFX rainTempData = new DataFormatFX("RainTemp");
-		DataFormatFX waterTempData = new DataFormatFX("WaterTemperature");
+		//DataFormatFX rainTempData = new DataFormatFX("RainTemp");
+		//DataFormatFX waterTempData = new DataFormatFX("WaterTemperature");
 		potholeData.printHeaders();
-		rainTempData.printHeaders();
-		waterTempData.printHeaders();
+		//rainTempData.printHeaders();
+		//waterTempData.printHeaders();
 	}
 }

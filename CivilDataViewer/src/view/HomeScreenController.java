@@ -38,13 +38,19 @@ public class HomeScreenController  {
 	private Button moveScreenButton;
 	
 	//others
-	@FXML
-	PieChart piechart;
+	
 	private MainApp mainApp;
 	//needed for movable screen
 	private double xOffset = 0;
     private double yOffset = 0;
-    //To transform Data
+    
+    //Graph data
+    @FXML
+	PieChart potholeChart1;
+    @FXML
+	PieChart potholeChart2;
+    @FXML
+	PieChart potholeChart3;
     ObservableListProvider dataforPieChart = new ObservableListProvider("Pothole_Enquiries_2015");
     
     
@@ -94,8 +100,9 @@ public class HomeScreenController  {
 	//Other methods that control GUI.
 	
 	public void setUpChartData() {
-		dataforPieChart.setSingleObservableList(3);
-		piechart.setData(dataforPieChart.getPieChartObservableList());
+		potholeChart1.setData(dataforPieChart.getPieChartObservableList(1));
+		potholeChart2.setData(dataforPieChart.getPieChartObservableList(3));
+		potholeChart3.setData(dataforPieChart.getPieChartObservableList(4));
 	}
 	
 	/**

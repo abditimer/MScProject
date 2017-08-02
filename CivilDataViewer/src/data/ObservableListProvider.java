@@ -43,8 +43,8 @@ public class ObservableListProvider extends DataFormatFX {
 	 * 
 	 * @return Returns observable list data that is used to draw graphs
 	 */
-	public ObservableList<PieChart.Data> getPieChartObservableList() {
-		
+	public ObservableList<PieChart.Data> getPieChartObservableList(int column) {
+		setSingleObservableList(column);
 		ObservableList<PieChart.Data> observableList = FXCollections.observableArrayList(); 
 		
         for(Entry<String, Integer> e : countAndMapData(singleStringObservableList).entrySet()) {
@@ -57,8 +57,8 @@ public class ObservableListProvider extends DataFormatFX {
 	
 	public static void main(String[] args) {
 		ObservableListProvider a = new ObservableListProvider("Pothole_Enquiries_2015");
-		//a.printHeaders();
-		a.setSingleObservableList(4);
+		a.printHeaders();
+		
 		
 		
 	}

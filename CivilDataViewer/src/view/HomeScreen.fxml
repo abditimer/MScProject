@@ -2,9 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
@@ -42,27 +39,21 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="visualPanel" prefHeight="726.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="visualPanel" prefHeight="726.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ScrollPane layoutX="47.0" layoutY="86.0" pannable="true" prefHeight="538.0" prefWidth="1196.0">
+            <ScrollPane layoutX="25.0" layoutY="86.0" pannable="true" prefHeight="626.0" prefWidth="1241.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0" prefWidth="1200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="780.0" prefWidth="1242.0" style="-fx-background-color: #222222;">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <LineChart prefHeight="711.0" prefWidth="522.0">
-                                <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis side="LEFT" />
-                                </yAxis>
-                              </LineChart>
-                              <PieChart fx:id="piechart" legendSide="RIGHT" minHeight="-Infinity" minWidth="-Infinity" title="Pothole Enquiry Info">
+                              <PieChart fx:id="potholeChart1" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1229.0" title="Pothole Enquiry Info">
                                  <padding>
                                     <Insets top="15.0" />
                                  </padding>
                               </PieChart>
+                              <PieChart fx:id="potholeChart2" />
+                              <PieChart fx:id="potholeChart3" />
                            </children>
                         </VBox>
                      </children>

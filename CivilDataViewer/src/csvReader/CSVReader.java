@@ -169,6 +169,7 @@ public class CSVReader {
 		
 		//test.printLineLengths();
 		test.printCSVFile();
+		
 		//test.countLinesInCSVFile();
 	}
 }
