@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 
+import csvReader.LocalCSVFilesFinder;
 import data.DataFormatFX;
 import data.ObservableListProvider;
 import javafx.event.EventHandler;
@@ -69,7 +70,8 @@ public class HomeScreenController  {
     @FXML
     private Label phBarChartLabel1;
     
-    ObservableListProvider dataforPieChart = new ObservableListProvider("Pothole_Enquiries_2015");
+    ObservableListProvider dataforPieChart;
+    LocalCSVFilesFinder csvFilesFinder;
     
     
     //Data visuali page buttons
@@ -93,10 +95,18 @@ public class HomeScreenController  {
 	/**
 	 * This is called after all fxml variable tags have been loaded
 	 */
-	/*@FXML
+	@FXML
 	public void initialize() {
 		
-	}*/
+		
+		
+		dataforPieChart = new ObservableListProvider("Pothole_Enquiries_2015");
+		//set up the charts
+		setUpChartData();
+		//add strings for saved files selection
+		csvFilesFinder = new LocalCSVFilesFinder();
+		csvFileSelector.setItems(csvFilesFinder.getCSVFileNames());
+	}
 	
 	//=====================================================================
 	//-------------------------------------------------------------------------------------------------
@@ -115,7 +125,6 @@ public class HomeScreenController  {
 	 */
 	public void visualButtonClicked() {
 		setScreenVisibility(false, true, false, false);
-		setUpChartData();
 	}
 	
 	/**
@@ -133,14 +142,13 @@ public class HomeScreenController  {
 	//Visuali page =======================================================
 	
 	public void onoffToggleButtonClicked() {
-		
-		
 		if (onlineOfflineToggleButton.isSelected()) {
 			offlineVisualiPane.setVisible(false);
 			onlineVisualiPanel.setVisible(true);
 		} else {
 			offlineVisualiPane.setVisible(true);
 			onlineVisualiPanel.setVisible(false);
+			setUpChartData();
 		}
 	}
 	
