@@ -120,22 +120,35 @@ public class DataFormatFX {
 				//already in our list, so add 1 to its val
 				map.put(singleWord, map.get(singleWord) + 1);
 			} else {
-				//add the word for the first time to our map
-				map.put(singleWord, 1);
+				if (singleWord.length() >3) {
+					//add the word for the first time to our map
+					map.put(singleWord, 1);
+				}
 			}
 		}
 		
 		return map;
 	}
 	
-	
+	public void printMapData(Map<String, Integer> a) {
+		
+		System.out.println("Number of keys is: " + a.size());
+		for (Map.Entry<String, Integer> entry : a.entrySet()) {
+		    System.out.println(entry.getKey() + ", " + entry.getValue());
+		}
+	}
 	
 	public static void main(String[] args) {
 		DataFormatFX potholeData = new DataFormatFX("Pothole_Enquiries_2015");
 		//DataFormatFX rainTempData = new DataFormatFX("RainTemp");
 		//DataFormatFX waterTempData = new DataFormatFX("WaterTemperature");
-		potholeData.printHeaders();
+		//potholeData.printHeaders();
 		//rainTempData.printHeaders();
 		//waterTempData.printHeaders();
+		Map<String, Integer> a = potholeData.countAndMapData(potholeData.getColumnData(4));
+		
+		potholeData.printMapData(a);
+		
+		
 	}
 }

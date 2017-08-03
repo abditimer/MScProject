@@ -1,13 +1,24 @@
 package view;
 
+import java.awt.ScrollPane;
+import java.awt.event.ActionEvent;
+
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXToggleButton;
+
 import data.DataFormatFX;
 import data.ObservableListProvider;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import main.MainApp;
 
 public class HomeScreenController  {
@@ -46,20 +57,46 @@ public class HomeScreenController  {
     
     //Graph data
     @FXML
-	PieChart potholeChart1;
+	PieChart phPieChart1;
     @FXML
-	PieChart potholeChart2;
+    private Label phPieChart1Label;
     @FXML
-	PieChart potholeChart3;
+	PieChart phPieChart2;
+    @FXML
+    private Label phPieChart1Labe2;
+    @FXML
+	BarChart phBarChart1;
+    @FXML
+    private Label phBarChartLabel1;
+    
     ObservableListProvider dataforPieChart = new ObservableListProvider("Pothole_Enquiries_2015");
     
     
+    //Data visuali page buttons
+    @FXML
+    private JFXToggleButton onlineOfflineToggleButton;
+    @FXML
+    private JFXComboBox<String> csvFileSelector;
+    
+    @FXML
+    private AnchorPane onlineVisualiPanel;
+    @FXML
+    private AnchorPane offlineVisualiPane;
     
     
     //====================================================================
 	public void setMainApp(MainApp mainApp) {
     	this.mainApp = mainApp;
+    	
     }
+	
+	/**
+	 * This is called after all fxml variable tags have been loaded
+	 */
+	/*@FXML
+	public void initialize() {
+		
+	}*/
 	
 	//=====================================================================
 	//-------------------------------------------------------------------------------------------------
@@ -93,16 +130,62 @@ public class HomeScreenController  {
 		setScreenVisibility(false, false, false, true);
 	}
 	
+	//Visuali page =======================================================
+	
+	public void onoffToggleButtonClicked() {
+		
+		
+		if (onlineOfflineToggleButton.isSelected()) {
+			offlineVisualiPane.setVisible(false);
+			onlineVisualiPanel.setVisible(true);
+		} else {
+			offlineVisualiPane.setVisible(true);
+			onlineVisualiPanel.setVisible(false);
+		}
+	}
+	
 	//=====================================================================
 	//-------------------------------------------------------------------------------------------------
 	//=====================================================================
 	
 	//Other methods that control GUI.
 	
+	@SuppressWarnings("unchecked")
 	public void setUpChartData() {
-		potholeChart1.setData(dataforPieChart.getPieChartObservableList(1));
-		potholeChart2.setData(dataforPieChart.getPieChartObservableList(3));
-		potholeChart3.setData(dataforPieChart.getPieChartObservableList(4));
+		phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
+		phPieChart1Labe2.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
+		phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
+		
+		phPieChart1.setData(dataforPieChart.getPieChartObservableList(1));
+		phPieChart1.getData().stream().forEach(data -> {
+            data.getNode().addEventHandler(MouseEvent.ANY, e -> {
+                phPieChart1Label.setText(data.getName() + ": " +
+                        (int) data.getPieValue());
+            });
+        });
+		
+		phPieChart2.setData(dataforPieChart.getPieChartObservableList(3));
+		phPieChart2.getData().stream().forEach(data -> {
+            data.getNode().addEventHandler(MouseEvent.ANY, e -> {
+            	phPieChart1Labe2.setText(data.getName() + ": " +
+                        (int) data.getPieValue());
+            });
+        });
+		
+		
+		phBarChart1.setData(dataforPieChart.getBarChartData(4));
+		
+		
+		
+	}
+	
+	/**
+	 * Resets all the charts data
+	 */
+	public void removeChartData() {
+		phBarChart1.getData().clear();
+		phPieChart1.getData().clear();
+		phPieChart2.getData().clear();
 	}
 	
 	/**
@@ -117,6 +200,8 @@ public class HomeScreenController  {
 		visualPanel.setVisible(visualPanelVisible);
 		aboutPanel.setVisible(aboutPanelVisible);
 		contactPanel.setVisible(contactPanelVisible);
+		
+		removeChartData();
 	}
 
 	/**
@@ -154,6 +239,5 @@ public class HomeScreenController  {
             }
         });
 	}
-	
 	
 }

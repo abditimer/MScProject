@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import view.HomeScreenController;
 
 public class MainApp extends Application {
@@ -33,7 +35,10 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("/view/HomeScreen.fxml"));
 			AnchorPane HomeScreen = (AnchorPane) loader.load();
-			
+			FadeTransition ft = new FadeTransition(Duration.millis(1000), HomeScreen);
+			ft.setFromValue(0.0);
+			ft.setToValue(1.0);
+			ft.play();
 			Scene scene = new Scene(HomeScreen);
 			
 			HomeScreenController controller = loader.getController();
