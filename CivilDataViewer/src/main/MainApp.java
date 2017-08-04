@@ -35,7 +35,7 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("/view/HomeScreen.fxml"));
 			AnchorPane HomeScreen = (AnchorPane) loader.load();
-			FadeTransition ft = new FadeTransition(Duration.millis(1000), HomeScreen);
+			FadeTransition ft = new FadeTransition(Duration.millis(3000), HomeScreen);
 			ft.setFromValue(0.0);
 			ft.setToValue(1.0);
 			ft.play();

@@ -77,12 +77,31 @@ public class HomeScreenController {
 	@FXML
 	private JFXToggleButton onlineOfflineToggleButton;
 	@FXML
-	private JFXComboBox<String> csvFileSelector;
-
+	//offline page
+	private AnchorPane offlineVisualiPane;
+	@FXML
+	private JFXComboBox<String> selectSavedDataComboBoxButton;
+	@FXML
+	private JFXComboBox<String> selectVisualisationTypeComboBoxButton;
+	@FXML
+	private AnchorPane potholeDataPanel;
+	//Online page
 	@FXML
 	private AnchorPane onlineVisualiPanel;
 	@FXML
-	private AnchorPane offlineVisualiPane;
+	private AnchorPane uploadNewDataToggleButtonSelectedPanel;
+	@FXML
+	private AnchorPane pasteNewDataToggleButtonSelectedPanel;
+	@FXML
+	private AnchorPane uploadNewDataPanel;
+	@FXML
+	private AnchorPane pasteLinkToNewDataPane;
+	
+	@FXML
+	private JFXComboBox<String> csvFileSelector;
+
+	
+
 
 	// ====================================================================
 	public void setMainApp(MainApp mainApp) {
@@ -100,8 +119,10 @@ public class HomeScreenController {
 		// set up the charts
 		setUpChartData();
 		// add strings for saved files selection
-		csvFilesFinder = new LocalCSVFilesFinder();
-		csvFileSelector.setItems(csvFilesFinder.getCSVFileNames());
+		//csvFilesFinder = new LocalCSVFilesFinder();
+		//csvFileSelector.setItems(csvFilesFinder.getCSVFileNames());
+		
+		//setupSelectCSVFileCOMBOBTN();
 	}
 
 	// =====================================================================
@@ -145,10 +166,25 @@ public class HomeScreenController {
 		if (onlineOfflineToggleButton.isSelected()) {
 			offlineVisualiPane.setVisible(false);
 			onlineVisualiPanel.setVisible(true);
+			removeChartData();
 		} else {
 			offlineVisualiPane.setVisible(true);
 			onlineVisualiPanel.setVisible(false);
 			setUpChartData();
+		}
+	}
+	
+	public void setupSelectCSVFileCOMBOBTN() {
+		LocalCSVFilesFinder a = new LocalCSVFilesFinder();
+		selectSavedDataComboBoxButton.getItems().addAll(a.getCSVFileNames());
+		
+	}
+	
+	public void selectCSFFileCOMBOHandler() {
+		if (selectSavedDataComboBoxButton.getValue().equals("Pothole_Enquiries_2015.csv")) {
+			potholeDataPanel.setVisible(true);
+		} else {
+			potholeDataPanel.setVisible(false);
 		}
 	}
 
@@ -205,8 +241,11 @@ public class HomeScreenController {
 		visualPanel.setVisible(visualPanelVisible);
 		aboutPanel.setVisible(aboutPanelVisible);
 		contactPanel.setVisible(contactPanelVisible);
-
-		removeChartData();
+		if (!visualPanelVisible) {
+			removeChartData();
+		}
+		setUpChartData();
+		offlineVisualiPane.setVisible(true);
 	}
 
 	/**
