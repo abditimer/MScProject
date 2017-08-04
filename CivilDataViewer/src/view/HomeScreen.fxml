@@ -66,7 +66,7 @@
                                     </VBox>
                                     <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="728.0">
                                        <children>
-                                          <Label fx:id="phPieChart1Labe2" prefHeight="28.0" prefWidth="747.0" text="1" textFill="WHITE" />
+                                          <Label fx:id="phPieChart1Labe2" prefHeight="28.0" prefWidth="747.0" textFill="WHITE" />
                                           <PieChart fx:id="phPieChart2" legendVisible="false" prefHeight="340.0" prefWidth="728.0" />
                                        </children>
                                     </VBox>
