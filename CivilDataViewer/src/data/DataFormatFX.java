@@ -84,7 +84,7 @@ public class DataFormatFX {
 	 */
 	public ArrayList<Double> stringToIntNumbers(String[] stringArray) {
 		ArrayList<Double> listOfDoubles = new ArrayList<>();
-		
+		//TODO: FIX THIS
 		
 		for (String string : stringArray) {
 			
