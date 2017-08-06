@@ -23,7 +23,7 @@ import javafx.scene.text.FontWeight;
 import main.MainApp;
 
 public class HomeScreenController {
-	// These refer to different panels on software
+	// Main field variables ----------------------------------------------
 	@FXML
 	private AnchorPane homePanel;
 	@FXML
@@ -48,65 +48,19 @@ public class HomeScreenController {
 	private Button closeButton;
 	@FXML
 	private Button moveScreenButton;
-
-	// others
-
-	private MainApp mainApp;
+	// others Buttons ------------------------------------------------------
+	
 	// needed for movable screen
 	private double xOffset = 0;
 	private double yOffset = 0;
-
-	// Graph data
-	@FXML
-	PieChart phPieChart1;
-	@FXML
-	private Label phPieChart1Label;
-	@FXML
-	PieChart phPieChart2;
-	@FXML
-	private Label phPieChart1Labe2;
-	@FXML
-	BarChart phBarChart1;
-	@FXML
-	private Label phBarChartLabel1;
-
+	
+	// others references needed --------------------------------------------
+	//Main App that controls different scenes
+	private MainApp mainApp;
 	ObservableListProvider dataforPieChart;
-	LocalCSVFilesFinder csvFilesFinder;
-
-	// Data visuali page buttons
-	@FXML
-	private JFXToggleButton onlineOfflineToggleButton;
-	@FXML
-	//offline page
-	private AnchorPane offlineVisualiPane;
-	@FXML
-	private JFXComboBox<String> selectSavedDataComboBoxButton;
-	@FXML
-	private JFXComboBox<String> selectVisualisationTypeComboBoxButton;
-	@FXML
-	private AnchorPane potholeDataPanel;
-	//Online page
-	@FXML
-	private AnchorPane onlineVisualiPanel;
-	@FXML
-	private AnchorPane uploadNewDataToggleButtonSelectedPanel;
-	@FXML
-	private AnchorPane pasteNewDataToggleButtonSelectedPanel;
-	@FXML
-	private AnchorPane uploadNewDataPanel;
-	@FXML
-	private AnchorPane pasteLinkToNewDataPane;
-	
-	@FXML
-	private JFXComboBox<String> csvFileSelector;
-
-	
-
-
 	// ====================================================================
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-
 	}
 
 	/**
@@ -114,15 +68,8 @@ public class HomeScreenController {
 	 */
 	@FXML
 	public void initialize() {
-
 		dataforPieChart = new ObservableListProvider("Pothole_Enquiries_2015");
-		// set up the charts
-		setUpChartData();
-		// add strings for saved files selection
-		//csvFilesFinder = new LocalCSVFilesFinder();
-		//csvFileSelector.setItems(csvFilesFinder.getCSVFileNames());
 		
-		//setupSelectCSVFileCOMBOBTN();
 	}
 
 	// =====================================================================
@@ -162,30 +109,19 @@ public class HomeScreenController {
 
 	// Visuali page =======================================================
 
-	public void onoffToggleButtonClicked() {
-		if (onlineOfflineToggleButton.isSelected()) {
-			offlineVisualiPane.setVisible(false);
-			onlineVisualiPanel.setVisible(true);
-			removeChartData();
-		} else {
-			offlineVisualiPane.setVisible(true);
-			onlineVisualiPanel.setVisible(false);
-			setUpChartData();
-		}
-	}
 	
 	public void setupSelectCSVFileCOMBOBTN() {
-		LocalCSVFilesFinder a = new LocalCSVFilesFinder();
-		selectSavedDataComboBoxButton.getItems().addAll(a.getCSVFileNames());
+		/*LocalCSVFilesFinder a = new LocalCSVFilesFinder();
+		selectSavedDataComboBoxButton.getItems().addAll(a.getCSVFileNames());*/
 		
 	}
 	
 	public void selectCSFFileCOMBOHandler() {
-		if (selectSavedDataComboBoxButton.getValue().equals("Pothole_Enquiries_2015.csv")) {
+		/*if (selectSavedDataComboBoxButton.getValue().equals("Pothole_Enquiries_2015.csv")) {
 			potholeDataPanel.setVisible(true);
 		} else {
 			potholeDataPanel.setVisible(false);
-		}
+		}*/
 	}
 
 	// =====================================================================
@@ -196,7 +132,7 @@ public class HomeScreenController {
 
 	@SuppressWarnings("unchecked")
 	public void setUpChartData() {
-		phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
+		/*phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
 		phPieChart1Labe2.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
 		phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
 
@@ -215,16 +151,16 @@ public class HomeScreenController {
 		});
 
 		phBarChart1.setData(dataforPieChart.getBarChartData(4));
-
+*/
 	}
 
 	/**
 	 * Resets all the charts data
 	 */
 	public void removeChartData() {
-		phBarChart1.getData().clear();
+		/*phBarChart1.getData().clear();
 		phPieChart1.getData().clear();
-		phPieChart2.getData().clear();
+		phPieChart2.getData().clear();*/
 	}
 
 	/**
@@ -245,9 +181,24 @@ public class HomeScreenController {
 			removeChartData();
 		}
 		setUpChartData();
-		offlineVisualiPane.setVisible(true);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//================================
+	//METHODS THAT DONT NEED TO BE EDITED
+	//================================
 	/**
 	 * method for minimising page
 	 */
