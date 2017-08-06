@@ -24,10 +24,13 @@ public class ObservableListProvider extends DataFormatFX {
 	private CSVReader reader;
 	
 	//data for barcharts
-	
-	
 	public ObservableListProvider(String fileName) {
 		super(fileName);
+		reader = super.reader;
+	}
+	
+	public ObservableListProvider(String filepath, Boolean isFilepath) {
+		super(filepath, true);
 		reader = super.reader;
 	}
 	

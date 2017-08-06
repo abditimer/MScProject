@@ -17,6 +17,7 @@ import view.HomeScreenController;
 public class MainApp extends Application {
 
 	private Stage primaryStage;
+	private Stage pieChartStage;
 	
 	@Override
 	public void start(Stage primaryStage) {

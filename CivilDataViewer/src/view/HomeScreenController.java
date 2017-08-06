@@ -1,8 +1,14 @@
 package view;
 
+import java.awt.FileDialog;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 
@@ -20,6 +26,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import main.MainApp;
 
 public class HomeScreenController {
@@ -49,15 +57,40 @@ public class HomeScreenController {
 	@FXML
 	private Button moveScreenButton;
 	// others Buttons ------------------------------------------------------
-	
 	// needed for movable screen
 	private double xOffset = 0;
 	private double yOffset = 0;
+	//get the csv file names available to view
+	LocalCSVFilesFinder localCSVFilesFound;
+	// Visuali Page items --------------------------------------------
+	
+	//Visuali - Question page
+	@FXML
+	private AnchorPane visualiQuestionPanel;
+	@FXML
+	private JFXComboBox<String> chooseCSVFileComboBox;
+	@FXML
+	private JFXButton UploadNewCSVFileButton;
+	@FXML
+	private JFXButton visualiseSelectedCSVFileButton;
+	@FXML
+	private Label chooseCSVFileLabel;
+	
+	String comboBoxCSVFileNameSelected;
+	
+	//Visuali - PieChart page
+	@FXML
+	private AnchorPane pieChartVisualiPanel;
+	@FXML
+	private PieChart pieChart;
+	
+	
+	// ---------------------------------------------------------------
 	
 	// others references needed --------------------------------------------
 	//Main App that controls different scenes
 	private MainApp mainApp;
-	ObservableListProvider dataforPieChart;
+	ObservableListProvider dataForGraphs;
 	// ====================================================================
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
@@ -68,8 +101,10 @@ public class HomeScreenController {
 	 */
 	@FXML
 	public void initialize() {
-		dataforPieChart = new ObservableListProvider("Pothole_Enquiries_2015");
-		
+		localCSVFilesFound = new LocalCSVFilesFinder();
+		chooseCSVFileComboBox.getItems().addAll(localCSVFilesFound.getCSVFileNames());
+		//TODO: same as below but with selected string name!
+		//dataForGraphs = new ObservableListProvider("Pothole_Enquiries_2015.csv");
 	}
 
 	// =====================================================================
@@ -110,18 +145,54 @@ public class HomeScreenController {
 	// Visuali page =======================================================
 
 	
-	public void setupSelectCSVFileCOMBOBTN() {
-		/*LocalCSVFilesFinder a = new LocalCSVFilesFinder();
-		selectSavedDataComboBoxButton.getItems().addAll(a.getCSVFileNames());*/
-		
+	
+	
+	
+	
+	/**
+	 * This button becomes visible once a selection has been made from the combobox
+	 */
+	public void hadleCSVComboBoxButtonSelected() {
+		visualiseSelectedCSVFileButton.setVisible(true);
 	}
 	
-	public void selectCSFFileCOMBOHandler() {
-		/*if (selectSavedDataComboBoxButton.getValue().equals("Pothole_Enquiries_2015.csv")) {
-			potholeDataPanel.setVisible(true);
-		} else {
-			potholeDataPanel.setVisible(false);
+	/**
+	 * <b> Handler for CSV File selector.
+	 * This method handles when a csv file has been selected.
+	 * It saves the CSV file string name.
+	 */
+	public void handleCSVFileSelectedFromComboBoxButton() {
+		comboBoxCSVFileNameSelected = chooseCSVFileComboBox.getValue();
+		dataForGraphs = new ObservableListProvider(comboBoxCSVFileNameSelected);
+		
+		//TODO: fix this
+		visualiQuestionPanel.setVisible(false);
+		
+		//pass data to piechart
+		
+		setUpChartData();
+		
+		pieChartVisualiPanel.setVisible(true);
+	}
+	
+	public void handleNewCSVFileUpload() {
+		String csvFilePath;
+		/*FileDialog fd = new FileDialog(new JFrame());
+		fd.setVisible(true);
+		File[] f = fd.getFiles();
+		if(f.length > 0){
+			csvFilePath = fd.getFiles()[0].getAbsolutePath();
 		}*/
+		
+		FileChooser filechooser = new FileChooser();
+		/*filechooser.setTitle("Open CSV file");
+		filechooser.showOpenDialog(new Stage());*/
+		File fd = filechooser.showOpenDialog(null);
+		csvFilePath = fd.getAbsolutePath();
+		dataForGraphs = new ObservableListProvider(csvFilePath, true);
+		visualiQuestionPanel.setVisible(false);
+		setUpChartData();
+		pieChartVisualiPanel.setVisible(true);
 	}
 
 	// =====================================================================
@@ -132,6 +203,11 @@ public class HomeScreenController {
 
 	@SuppressWarnings("unchecked")
 	public void setUpChartData() {
+		
+		pieChart.setData(dataForGraphs.getPieChartObservableList(1));
+		
+		
+		
 		/*phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
 		phPieChart1Labe2.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
 		phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
