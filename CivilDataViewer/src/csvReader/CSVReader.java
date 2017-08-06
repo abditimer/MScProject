@@ -25,7 +25,42 @@ public class CSVReader {
 		columnData = new ArrayList<>(); 
 		
 		try {
-			BufferedReader readIn = new BufferedReader(new FileReader("resources/excelFiles/" + filename + ".csv"));
+			BufferedReader readIn = new BufferedReader(new FileReader("resources/excelFiles/" + filename));
+			//BufferedReader readIn = new BufferedReader(new FileReader("resources/excelFiles/" + filename + ".csv"));
+			String lineRead;
+			int count = 0;
+			while((lineRead = readIn.readLine()) != null) {
+				String[] lineReadArray = lineRead.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+				if (count == 0) {
+					headerData = lineReadArray;
+				} else {
+					columnData.add(lineReadArray);
+				}
+				count++;
+			}
+			
+			readIn.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("File was not found, please try to specify another file");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("There was a problem reading the lines of the file");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * Reads CSV file and stores its content
+	 * @param fileLocation Location of CSV file to be read
+	 */
+	public CSVReader(String filePath, Boolean filepath) {
+		columnData = new ArrayList<>(); 
+		
+		try {
+			BufferedReader readIn = new BufferedReader(new FileReader(filePath));
+			//BufferedReader readIn = new BufferedReader(new FileReader("resources/excelFiles/" + filename + ".csv"));
 			String lineRead;
 			int count = 0;
 			while((lineRead = readIn.readLine()) != null) {
@@ -59,7 +94,7 @@ public class CSVReader {
 		columnData = new ArrayList<>(); 
 		
 		try {
-			BufferedReader readIn = new BufferedReader(new FileReader("resources/excelFiles/" + filename + ".csv"));
+			BufferedReader readIn = new BufferedReader(new FileReader("resources/excelFiles/" + filename));
 			String lineRead;
 			int count = 0;
 			while((lineRead = readIn.readLine()) != null && (count < lineLimit)) {
@@ -163,13 +198,15 @@ public class CSVReader {
 	}
 	
 	public static void main(String[] args) {
-		CSVReader test = new CSVReader("Pothole_Enquiries_2015", 10);
+		//CSVReader test = new CSVReader("Pothole_Enquiries_2015", 10);
 		//CSVReader test = new CSVReader("RainTemp");
 		//CSVReader test = new CSVReader("WaterTemperature");
 		
 		//test.printLineLengths();
-		test.printCSVFile();
+		//test.printCSVFile();
 		
 		//test.countLinesInCSVFile();
+		
+		
 	}
 }

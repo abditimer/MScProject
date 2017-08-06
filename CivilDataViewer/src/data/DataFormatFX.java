@@ -64,6 +64,19 @@ public class DataFormatFX {
 	}
 	
 	/**
+	 * Uses CSVReader class to read in a csv file
+	 * then splits data into header and data content
+	 * stores this info
+	 * 
+	 * @param fileName fileName of CSV file (Exclude .csv)
+	 */
+	public DataFormatFX(String filepath, Boolean filePath) {
+		reader = new CSVReader(filepath, true);
+		columnData = reader.getData();
+		headerData = reader.getHeader();
+	}
+	
+	/**
 	 * This method prints the different headers this file has
 	 */
 	public void printHeaders() {
@@ -87,20 +100,9 @@ public class DataFormatFX {
 		//TODO: FIX THIS
 		
 		for (String string : stringArray) {
+			double doubleValue = Double.parseDouble(string);
+			listOfDoubles.add(doubleValue);
 			
-			String[] splitVal = string.split("\\.");
-			//if it contains a .
-			if (splitVal.length > 1) {
-				int integerPart = Integer.parseInt(splitVal[0]);
-				int fractionPart = Integer.parseInt(splitVal[1]);
-				int sizeOfFrac = splitVal[1].length();
-				
-				double decimal = integerPart + (fractionPart / Math.pow(10, sizeOfFrac));
-				listOfDoubles.add(decimal);
-			} else {
-				double value = Double.parseDouble(splitVal[0]);
-				listOfDoubles.add(value);
-			}
 		}
 		
 		return listOfDoubles;
@@ -145,7 +147,7 @@ public class DataFormatFX {
 		//potholeData.printHeaders();
 		//rainTempData.printHeaders();
 		//waterTempData.printHeaders();
-		Map<String, Integer> a = potholeData.countAndMapData(potholeData.getColumnData(4));
+		Map<String, Integer> a = potholeData.countAndMapData(potholeData.getColumnData(5));
 		
 		potholeData.printMapData(a);
 		
