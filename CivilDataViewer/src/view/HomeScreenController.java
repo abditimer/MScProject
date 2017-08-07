@@ -11,10 +11,15 @@ import javax.swing.JLabel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
+import com.jfoenix.controls.JFXTreeTableView;
 
+import csvReader.DynamicTable;
+import csvReader.FileUploader;
 import csvReader.LocalCSVFilesFinder;
 import data.DataFormatFX;
 import data.ObservableListProvider;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
@@ -22,6 +27,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -75,6 +81,10 @@ public class HomeScreenController {
 	private JFXButton visualiseSelectedCSVFileButton;
 	@FXML
 	private Label chooseCSVFileLabel;
+	
+	@FXML
+	private TableView<ObservableList<StringProperty>> tableVisualiPage;
+	DynamicTable table;
 	
 	String comboBoxCSVFileNameSelected;
 	
@@ -144,8 +154,16 @@ public class HomeScreenController {
 
 	// Visuali page =======================================================
 
-	
-	
+	/**
+	 * When csv file has been selected - use filename
+	 */
+	public void createTableFromData(String filename, boolean itsAFileName){
+		
+		table = new DynamicTable(tableVisualiPage, filename, itsAFileName);
+		
+		tableVisualiPage = table.getTable();
+		
+	}
 	
 	
 	
@@ -163,36 +181,31 @@ public class HomeScreenController {
 	 */
 	public void handleCSVFileSelectedFromComboBoxButton() {
 		comboBoxCSVFileNameSelected = chooseCSVFileComboBox.getValue();
-		dataForGraphs = new ObservableListProvider(comboBoxCSVFileNameSelected);
+		createTableFromData(comboBoxCSVFileNameSelected, true);
 		
-		//TODO: fix this
+		//dataForGraphs = new ObservableListProvider(comboBoxCSVFileNameSelected);
+		
+		/*//TODO: fix this
 		visualiQuestionPanel.setVisible(false);
 		
 		//pass data to piechart
 		
 		setUpChartData();
 		
-		pieChartVisualiPanel.setVisible(true);
+		pieChartVisualiPanel.setVisible(true);*/
 	}
 	
 	public void handleNewCSVFileUpload() {
-		String csvFilePath;
-		/*FileDialog fd = new FileDialog(new JFrame());
-		fd.setVisible(true);
-		File[] f = fd.getFiles();
-		if(f.length > 0){
-			csvFilePath = fd.getFiles()[0].getAbsolutePath();
-		}*/
+		//Create fileUploader object
+		FileUploader fileSelected = new FileUploader();
+		String csvFilePath = fileSelected.getCSVFilePath();
 		
-		FileChooser filechooser = new FileChooser();
-		/*filechooser.setTitle("Open CSV file");
-		filechooser.showOpenDialog(new Stage());*/
-		File fd = filechooser.showOpenDialog(null);
-		csvFilePath = fd.getAbsolutePath();
-		dataForGraphs = new ObservableListProvider(csvFilePath, true);
+		createTableFromData(csvFilePath, false);
+
+		/*dataForGraphs = new ObservableListProvider(csvFilePath, true);
 		visualiQuestionPanel.setVisible(false);
 		setUpChartData();
-		pieChartVisualiPanel.setVisible(true);
+		pieChartVisualiPanel.setVisible(true);*/
 	}
 
 	// =====================================================================

@@ -52,15 +52,7 @@ public class LocalCSVFilesFinder {
 		LocalCSVFilesFinder test = new LocalCSVFilesFinder();
 
 		for (String a : test.getCSVFileNames()) {
-			//System.out.println(a);
+			System.out.println(a);
 		}
-		
-		String a = "asd";
-		System.out.println(a);
-		a = "asfasf";
-		System.out.println(a);
-		a = "asdadasdasdasdasd";
-		a = "a";
-		System.out.println(a);
 	}
 }
