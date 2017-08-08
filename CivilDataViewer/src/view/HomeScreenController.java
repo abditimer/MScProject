@@ -4,6 +4,7 @@ import java.awt.FileDialog;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Optional;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +26,10 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -301,7 +305,18 @@ public class HomeScreenController {
 	 * @param event
 	 */
 	public void handleCloseButtonAction() {
-		mainApp.getPrimaryStage().close();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Visuali");
+		alert.setContentText("Are you sure you want to quit?");
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		if ((result.isPresent()) && (result.get() == ButtonType.OK)) { 
+		    mainApp.getPrimaryStage().close();
+		} else {
+			alert.close();
+		}
+		
 	}
 
 	/**
