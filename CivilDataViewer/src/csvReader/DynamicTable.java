@@ -31,28 +31,37 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * This class creates a table object that populates a TableView.
+ * It reads in data from a CSV file and populates the table.
+ * 
+ * @author timer
+ *
+ */
 public class DynamicTable {
 
 	TableView<ObservableList<StringProperty>> table;
 	
-	public DynamicTable(TableView<ObservableList<StringProperty>> newTable, String filepath, Boolean itsAFileName) {
-		this.table = newTable;
+	public DynamicTable(String filepath, Boolean itsAFileName) {
+		table = new TableView<ObservableList<StringProperty>>();
+		System.out.println(2);
 		populateTable(table, filepath, itsAFileName);
+		System.out.println(3);
 	}
 
-	private void populateTable(final TableView<ObservableList<StringProperty>> table, String filepath,
+	private void populateTable(TableView<ObservableList<StringProperty>> table, String filepath,
 			Boolean itsAFileName) {
+		System.out.println(4);
+		//table.getItems().clear();
+		//table.getColumns().clear();
 
-		table.getItems().clear();
-		table.getColumns().clear();
-
-		table.setPlaceholder(new Label("Loading..."));
-
+		//table.setPlaceholder(new Label("Loading..."));
+		System.out.println(5);
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
 				String fileName = filepath;
-
+				System.out.println(fileName);
 				if (itsAFileName) {
 					fileName = "resources/excelFiles/" + filepath;
 				}
@@ -60,13 +69,16 @@ public class DynamicTable {
 				BufferedReader in = new BufferedReader(new FileReader(fileName));
 
 				final String headerLine = in.readLine();
+				System.out.println(headerLine);
 				final String[] headerValues = headerLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
 						for (int column = 0; column < headerValues.length; column++) {
 							table.getColumns().add(createColumn(column, headerValues[column]));
+							
 						}
+						System.out.println("running");
 					}
 				});
 
@@ -74,6 +86,7 @@ public class DynamicTable {
 
 				String dataLine;
 				while ((dataLine = in.readLine()) != null) {
+					System.out.println(dataLine);
 					final String[] dataValues = dataLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 					Platform.runLater(new Runnable() {
 						@Override

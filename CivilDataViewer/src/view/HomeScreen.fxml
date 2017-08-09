@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
@@ -42,23 +43,32 @@
          <children>
             <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="chooseCSVFileLabel" layoutX="422.0" layoutY="205.0" prefHeight="40.0" prefWidth="282.0" text="Please select a CSV file to Visualise:" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font name="Gadugi" size="18.0" />
-                     </font>
-                  </Label>
-                  <JFXComboBox fx:id="chooseCSVFileComboBox" layoutX="722.0" layoutY="213.0" onAction="#hadleCSVComboBoxButtonSelected" prefHeight="25.0" prefWidth="487.0" unFocusColor="#d0c5c5" />
-                  <JFXButton fx:id="UploadNewCSVFileButton" buttonType="RAISED" layoutX="422.0" layoutY="309.0" onAction="#handleNewCSVFileUpload" prefHeight="40.0" prefWidth="790.0" style="-fx-border-color: ffffff;" text="Or click here to upload a new file" textFill="WHITE">
-                     <font>
-                        <Font name="Gadugi" size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="visualiseSelectedCSVFileButton" buttonType="RAISED" layoutX="422.0" layoutY="256.0" onAction="#handleCSVFileSelectedFromComboBoxButton" prefHeight="40.0" prefWidth="790.0" style="-fx-border-color: ffffff;" text="Visuali this data" textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="Gadugi" size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <TableView fx:id="tableVisualiPage" layoutX="18.0" layoutY="372.0" prefHeight="492.0" prefWidth="1462.0" />
+                  <AnchorPane prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label fx:id="chooseCSVFileLabel" layoutX="443.0" layoutY="206.0" text="Please select a CSV file to Visualise:" textAlignment="RIGHT" textFill="WHITE" visible="false">
+                           <font>
+                              <Font name="Gadugi" size="18.0" />
+                           </font>
+                        </Label>
+                        <JFXComboBox fx:id="chooseCSVFileComboBox" layoutX="741.0" layoutY="208.0" onAction="#handleCSVFileSelectedFromComboBoxButton" prefHeight="25.0" prefWidth="379.0" unFocusColor="#d0c5c5" visible="false" />
+                        <JFXButton fx:id="UploadNewCSVFileButton" buttonType="RAISED" layoutX="600.0" layoutY="200.0" onAction="#handleNewCSVFileUpload" prefHeight="41.0" prefWidth="293.0" style="-fx-border-color: ffffff;" text="Click here to upload a new file" textFill="WHITE" visible="false">
+                           <font>
+                              <Font name="Gadugi" size="18.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="analyseCSVFileButton" buttonType="RAISED" layoutX="572.0" layoutY="269.0" onAction="#handleCSVFileSelectedFromComboBoxButton" prefHeight="31.0" prefWidth="419.0" style="-fx-border-color: ffffff;" text="Analyse this file" textFill="WHITE" visible="false">
+                           <font>
+                              <Font name="Gadugi" size="18.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXToggleButton fx:id="uploadOrSelectCSVFileToggleButton" layoutX="458.0" layoutY="124.0" onAction="#handleUploadOrSavedCSFFileSelectToggleButton" prefHeight="55.0" prefWidth="665.0" text="Upload a new CSV file?" textFill="WHITE" toggleColor="#8a1212" toggleLineColor="WHITE" unToggleLineColor="#4d4242">
+                           <font>
+                              <Font name="Century Gothic" size="23.0" />
+                           </font>
+                        </JFXToggleButton>
+                        <TableView fx:id="tableVisualiPage" layoutX="20.0" layoutY="335.0" prefHeight="526.0" prefWidth="1459.0" style="-fx-background-color: #222222; -fx-border-color: #222222;" stylesheets="@Style.css" visible="false" />
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="pieChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
