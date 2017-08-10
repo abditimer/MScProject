@@ -253,16 +253,12 @@ public class HomeScreenController {
 	}
 
 	/**
-	 * sets up buttons for toggle button. true = if user wants to upload new
-	 * file false = if user wants to check a saved file
+	 * sets up buttons for toggle button. 
 	 * 
-	 * @param isUpload
-	 */
-	/**
-	 * @param isUpload
+	 * @param isUpload true = if user wants to upload new
+	 * file. false = if user wants to check a saved file
 	 */
 	public void setUpToggleFORCSVDecider(Boolean isUpload) {
-
 		if (isUpload) {
 			UploadNewCSVFileButton.setVisible(true);
 			//uploadCSVFileLabel.setVisible(true);
@@ -275,10 +271,6 @@ public class HomeScreenController {
 			chooseCSVFileLabel.setVisible(true);
 		}
 	}
-
-
-	
-
 
 	/**
 	 * This method handles when a csv file has been selected from the combobox.

@@ -50,9 +50,9 @@
                               <Font name="Gadugi" size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="currentlySelectedCSVFileLabel" layoutX="770.0" layoutY="313.0" prefHeight="36.0" prefWidth="196.0" textFill="WHITE">
+                        <Label fx:id="currentlySelectedCSVFileLabel" layoutX="770.0" layoutY="313.0" prefHeight="36.0" prefWidth="673.0" textFill="WHITE">
                            <font>
-                              <Font name="Gadugi" size="20.0" />
+                              <Font name="Nirmala UI Semilight" size="12.0" />
                            </font>
                         </Label>
                         <Label fx:id="chooseCSVFileLabel" layoutX="275.0" layoutY="347.0" text="Please select a CSV file to Visualise:" textAlignment="RIGHT" textFill="WHITE">
