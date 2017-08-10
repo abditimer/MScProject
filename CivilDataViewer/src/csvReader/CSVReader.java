@@ -53,7 +53,7 @@ public class CSVReader {
 	
 	/**
 	 * Reads CSV file and stores its content
-	 * @param fileLocation Location of CSV file to be read
+	 * @param fileLocation Only use this if its a complete filepath
 	 */
 	public CSVReader(String filePath, Boolean filepath) {
 		columnData = new ArrayList<>(); 
@@ -124,6 +124,7 @@ public class CSVReader {
 	
 	/**
 	 * This allows you to get a string[] of a certain column
+	 * 
 	 * @param colNumber the column you need to extract
 	 * @return a column from the csv file as a string[]
 	 */

@@ -17,7 +17,7 @@ import javafx.stage.FileChooser;
 public class FileUploader {
 	
 	private String csvFilePath;
-	
+	private Boolean wasSuccessful;
 	/**
 	 * This checks that the file that has been uploaded is an excel sheet.
 	 */
@@ -26,13 +26,25 @@ public class FileUploader {
 		FileChooser filechooser = new FileChooser();
 		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("CSV file", "*.csv");
 		filechooser.getExtensionFilters().add(filter);
-		
 		File fd = filechooser.showOpenDialog(null);
-		csvFilePath = fd.getAbsolutePath();
+		if (fd != null && !(fd.getAbsolutePath().isEmpty())) {
+			csvFilePath = fd.getAbsolutePath();
+			wasSuccessful = true;
+		} else {
+			wasSuccessful = false;
+		}
 	}
+	
+	
+	
+	
 	
 	public String getCSVFilePath() {
 		return csvFilePath;
+	}
+	
+	public Boolean getWasSuccessful() {
+		return wasSuccessful;
 	}
 	
 	public static void main(String[] args) {

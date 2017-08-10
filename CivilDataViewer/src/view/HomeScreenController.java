@@ -4,6 +4,7 @@ import java.awt.FileDialog;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
@@ -79,14 +80,23 @@ public class HomeScreenController {
 	@FXML
 	private Button moveScreenButton;
 
-	// Visuali - Question page
+	// Visuali - Question page---------------------------------------------
 
 	/**
-	 * Panel that is the CSV selector process
+	 * Panel that is the CSV selector process.
+	 * Contains:
+	 * 1. CSVSelectorPanel
+	 * 2. IntelligenceAndTableVisualiserPanel
+	 * 
+	 * 3. the various graph anchorpanes.
 	 */
 	@FXML
 	private AnchorPane visualiQuestionPanel;
-
+	@FXML
+	private AnchorPane CSVSelectorPanel;
+	@FXML
+	private AnchorPane IntelligenceAndTableVisualiserPanel;
+	//---------------------------------------------------
 	/**
 	 * ToggleButton to choose whether to upload a file or choose a saved file.
 	 */
@@ -102,6 +112,13 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private Label chooseCSVFileLabel;
+	@FXML
+	private Label uploadCSVFileLabel;
+	/**
+	 * Currently selected csv file name.
+	 */
+	@FXML
+	private Label currentlySelectedCSVFileLabel;
 	/**
 	 * This button will allow user to upload CSV file to analyse
 	 */
@@ -140,7 +157,9 @@ public class HomeScreenController {
 	 * String returns the name of the CSV file selected from the combobox or
 	 * file upload.
 	 */
-	private String comboBoxCSVFileNameSelected;
+	private String csvFileNameSelected;
+	FileUploader fileSelected;
+	int fileSelectLock = 0;
 	// ---------------------------------------------------------------
 
 	// others references needed --------------------------------------------
@@ -154,6 +173,11 @@ public class HomeScreenController {
 	 * This provides the table data that will populate a TableView
 	 */
 	DynamicTable table;
+	
+	//List containing all the rows from csv file except for header
+	private List<String[]> columnData;
+	//String array of the headers
+	private String[] headerData;
 
 	// ====================================================================
 	public void setMainApp(MainApp mainApp) {
@@ -210,8 +234,9 @@ public class HomeScreenController {
 		setScreenVisibility(false, false, false, true);
 	}
 
-	// Visuali page =======================================================
-
+	// ************************************************************Visuali page**********************************************************************
+	//--
+	//===============================FIRST QUESTION PAGE=============================================================
 	/**
 	 * This method handles the toggle button for if: 1. want to upload new csv
 	 * file. 2. want to choose a saved csv file.
@@ -240,89 +265,18 @@ public class HomeScreenController {
 
 		if (isUpload) {
 			UploadNewCSVFileButton.setVisible(true);
+			//uploadCSVFileLabel.setVisible(true);
 			chooseCSVFileComboBox.setVisible(false);
 			chooseCSVFileLabel.setVisible(false);
 		} else {
 			UploadNewCSVFileButton.setVisible(false);
+			//uploadCSVFileLabel.setVisible(false);
 			chooseCSVFileComboBox.setVisible(true);
 			chooseCSVFileLabel.setVisible(true);
 		}
 	}
 
-	/**
-	 * Sets up table data from a file.
-	 */
-	@SuppressWarnings("unchecked")
-	public void createTableFromData(String filename, boolean itsAFileName) {
-		/*if ((!tableVisualiPage.getItems().isEmpty()) && (!table.getTable().getItems().isEmpty())) {
-			tableVisualiPage.getItems().clear();
-			tableVisualiPage.getColumns().clear();
-			// creates a dynamic table object which can be used to populate our
-			// table view UI
-			table.getTable().getItems().clear();
-			table.getTable().getColumns().clear();
-		}*/
-		
-		
-		table = new DynamicTable(tableVisualiPage, filename, itsAFileName);
-		
-		tableVisualiPage  = table.getTable();
-		
-		
-		
-		
-		
 
-		// The code below handles what happens if a section of the table is
-		// pressed.
-		// lets you select more than one row.
-		tableVisualiPage.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		// this lets the user select cells instead of rows.
-		tableVisualiPage.getSelectionModel().setCellSelectionEnabled(true);
-		
-	/*	Service<Void> service = new Service<Void>() {
-	        @Override
-	        protected Task<Void> createTask() {
-	            return new Task<Void>() {           
-	                @Override
-	                protected Void call() throws Exception {
-	                    //Background work  
-	                	
-	                    final CountDownLatch latch = new CountDownLatch(1);
-	                    
-	                    Platform.runLater(new Runnable() {                          
-	                        @Override
-	                        public void run() {
-	                            try{
-	                            	
-	                        		//table = new DynamicTable(tableVisualiPage, filename, itsAFileName);
-
-	                        				
-	                            }finally{
-	                                latch.countDown();
-	                            }
-	                        }
-	                    });
-	                    latch.await();                      
-	                    //Keep with the background work
-	                    return null;
-	                }
-	            };
-	        }
-	    };
-	    service.start();*/
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-	}
 	
 
 
@@ -332,26 +286,11 @@ public class HomeScreenController {
 	 */
 	public void handleCSVFileSelectedFromComboBoxButton() {
 		// String of the filename selected
-		comboBoxCSVFileNameSelected = chooseCSVFileComboBox.getValue();
-		// creates a table and sets the table on the ui with data from the
-		// selected file
-		createTableFromData(comboBoxCSVFileNameSelected, true);
-		// shows the table.
-		tableVisualiPage.setVisible(true);
+		csvFileNameSelected = chooseCSVFileComboBox.getValue();
+		// use name to read and get table header and data
 		// shows the analyser button
 		analyseCSVFileButton.setVisible(true);
-
-		/*
-		 * // dataForGraphs = new //
-		 * ObservableListProvider(comboBoxCSVFileNameSelected); //TODO: fix this
-		 * visualiQuestionPanel.setVisible(false);
-		 * 
-		 * //pass data to piechart
-		 * 
-		 * setUpChartData();
-		 * 
-		 * pieChartVisualiPanel.setVisible(true);
-		 */
+		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 	}
 
 	/**
@@ -359,23 +298,53 @@ public class HomeScreenController {
 	 * in a table.
 	 */
 	public void handleNewCSVFileUpload() {
+		//lock button so user cant spam
+		UploadNewCSVFileButton.setDisable(true);
 		// Creates pop-up dialog for getting a csv file only.
-		FileUploader fileSelected = new FileUploader();
+		fileSelected = new FileUploader();
+		
 		// Returns string with filepath.
-		String csvFilePath = fileSelected.getCSVFilePath();
-		// creates and populates table.
-		createTableFromData(csvFilePath, false);
-		// shows the table.
-		tableVisualiPage.setVisible(true);
-		// shows analyse button.
+		if (fileSelected.getWasSuccessful()) {
+			csvFileNameSelected = fileSelected.getCSVFilePath();
+		}
 		analyseCSVFileButton.setVisible(true);
-		/*
-		 * dataForGraphs = new ObservableListProvider(csvFilePath, true);
-		 * visualiQuestionPanel.setVisible(false); setUpChartData();
-		 * pieChartVisualiPanel.setVisible(true);
-		 */
+		//unlock button
+		UploadNewCSVFileButton.setDisable(false);
+		
+		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
+	}
+	
+	public void analyseCSVFileButton() {
+		System.out.println(csvFileNameSelected);
+		//now create a csvReader object using the data - in background thread
+		//return and store the header && data
+		//once completed: visualise the next anchorpane + table.
+		IntelligenceAndTableVisualiserPanel.setVisible(true);
+		visualiQuestionPanel.setVisible(false);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Sets up table data from a file.
+	 */
+	public void createTableFromData(String filename, boolean itsAFileName) {
+
+
+	}
+	
+	
+	
+	
+	
+	
 	// =====================================================================
 	// -------------------------------------------------------------------------------------------------
 	// =====================================================================
