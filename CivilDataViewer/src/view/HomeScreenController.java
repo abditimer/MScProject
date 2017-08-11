@@ -25,7 +25,10 @@ import csvReader.ProgressForm;
 import data.DataFormatFX;
 import data.ObservableListProvider;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -39,11 +42,13 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -55,6 +60,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import main.MainApp;
 
 public class HomeScreenController {
@@ -139,13 +145,18 @@ public class HomeScreenController {
 	// PAGE************================================
 	@FXML
 	private AnchorPane IntelligenceAndTableVisualiserPanel;
-	@FXML
-	private TextArea tempTextArea;
-	@FXML
-	private Button tempButton;
-
+	
+	/**
+	 * This is the table that will show the data about the CSV file
+	 */
 	@FXML
 	private TableView<ObservableList<StringProperty>> tableVisualiPage;
+	
+	/**
+	 * This is the button that lets you create a table
+	 */
+	@FXML
+	private JFXButton createTableButton;
 
 	// Visuali - PieChart page
 	@FXML
@@ -194,6 +205,9 @@ public class HomeScreenController {
 	private List<String[]> columnData;
 	// String array of the headers
 	private String[] headerData;
+	
+	//lets us know if a table has been generated from data.
+	private Boolean isTableCreated = false;
 
 	// ====================================================================
 	public void setMainApp(MainApp mainApp) {
@@ -372,8 +386,8 @@ public class HomeScreenController {
 			visualiQuestionPanel.setVisible(false);
 
 			// TODO
-			pieChartVisualiPanel.setVisible(true);
-			setUpChartData();
+			IntelligenceAndTableVisualiserPanel.setVisible(true);
+			
 		});
 
 		pForm.getDialogStage().show();
@@ -382,21 +396,124 @@ public class HomeScreenController {
 		thread.start();
 
 	}
+	
+	public void handleTableCreationButton() {
+		if (!(isTableCreated)) {
+			//create table for the first time
+			createTableFromData();
+			//table has now been created
+			isTableCreated = true;
+			tableVisualiPage.setVisible(true);
+		} else {
+			createTableButton.setDisable(true);
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("");
+			alert.setContentText("You have already created a table from your data");
+			Optional<ButtonType> result = alert.showAndWait();
 
-	/**
-	 * Sets up table data from a file.
-	 */
-	public void createTableFromData(String filename, boolean itsAFileName) {
-
+			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+				alert.close();
+			}
+		}
 	}
-
-	public void handleTempButton() {
-		// for (String[] row : columnData) {
-		// for (String a : row) {
-		// tempTextArea.appendText(Arrays.toString(row) + "\n");
-		// }
-		// }
-
+	
+	/**
+	 * Sets up the table.
+	 */
+	public void createTableFromData() {
+		
+		tableVisualiPage.setPlaceholder(new Label("Loading..."));
+		
+		//Creating background thread to populate table
+				Task<Void> task = new Task<Void>() {
+					/**
+					 * Are call() creates table
+					 */
+					@Override
+					protected Void call() throws Exception {
+						//Create TableColumns
+						
+						
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								for (int i = 0; i < headerData.length; i++) {
+									//create a TableColumn from header i
+									TableColumn<ObservableList<StringProperty>, String> tempCol =  createColumn(i, headerData[i]);
+									//add column headers to my table
+									tableVisualiPage.getColumns().add(tempCol);
+								}
+								System.out.println("created headers...");
+							}
+						});
+						
+						for (String[] row : columnData)
+						
+						Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									// Add additional columns if necessary:
+									for (int i = tableVisualiPage.getColumns().size(); i < row.length; i++) {
+										tableVisualiPage.getColumns().add(createColumn(i, ""));
+									}
+									
+									
+									// Add data from the line to the table column
+									//create a list
+									ObservableList<StringProperty> data = FXCollections.observableArrayList();
+									//each column data, add it to the list.
+									for (String value : row) {
+										data.add(new SimpleStringProperty(value));
+									}
+									//add list to our table.
+									tableVisualiPage.getItems().add(data);
+								}
+							});
+						
+						return null;
+					}
+				};
+				Thread thread = new Thread(task);
+				thread.setDaemon(true);
+				thread.start();
+		
+		
+	}
+	/**
+	 * Method creates columns based on the read in csv file header size.
+	 * 
+	 * @param columnIndex index of the column
+	 * @param columnTitle tite of the column
+	 * @return TableColumn
+	 */
+	private TableColumn<ObservableList<StringProperty>, String> createColumn(final int columnIndex, String columnTitle) {
+		//create a new column
+		TableColumn<ObservableList<StringProperty>, String> column = new TableColumn<>();
+		String title;
+		//if no title specified
+		if (columnTitle == null || columnTitle.trim().length() == 0) {
+			//just display column number
+			title = "Column " + (columnIndex + 1);
+		} else {
+			//else display column name
+			title = columnTitle;
+		}
+		//set title of column
+		column.setText(title);
+		
+		column.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<ObservableList<StringProperty>, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<ObservableList<StringProperty>, String> cellDataFeatures) {
+						ObservableList<StringProperty> values = cellDataFeatures.getValue();
+						if (columnIndex >= values.size()) {
+							return new SimpleStringProperty("");
+						} else {
+							return cellDataFeatures.getValue().get(columnIndex);
+						}
+					}
+				});
+		return column;
 	}
 
 	// =====================================================================
@@ -409,7 +526,7 @@ public class HomeScreenController {
 	public void setUpChartData() {
 		
 		
-		readIn.printCSVFile();
+		//readIn.printCSVFile();
 		
 		//dataForGraphs = new ObservableListProvider(fileName)
 		//pieChart.setData(dataForGraphs.getPieChartObservableList(1));

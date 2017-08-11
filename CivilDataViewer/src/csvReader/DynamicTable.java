@@ -80,10 +80,6 @@ public class DynamicTable {
 			protected Void call() throws Exception {
 				//Create TableColumns
 				
-				for (int i = 0; i < headerData.length; i++) {
-					//create a TableColumn from header i
-					TableColumn<ObservableList<StringProperty>, String> tempCol =  createColumn(i, headerData[i]);
-				}
 				
 				Platform.runLater(new Runnable() {
 					@Override
@@ -128,65 +124,6 @@ public class DynamicTable {
 		thread.setDaemon(true);
 		thread.start();
 		
-		/*
-		//===============================================================================================================
-		
-		BufferedReader in = new BufferedReader(new FileReader(fileName));
-		//gets header of CSV
-		final String headerLine = in.readLine();
-		final String[] headerValues = headerLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-		
-		
-		//runs this on the javafx thread
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				
-				for (int i = 0; i < headerValues.length; i++) {
-					//create a TableColumn from header i
-					TableColumn<ObservableList<StringProperty>, String> tempCol =  createColumn(i, headerValues[i]);
-					//add column headers to my table
-					table.getColumns().add(tempCol);
-				}
-				System.out.println("created headers...");
-			}
-		});
-
-		// Data:
-
-		String dataLine;
-		//loop over all the lines
-		while ((dataLine = in.readLine()) != null) {
-			
-			final String[] dataValues = dataLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-			//do in javafx thread
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					// Add additional columns if necessary:
-					for (int i = table.getColumns().size(); i < dataValues.length; i++) {
-						table.getColumns().add(createColumn(i, ""));
-					}
-					
-					
-					// Add data from the line to the table column
-					//create a list
-					ObservableList<StringProperty> data = FXCollections.observableArrayList();
-					//each column data, add it to the list.
-					for (String value : dataValues) {
-						data.add(new SimpleStringProperty(value));
-					}
-					//add list to our table.
-					table.getItems().add(data);
-				}
-			});
-		}
-		return null;
-	}
-};
-Thread thread = new Thread(task);
-thread.setDaemon(true);
-thread.start();*/
 	}
 	
 	
