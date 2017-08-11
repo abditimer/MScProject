@@ -4,6 +4,7 @@ import java.awt.FileDialog;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
@@ -16,9 +17,11 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.controls.JFXTreeTableView;
 
+import csvReader.CSVReader;
 import csvReader.DynamicTable;
 import csvReader.FileUploader;
 import csvReader.LocalCSVFilesFinder;
+import csvReader.ProgressForm;
 import data.DataFormatFX;
 import data.ObservableListProvider;
 import javafx.application.Platform;
@@ -42,6 +45,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -80,13 +84,11 @@ public class HomeScreenController {
 	@FXML
 	private Button moveScreenButton;
 
-	// Visuali - Question page---------------------------------------------
-
+	// ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬Visuali -
+	// Question page---------------------------------------------
 	/**
-	 * Panel that is the CSV selector process.
-	 * Contains:
-	 * 1. CSVSelectorPanel
-	 * 2. IntelligenceAndTableVisualiserPanel
+	 * Panel that is the CSV selector process. Contains: 1. CSVSelectorPanel 2.
+	 * IntelligenceAndTableVisualiserPanel
 	 * 
 	 * 3. the various graph anchorpanes.
 	 */
@@ -94,9 +96,7 @@ public class HomeScreenController {
 	private AnchorPane visualiQuestionPanel;
 	@FXML
 	private AnchorPane CSVSelectorPanel;
-	@FXML
-	private AnchorPane IntelligenceAndTableVisualiserPanel;
-	//---------------------------------------------------
+
 	/**
 	 * ToggleButton to choose whether to upload a file or choose a saved file.
 	 */
@@ -135,13 +135,17 @@ public class HomeScreenController {
 	 * This is the table that shows up on the UI - showing the CSV file that has
 	 * been read.
 	 */
+	// ========================================******* INTELLIGENCE
+	// PAGE************================================
+	@FXML
+	private AnchorPane IntelligenceAndTableVisualiserPanel;
+	@FXML
+	private TextArea tempTextArea;
+	@FXML
+	private Button tempButton;
+
 	@FXML
 	private TableView<ObservableList<StringProperty>> tableVisualiPage;
-	
-	/**
-	 * This is a background thread that will deal with our csv file.
-	 */
-	private Service backgroundThread;
 
 	// Visuali - PieChart page
 	@FXML
@@ -149,7 +153,9 @@ public class HomeScreenController {
 	@FXML
 	private PieChart pieChart;
 
-	// others ------------------------------------------------------
+	// *********************************************others references
+	// needed*****************************************************************
+
 	// needed for movable screen
 	private double xOffset = 0;
 	private double yOffset = 0;
@@ -158,13 +164,23 @@ public class HomeScreenController {
 	 * file upload.
 	 */
 	private String csvFileNameSelected;
-	FileUploader fileSelected;
-	int fileSelectLock = 0;
+	/**
+	 * This opens a file uploader.
+	 */
+	private FileUploader fileSelected;
+	/**
+	 * indicates whether the file selected is a file name or a filepath.
+	 */
+	private Boolean isFilePath = false;
+	/**
+	 * This will be where we will store info about the read in csv file.
+	 */
+	private CSVReader readIn;
 	// ---------------------------------------------------------------
 
-	// others references needed --------------------------------------------
 	// Main App that controls different scenes
 	private MainApp mainApp;
+
 	ObservableListProvider dataForGraphs;
 	// get the csv file names available to view
 	LocalCSVFilesFinder localCSVFilesFound;
@@ -173,10 +189,10 @@ public class HomeScreenController {
 	 * This provides the table data that will populate a TableView
 	 */
 	DynamicTable table;
-	
-	//List containing all the rows from csv file except for header
+
+	// List containing all the rows from csv file except for header
 	private List<String[]> columnData;
-	//String array of the headers
+	// String array of the headers
 	private String[] headerData;
 
 	// ====================================================================
@@ -195,8 +211,6 @@ public class HomeScreenController {
 		// dataForGraphs = new
 		// ObservableListProvider("Pothole_Enquiries_2015.csv");
 
-		
-		
 	}
 
 	// =====================================================================
@@ -234,9 +248,11 @@ public class HomeScreenController {
 		setScreenVisibility(false, false, false, true);
 	}
 
-	// ************************************************************Visuali page**********************************************************************
-	//--
-	//===============================FIRST QUESTION PAGE=============================================================
+	// ************************************************************Visuali
+	// page**********************************************************************
+	// --
+	// ===============================FIRST QUESTION
+	// PAGE=============================================================
 	/**
 	 * This method handles the toggle button for if: 1. want to upload new csv
 	 * file. 2. want to choose a saved csv file.
@@ -253,20 +269,21 @@ public class HomeScreenController {
 	}
 
 	/**
-	 * sets up buttons for toggle button. 
+	 * sets up buttons for toggle button.
 	 * 
-	 * @param isUpload true = if user wants to upload new
-	 * file. false = if user wants to check a saved file
+	 * @param isUpload
+	 *            true = if user wants to upload new file. false = if user wants
+	 *            to check a saved file
 	 */
 	public void setUpToggleFORCSVDecider(Boolean isUpload) {
 		if (isUpload) {
 			UploadNewCSVFileButton.setVisible(true);
-			//uploadCSVFileLabel.setVisible(true);
+			// uploadCSVFileLabel.setVisible(true);
 			chooseCSVFileComboBox.setVisible(false);
 			chooseCSVFileLabel.setVisible(false);
 		} else {
 			UploadNewCSVFileButton.setVisible(false);
-			//uploadCSVFileLabel.setVisible(false);
+			// uploadCSVFileLabel.setVisible(false);
 			chooseCSVFileComboBox.setVisible(true);
 			chooseCSVFileLabel.setVisible(true);
 		}
@@ -279,9 +296,12 @@ public class HomeScreenController {
 	public void handleCSVFileSelectedFromComboBoxButton() {
 		// String of the filename selected
 		csvFileNameSelected = chooseCSVFileComboBox.getValue();
-		// use name to read and get table header and data
+		// set that the file name is just a file name.
+		isFilePath = false;
+
 		// shows the analyser button
 		analyseCSVFileButton.setVisible(true);
+		// show the file name
 		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 	}
 
@@ -290,53 +310,95 @@ public class HomeScreenController {
 	 * in a table.
 	 */
 	public void handleNewCSVFileUpload() {
-		//lock button so user cant spam
+		// lock button so user cant spam
 		UploadNewCSVFileButton.setDisable(true);
 		// Creates pop-up dialog for getting a csv file only.
 		fileSelected = new FileUploader();
-		
 		// Returns string with filepath.
 		if (fileSelected.getWasSuccessful()) {
 			csvFileNameSelected = fileSelected.getCSVFilePath();
 		}
+		// indicate file is a filepath
+		isFilePath = true;
+
 		analyseCSVFileButton.setVisible(true);
-		//unlock button
+		// unlock button
 		UploadNewCSVFileButton.setDisable(false);
-		
+		// show file name selected
 		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 	}
-	
+
 	public void analyseCSVFileButton() {
-		System.out.println(csvFileNameSelected);
-		//now create a csvReader object using the data - in background thread
-		//return and store the header && data
-		//once completed: visualise the next anchorpane + table.
-		IntelligenceAndTableVisualiserPanel.setVisible(true);
-		visualiQuestionPanel.setVisible(false);
+
+		ProgressForm pForm = new ProgressForm();
+		// In real life this task would do something useful and return
+		// some meaningful result:
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws InterruptedException {
+
+				// Here the background thread will run more complicated
+				// computations.
+
+				// now create a csvReader object using the data - in background
+				// thread
+				if (isFilePath) {
+					// its a filepath hence
+					readIn = new CSVReader(csvFileNameSelected, true);
+
+				} else {
+					readIn = new CSVReader(csvFileNameSelected);
+				}
+
+				// return and store the header && data
+				headerData = readIn.getHeader();
+				columnData = readIn.getData();
+
+				 updateProgress(10, 10);
+				return null;
+			}
+		};
+
+		// binds progress of progress bars to progress of task:
+		pForm.activateProgressBar(task);
+
+		// in real life this method would get the result of the task
+		// and update the UI based on its value:
+		task.setOnSucceeded(event -> {
+			pForm.getDialogStage().close();
+
+			// visualise the next anchorpane + table.
+			// IntelligenceAndTableVisualiserPanel.setVisible(true);
+			visualiQuestionPanel.setVisible(false);
+
+			// TODO
+			pieChartVisualiPanel.setVisible(true);
+			setUpChartData();
+		});
+
+		pForm.getDialogStage().show();
+
+		Thread thread = new Thread(task);
+		thread.start();
+
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Sets up table data from a file.
 	 */
 	public void createTableFromData(String filename, boolean itsAFileName) {
 
+	}
+
+	public void handleTempButton() {
+		// for (String[] row : columnData) {
+		// for (String a : row) {
+		// tempTextArea.appendText(Arrays.toString(row) + "\n");
+		// }
+		// }
 
 	}
-	
-	
-	
-	
-	
-	
+
 	// =====================================================================
 	// -------------------------------------------------------------------------------------------------
 	// =====================================================================
@@ -345,8 +407,12 @@ public class HomeScreenController {
 
 	@SuppressWarnings("unchecked")
 	public void setUpChartData() {
-
-		// pieChart.setData(dataForGraphs.getPieChartObservableList(1));
+		
+		
+		readIn.printCSVFile();
+		
+		//dataForGraphs = new ObservableListProvider(fileName)
+		//pieChart.setData(dataForGraphs.getPieChartObservableList(1));
 
 		/*
 		 * phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
@@ -394,9 +460,9 @@ public class HomeScreenController {
 		aboutPanel.setVisible(aboutPanelVisible);
 		contactPanel.setVisible(contactPanelVisible);
 		if (!visualPanelVisible) {
-			removeChartData();
+			//removeChartData();
 		}
-		setUpChartData();
+			//setUpChartData();
 	}
 
 	// ================================
@@ -449,6 +515,5 @@ public class HomeScreenController {
 			}
 		});
 	}
-	
 
 }

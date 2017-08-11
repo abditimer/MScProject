@@ -82,12 +82,14 @@
             </AnchorPane>
             <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="807.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
                <children>
-                  <TableView fx:id="tableVisualiPage" layoutY="369.0" prefHeight="414.0" prefWidth="1459.0" style="-fx-background-color: #222222; -fx-border-color: #222222;" stylesheets="@Style.css" visible="false" />
+                  <TextArea fx:id="tempTextArea" layoutX="40.0" layoutY="56.0" prefHeight="718.0" prefWidth="1425.0" />
+                  <Button fx:id="tempButton" layoutX="50.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleTempButton" text="START ENGINE" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="pieChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <PieChart fx:id="pieChart" layoutX="7.0" layoutY="68.0" prefHeight="801.0" prefWidth="1472.0" />
+                  <TableView fx:id="tableVisualiPage" prefHeight="414.0" prefWidth="1459.0" style="-fx-background-color: #222222; -fx-border-color: #222222;" stylesheets="@Style.css" visible="false" />
                </children>
             </AnchorPane>
          </children></AnchorPane>

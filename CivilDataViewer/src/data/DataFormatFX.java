@@ -63,6 +63,11 @@ public class DataFormatFX {
 		headerData = reader.getHeader();
 	}
 	
+	public DataFormatFX(List<String[]> columnData, String[] headerData) {
+		this.columnData = columnData;
+		this.headerData = headerData;
+	}
+	
 	/**
 	 * Uses CSVReader class to read in a csv file
 	 * then splits data into header and data content
