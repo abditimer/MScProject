@@ -144,8 +144,55 @@ public class HomeScreenController {
 	 */
 	// ========================================******* INTELLIGENCE
 	// PAGE************================================
+	/**
+	 * This page is where the user gets to visualy see there data on a table. also questions on 
+	 * selecting the data to analyse
+	 */
 	@FXML
 	private AnchorPane IntelligenceAndTableVisualiserPanel;
+	
+	/**
+	 * This is the button that lets you create a table
+	 */
+	@FXML
+	private JFXButton createTableButton;
+	/**
+	 * Combobox showing the names of different columns you can pick
+	 */
+	@FXML
+	private JFXComboBox columnSelectorCBTN;
+	/**
+	 * This toggle button lets you inform system the data is lat/long
+	 */
+	@FXML
+	private JFXToggleButton latLongSelectorBTN;
+	/**
+	 * This toggle button lets you inform system user wants to compare data.
+	 */
+	@FXML
+	private JFXToggleButton isTwoColumnsWantedTBTN;
+	/**
+	 * Combobox to select second column to compare.
+	 */
+	@FXML
+	private JFXComboBox secondColumnSelectorCBTN;
+	/**
+	 * This toggle button lets you say you have a graph preference
+	 */
+	@FXML
+	private JFXToggleButton selectGraphTypeTBTN;
+	/**
+	 * preference for graph type toggle button.
+	 * Shows the type of graphs you can generate with the data selected.
+	 */
+	@FXML
+	private JFXComboBox graphTypeSelectorCBTN;
+	/**
+	 * This is the button that lets you create a graph
+	 */
+	@FXML
+	private JFXButton createGraphButton;
+	
 	
 	/**
 	 * This is the table that will show the data about the CSV file
@@ -153,17 +200,34 @@ public class HomeScreenController {
 	@FXML
 	private TableView<ObservableList<StringProperty>> tableVisualiPage;
 	
+	
+	//-----Different Graphs--------------
 	/**
-	 * This is the button that lets you create a table
+	 *  PieChart Page and pieChart
 	 */
-	@FXML
-	private JFXButton createTableButton;
-
-	// Visuali - PieChart page
 	@FXML
 	private AnchorPane pieChartVisualiPanel;
 	@FXML
 	private PieChart pieChart;
+	
+	
+	/**
+	 *  BarChart page, barchart and back button.
+	 */
+	@FXML
+	private AnchorPane barChartVisualiPanel;
+	@FXML
+	private BarChart barChart;
+	/**
+	 * Button to return from different charts page.
+	 */
+	@FXML
+	private JFXButton backFromChartsButton;
+	
+	
+
+	
+	
 
 	// *********************************************others references
 	// needed*****************************************************************
@@ -263,11 +327,10 @@ public class HomeScreenController {
 		setScreenVisibility(false, false, false, true);
 	}
 
-	// ************************************************************Visuali
-	// page**********************************************************************
-	// --
-	// ===============================FIRST QUESTION
-	// PAGE=============================================================
+	// **********Visuali Main page************************************************
+	// -----------------------
+	// --FIRST QUESTION PAGE--
+	//------------------------
 	/**
 	 * This method handles the toggle button for if: 1. want to upload new csv
 	 * file. 2. want to choose a saved csv file.
@@ -282,28 +345,6 @@ public class HomeScreenController {
 			setUpToggleFORCSVDecider(false);
 		}
 	}
-
-	/**
-	 * sets up buttons for toggle button.
-	 * 
-	 * @param isUpload
-	 *            true = if user wants to upload new file. false = if user wants
-	 *            to check a saved file
-	 */
-	public void setUpToggleFORCSVDecider(Boolean isUpload) {
-		if (isUpload) {
-			UploadNewCSVFileButton.setVisible(true);
-			// uploadCSVFileLabel.setVisible(true);
-			chooseCSVFileComboBox.setVisible(false);
-			chooseCSVFileLabel.setVisible(false);
-		} else {
-			UploadNewCSVFileButton.setVisible(false);
-			// uploadCSVFileLabel.setVisible(false);
-			chooseCSVFileComboBox.setVisible(true);
-			chooseCSVFileLabel.setVisible(true);
-		}
-	}
-
 	/**
 	 * This method handles when a csv file has been selected from the combobox.
 	 * It populates the table and shows it.
@@ -319,7 +360,6 @@ public class HomeScreenController {
 		// show the file name
 		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 	}
-
 	/**
 	 * This method handles when a csv file has been uploaded. it shows the data
 	 * in a table.
@@ -342,12 +382,62 @@ public class HomeScreenController {
 		// show file name selected
 		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 	}
-
+	// -----------------------
+	// --Table + Intelligence--
+	//------------------------
+	/**
+	 * This is the handler for the creation of a table. It allows user to visualise the data they want to analyse. 
+	 */
+	public void handleTableCreationButton() {
+		if (!(isTableCreated)) {
+			//create table for the first time
+			createTableFromData();
+			//table has now been created
+			isTableCreated = true;
+			//show the generated table.
+			tableVisualiPage.setVisible(true);
+			//we want to undisable the first column button selector.
+			
+		} else {
+			createTableButton.setDisable(true);
+			//create a pop up telling someone they have already created a table.
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("");
+			alert.setContentText("You have already created a table from your data");
+			Optional<ButtonType> result = alert.showAndWait();
+			//once user presses ok, the alert will close.
+			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+				alert.close();
+			}
+			
+		}
+	}
+	/**
+	 * This method deals with when a column has been selected from the cmbbx btn.
+	 */
+	public void handleFirstColumnSelection() {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// =====================================================================
+	// -------------------------------------------------------------------------------------------------
+	// =====================================================================
+	/**
+	 * This method is called to analyse the file that has been selected.
+	 * It sets both the header String[] and Data List<String[]>.
+	 */
 	public void analyseCSVFileButton() {
-
+		//This is our loader indicator
 		ProgressForm pForm = new ProgressForm();
-		// In real life this task would do something useful and return
-		// some meaningful result:
+		//Hard work is being done here
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws InterruptedException {
@@ -385,8 +475,6 @@ public class HomeScreenController {
 			// visualise the next anchorpane + table.
 			// IntelligenceAndTableVisualiserPanel.setVisible(true);
 			visualiQuestionPanel.setVisible(false);
-
-			// TODO
 			IntelligenceAndTableVisualiserPanel.setVisible(true);
 			
 		});
@@ -397,30 +485,24 @@ public class HomeScreenController {
 		thread.start();
 
 	}
-	
 	/**
-	 * This is the handler for the creation of a table. It allows user to visualise the data they want to analyse. 
+	 * sets up buttons for toggle button.
+	 * 
+	 * @param isUpload
+	 *            true = if user wants to upload new file. false = if user wants
+	 *            to check a saved file
 	 */
-	public void handleTableCreationButton() {
-		if (!(isTableCreated)) {
-			//create table for the first time
-			createTableFromData();
-			//table has now been created
-			isTableCreated = true;
-			//show the generated table.
-			tableVisualiPage.setVisible(true);
+	public void setUpToggleFORCSVDecider(Boolean isUpload) {
+		if (isUpload) {
+			UploadNewCSVFileButton.setVisible(true);
+			// uploadCSVFileLabel.setVisible(true);
+			chooseCSVFileComboBox.setVisible(false);
+			chooseCSVFileLabel.setVisible(false);
 		} else {
-			createTableButton.setDisable(true);
-			//create a pop up telling someone they have already created a table.
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("");
-			alert.setContentText("You have already created a table from your data");
-			Optional<ButtonType> result = alert.showAndWait();
-			//once user presses ok, the alert will close.
-			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-				alert.close();
-			}
-			
+			UploadNewCSVFileButton.setVisible(false);
+			// uploadCSVFileLabel.setVisible(false);
+			chooseCSVFileComboBox.setVisible(true);
+			chooseCSVFileLabel.setVisible(true);
 		}
 	}
 	
@@ -487,6 +569,8 @@ public class HomeScreenController {
 		
 		
 	}
+	
+	
 	/**
 	 * Method creates columns based on the read in csv file header size.
 	 * 
@@ -495,40 +579,34 @@ public class HomeScreenController {
 	 * @return TableColumn
 	 */
 	private TableColumn<ObservableList<StringProperty>, String> createColumn(final int columnIndex, String columnTitle) {
-		//create a new column
-		TableColumn<ObservableList<StringProperty>, String> column = new TableColumn<>();
-		String title;
-		//if no title specified
-		if (columnTitle == null || columnTitle.trim().length() == 0) {
-			//just display column number
-			title = "Column " + (columnIndex + 1);
-		} else {
-			//else display column name
-			title = columnTitle;
-		}
-		//set title of column
-		column.setText(title);
-		
-		column.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<ObservableList<StringProperty>, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(CellDataFeatures<ObservableList<StringProperty>, String> cellDataFeatures) {
-						ObservableList<StringProperty> values = cellDataFeatures.getValue();
-						if (columnIndex >= values.size()) {
-							return new SimpleStringProperty("");
-						} else {
-							return cellDataFeatures.getValue().get(columnIndex);
+			//create a new column
+			TableColumn<ObservableList<StringProperty>, String> column = new TableColumn<>();
+			String title;
+			//if no title specified
+			if (columnTitle == null || columnTitle.trim().length() == 0) {
+				//just display column number
+				title = "Column " + (columnIndex + 1);
+			} else {
+				//else display column name
+				title = columnTitle;
+			}
+			//set title of column
+			column.setText(title);
+			
+			column.setCellValueFactory(
+					new Callback<TableColumn.CellDataFeatures<ObservableList<StringProperty>, String>, ObservableValue<String>>() {
+						@Override
+						public ObservableValue<String> call(CellDataFeatures<ObservableList<StringProperty>, String> cellDataFeatures) {
+							ObservableList<StringProperty> values = cellDataFeatures.getValue();
+							if (columnIndex >= values.size()) {
+								return new SimpleStringProperty("");
+							} else {
+								return cellDataFeatures.getValue().get(columnIndex);
+							}
 						}
-					}
-				});
-		return column;
-	}
-
-	// =====================================================================
-	// -------------------------------------------------------------------------------------------------
-	// =====================================================================
-
-	// Other methods that control GUI.
+					});
+			return column;
+		}
 
 	@SuppressWarnings("unchecked")
 	public void setUpChartData() {
