@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.controls.JFXTreeTableView;
 
@@ -397,28 +398,34 @@ public class HomeScreenController {
 
 	}
 	
+	/**
+	 * This is the handler for the creation of a table. It allows user to visualise the data they want to analyse. 
+	 */
 	public void handleTableCreationButton() {
 		if (!(isTableCreated)) {
 			//create table for the first time
 			createTableFromData();
 			//table has now been created
 			isTableCreated = true;
+			//show the generated table.
 			tableVisualiPage.setVisible(true);
 		} else {
 			createTableButton.setDisable(true);
+			//create a pop up telling someone they have already created a table.
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("");
 			alert.setContentText("You have already created a table from your data");
 			Optional<ButtonType> result = alert.showAndWait();
-
+			//once user presses ok, the alert will close.
 			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
 				alert.close();
 			}
+			
 		}
 	}
 	
 	/**
-	 * Sets up the table.
+	 * Sets up the table from the csv file selected.
 	 */
 	public void createTableFromData() {
 		
@@ -431,6 +438,7 @@ public class HomeScreenController {
 					 */
 					@Override
 					protected Void call() throws Exception {
+
 						//Create TableColumns
 						
 						
