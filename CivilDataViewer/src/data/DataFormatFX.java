@@ -1,10 +1,15 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
+
+import javax.naming.StringRefAddr;
+
+import org.hamcrest.core.IsInstanceOf;
 
 import csvReader.CSVReader;
 import dataDownloader.PotholeEnquiry;
@@ -27,49 +32,38 @@ import javafx.scene.chart.PieChart;
  *
  */
 public class DataFormatFX {
-	
-	public CSVReader getReader() {
-		return reader;
-	}
-
-	public void setReader(CSVReader reader) {
-		this.reader = reader;
-	}
-
-	public List<String[]> getColumnData() {
-		return columnData;
-	}
-
-	public void setColumnData(List<String[]> columnData) {
-		this.columnData = columnData;
-	}
-
-	public void setHeaderData(String[] headerData) {
-		this.headerData = headerData;
-	}
-
-	CSVReader reader;
+	//Reader object
+	private CSVReader reader;
 	//List containing all the rows from csv file except for header
 	private List<String[]> columnData;
 	//String array of the headers
 	private String[] headerData;
 	
-	public List<String[]> getAllColumnData() {
-		return columnData;
+	//Selected column
+	private int selectedColumn;
+	
+	public CSVReader getReader() {
+		return reader;
 	}
 
+	public List<String[]> getColumnData() {
+		return columnData;
+	}
+	
 	public String[] getHeaderData() {
 		return headerData;
 	}
 	/**
+	 * <b>Returns 1 Column</b>
+	 * 
 	 * Selects certain column data to return
+	 * 
 	 * @param i the row number needed
 	 * @return string[] of column selected
 	 */
 	public String[] getColumnData(int i) {
 		return reader.getColumnData(i);
 	}
-	
 	/**
 	 * Uses CSVReader class to read in a csv file
 	 * then splits data into header and data content
@@ -77,8 +71,8 @@ public class DataFormatFX {
 	 * 
 	 * @param fileName fileName of CSV file (Exclude .csv)
 	 */
-	public DataFormatFX(String fileName) {
-		reader = new CSVReader(fileName);
+	public DataFormatFX(CSVReader reader) {
+		this.reader = reader;
 		columnData = reader.getData();
 		headerData = reader.getHeader();
 	}
@@ -87,20 +81,6 @@ public class DataFormatFX {
 		this.columnData = columnData;
 		this.headerData = headerData;
 	}
-	
-	/**
-	 * Uses CSVReader class to read in a csv file
-	 * then splits data into header and data content
-	 * stores this info
-	 * 
-	 * @param fileName fileName of CSV file (Exclude .csv)
-	 */
-	public DataFormatFX(String filepath, Boolean filePath) {
-		reader = new CSVReader(filepath, true);
-		columnData = reader.getData();
-		headerData = reader.getHeader();
-	}
-	
 	/**
 	 * This method prints the different headers this file has
 	 */
@@ -112,37 +92,84 @@ public class DataFormatFX {
 			count++;
 		}	
 	}
+	/**
+	 * This method prints the different headers this file has
+	 */
+	public void printHeadersLocations() {
+		int count = 0;
+		for (String colName : headerData) {
+			System.out.println(colName + count);
+			count++;
+		}	
+		
+	}
+	//-
+	//==================================================================================
+	//==================================================================================
+	//Methods for turning data into required data sets
+	//e.g. {"4.4", "3.5"} -> {4.4, 3.5}
+	
 	
 	/**
-	 * This method has been created to turn String []
-	 * from Strings -> Integers
-	 * This method considers if the string has a decimal point
+	 * <b>String<Double>[] -> ArrayList<Doubles</b>
 	 * @param stringArray
 	 * @return
 	 */
-	public ArrayList<Double> stringToIntNumbers(String[] stringArray) {
+	public static ArrayList<Double> stringArrayToDouble(String[] stringArrayThatIsActuallyDouble) {
 		ArrayList<Double> listOfDoubles = new ArrayList<>();
-		//TODO: FIX THIS
 		
-		for (String string : stringArray) {
+		for (String string : stringArrayThatIsActuallyDouble) {
 			double doubleValue = Double.parseDouble(string);
 			listOfDoubles.add(doubleValue);
-			
 		}
-		
 		return listOfDoubles;
 	}
 	
 	/**
+	 * <b>String<Integer>[] -> ArrayList<Integer</b>
+	 * @param stringArray
+	 * @return
+	 */
+	public static ArrayList<Integer> stringArrayToInteger(String[] stringArrayThatIsActuallyDouble) {
+		ArrayList<Integer> listOfInteger = new ArrayList<>();
+		
+		for (String string : stringArrayThatIsActuallyDouble) {
+			Integer intValie = Integer.parseInt(string);
+			listOfInteger.add(intValie);
+		}
+		return listOfInteger;
+	}
+	
+	/**
+	 * <b>String<String>[] -> ArrayList<Strings</b>
+	 * @param stringArray
+	 * @return
+	 */
+	public static ArrayList<String> stringArrayToString(String[] stringArrayThatIsActuallyDouble) {
+		ArrayList<String> listOfString = new ArrayList<>();
+		
+		for (String string : stringArrayThatIsActuallyDouble) {
+			listOfString.add(string);
+		}
+		return listOfString;
+	}
+	
+	//-
+	//==================================================================================
+	//==================================================================================
+	
+	/**
 	 * This method counts the repeating strings in one column
-	 * It collects the instances of the words in a column
+	 * It collects the instances of the words in a column.
+	 * 
+	 * Only useful for strings.
 	 * 
 	 * @return A map containing the unique words with their count
 	 */
-	public Map<String, Integer> countAndMapData(String[] words) {
+	public Map<String, Integer> countAndMapData(String[] col) {
 		TreeMap<String, Integer> map = new TreeMap<>();
 		
-		for (String singleWord : words) {
+		for (String singleWord : col) {
 			if (map.containsKey(singleWord)) {
 				//already in our list, so add 1 to its val
 				map.put(singleWord, map.get(singleWord) + 1);
@@ -166,16 +193,32 @@ public class DataFormatFX {
 	}
 	
 	public static void main(String[] args) {
-		DataFormatFX potholeData = new DataFormatFX("Pothole_Enquiries_2015");
+		CSVReader reader = new CSVReader("Pothole_Enquiries_2015.csv");
+		DataFormatFX potholeData = new DataFormatFX(reader);
+		String[] columnWanted = potholeData.getColumnData(3);
+		
+		//potholeData.printHeaders();
+		potholeData.printMapData(potholeData.countAndMapData(columnWanted));
+		
 		//DataFormatFX rainTempData = new DataFormatFX("RainTemp");
 		//DataFormatFX waterTempData = new DataFormatFX("WaterTemperature");
 		//potholeData.printHeaders();
 		//rainTempData.printHeaders();
 		//waterTempData.printHeaders();
-		Map<String, Integer> a = potholeData.countAndMapData(potholeData.getColumnData(5));
 		
-		potholeData.printMapData(a);
+		DataDetector detect = new DataDetector(columnWanted);
+		//System.out.println(detect.contains1DataType());
+		//System.out.println(detect.containsDouble());
 		
+		//ArrayList<Double> dAList = stringArrayToDouble(columnWanted);
+		
+		
+		
+		
+		//Map<String, Integer> a = potholeData.countAndMapData();
+		//potholeData.printMapData(a);
+			
+		//potholeData.printHeadersLocations();
 		
 	}
 }

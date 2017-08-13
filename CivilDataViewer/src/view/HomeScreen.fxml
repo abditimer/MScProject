@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
@@ -98,7 +99,7 @@
                                           <Insets bottom="15.0" top="15.0" />
                                        </VBox.margin>
                                     </JFXButton>
-                                    <Label text="Please select a Column to analyse:" textFill="WHITE">
+                                    <Label fx:id="columnSelectorLabel" disable="true" text="Please select a Column to analyse:" textFill="WHITE">
                                        <font>
                                           <Font name="Microsoft Sans Serif" size="18.0" />
                                        </font>
@@ -106,11 +107,12 @@
                                           <Insets top="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <JFXComboBox fx:id="columnSelectorCBTN" focusColor="WHITE" labelFloat="true" onAction="#handleFirstColumnSelection" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20">
+                                    <JFXComboBox fx:id="columnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" onAction="#handleFirstColumnSelection" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20">
                                        <VBox.margin>
                                           <Insets bottom="15.0" />
                                        </VBox.margin>
                                     </JFXComboBox>
+                                    <JFXComboBox fx:id="dataTypeSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20" />
                                     <JFXToggleButton fx:id="latLongSelectorBTN" disable="true" text="is this column representing Latitude or Longtitude?" textFill="WHITE">
                                        <font>
                                           <Font name="Microsoft YaHei" size="15.0" />
@@ -126,19 +128,24 @@
                                           <Insets bottom="15.0" />
                                        </VBox.margin>
                                     </JFXComboBox>
-                                    <JFXToggleButton fx:id="selectGraphTypeTBTN" disable="true" layoutX="68.0" layoutY="133.0" text="Preference for graph type?" textFill="WHITE">
-                                       <font>
-                                          <Font name="Microsoft YaHei" size="15.0" />
-                                       </font>
-                                    </JFXToggleButton>
-                                    <JFXComboBox fx:id="graphTypeSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20">
+                                    <JFXCheckBox fx:id="dataTypeOKCheckBox" disable="true" text="Data type recognised" textFill="#b9abab">
                                        <VBox.margin>
-                                          <Insets bottom="15.0" />
+                                          <Insets top="120.0" />
                                        </VBox.margin>
-                                    </JFXComboBox>
-                                    <JFXButton fx:id="createGraphButton" buttonType="RAISED" layoutX="186.0" layoutY="25.0" onAction="#handleTableCreationButton" prefHeight="19.0" prefWidth="205.0" style="-fx-border-color: ffffff;" text="Generate Graph" textFill="WHITE">
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="singleColumnSelectedCheckBox" disable="true" layoutX="214.0" layoutY="387.0" text="Single Column Selected" textFill="#b9abab">
                                        <VBox.margin>
-                                          <Insets top="30.0" />
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="twoColumnsCheckBox" disable="true" layoutX="207.0" layoutY="404.0" text="Two Columns Selected" textFill="#b9abab">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                    <JFXButton fx:id="createGraphButton" buttonType="RAISED" disable="true" layoutX="186.0" layoutY="25.0" onAction="#handleGraphGeneration" prefHeight="27.0" prefWidth="397.0" style="-fx-border-color: ffffff;" text="Generate Graph" textFill="WHITE">
+                                       <VBox.margin>
+                                          <Insets top="80.0" />
                                        </VBox.margin>
                                     </JFXButton>
                                  </children>
@@ -169,8 +176,8 @@
             </AnchorPane>
             <AnchorPane fx:id="pieChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <PieChart fx:id="pieChart" layoutX="7.0" layoutY="68.0" prefHeight="801.0" prefWidth="1472.0" />
-                  <JFXButton buttonType="RAISED" prefHeight="31.0" prefWidth="486.0" text="Back" textFill="WHITE" />
+                  <PieChart fx:id="pieChart" layoutX="7.0" layoutY="68.0" prefHeight="744.0" prefWidth="1472.0" />
+                  <JFXButton buttonType="RAISED" layoutX="503.0" layoutY="820.0" onAction="#backFromGraphButton" prefHeight="41.0" prefWidth="490.0" text="Back" textFill="WHITE" />
                </children>
             </AnchorPane>
          </children></AnchorPane>

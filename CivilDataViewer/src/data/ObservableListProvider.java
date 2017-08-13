@@ -24,15 +24,12 @@ public class ObservableListProvider extends DataFormatFX {
 	private CSVReader reader;
 	
 	//data for barcharts
-	public ObservableListProvider(String fileName) {
-		super(fileName);
-		reader = super.reader;
+	public ObservableListProvider(CSVReader reader, int colNumber) {
+		super(reader);
+		this.reader = reader;
+		singleStringObservableList = reader.getColumnData(colNumber);
 	}
 	
-	public ObservableListProvider(String filepath, Boolean isFilepath) {
-		super(filepath, true);
-		reader = super.reader;
-	}
 	
 	/**
 	 * Selects and sets a single column
@@ -48,13 +45,19 @@ public class ObservableListProvider extends DataFormatFX {
 		//TODO: write method for observablelist of two datasets
 	}
 	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Iterates over String array and returns observable list that can be used to draw a pie chart
 	 * 
 	 * @return Returns observable list data that is used to draw graphs
 	 */
-	public ObservableList<PieChart.Data> getPieChartObservableList(int column) {
-		setSingleColumnDataToUse(column);
+	public ObservableList<PieChart.Data> getPieChartObservableList() {
 		
 		ObservableList<PieChart.Data> observableList = FXCollections.observableArrayList(); 
 		
@@ -67,6 +70,17 @@ public class ObservableListProvider extends DataFormatFX {
         return observableList;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public XYChart.Series getBarChartObservableList(int column) {
 		setSingleColumnDataToUse(column);
 		
@@ -101,10 +115,6 @@ public class ObservableListProvider extends DataFormatFX {
 	
 	
 	public static void main(String[] args) {
-		ObservableListProvider a = new ObservableListProvider("Pothole_Enquiries_2015");
-		a.printHeaders();
-		
-		
 		
 	}
 }

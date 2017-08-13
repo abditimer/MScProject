@@ -171,13 +171,14 @@ public class CSVReader {
 	}
 	/**
 	 * This method prints the number of lines the csv has
+	 * @return 
 	 */
-	public void countLinesInCSVFile() {
+	public int countLinesInCSVFile() {
 		int count =0;
 		for (String[] singleLineFromArray : getData()) {
 			count++;
 		}
-		System.out.println(count); 
+		return count;
 	}
 	
 	/**
@@ -198,16 +199,36 @@ public class CSVReader {
 		}
 	}
 	
+	/**
+	 * This method finds the location of the header array.
+	 * 
+	 * @param columnName
+	 * @return location of column in our data[]
+	 */
+	public int findColumnLocation(String columnName) {
+		int locationNo = 0;
+		
+		for (String header : headerData) {
+			if (header.equals(columnName)) {
+				break;
+			} else {
+				locationNo++;
+			}
+		}
+		
+		return locationNo;
+	}
 	
 	
 	public static void main(String[] args) {
-		//CSVReader test = new CSVReader("Pothole_Enquiries_2015", 10);
-		//CSVReader test = new CSVReader("RainTemp");
-		//CSVReader test = new CSVReader("WaterTemperature");
-		
+		CSVReader test = new CSVReader("Pothole_Enquiries_2015.csv");
+		//CSVReader rainData = new CSVReader("RainTemp.csv");
+		//CSVReader waterData = new CSVReader("WaterTemperature.csv");
 		//test.printLineLengths();
-		//test.printCSVFile();
+		//System.out.println(Arrays.toString(test.getHeader()));
 		
+		System.out.println(Arrays.toString(test.getColumnData(0)));
+		//System.out.println(Arrays.toString(waterData.getHeader()));
 		//test.countLinesInCSVFile();
 		
 		

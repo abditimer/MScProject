@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXToggleButton;
@@ -24,6 +25,7 @@ import csvReader.DynamicTable;
 import csvReader.FileUploader;
 import csvReader.LocalCSVFilesFinder;
 import csvReader.ProgressForm;
+import data.DataDetector;
 import data.DataFormatFX;
 import data.ObservableListProvider;
 import javafx.application.Platform;
@@ -163,6 +165,16 @@ public class HomeScreenController {
 	@FXML
 	private JFXComboBox columnSelectorCBTN;
 	/**
+	 * its label
+	 */
+	@FXML
+	private Label columnSelectorLabel;
+	/**
+	 * Select data type.
+	 */
+	@FXML
+	private JFXComboBox dataTypeSelectorCBTN;
+	/**
 	 * This toggle button lets you inform system the data is lat/long
 	 */
 	@FXML
@@ -177,8 +189,21 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private JFXComboBox secondColumnSelectorCBTN;
-	
-	
+	/**
+	 * checkbox showing: data type has been recognised
+	 */
+	@FXML
+	private JFXCheckBox dataTypeOKCheckBox;
+	/**
+	 * checkbox showing: data type has been recognised
+	 */
+	@FXML
+	private JFXCheckBox singleColumnSelectedCheckBox;
+	/**
+	 * checkbox showing: data type has been recognised
+	 */
+	@FXML
+	private JFXCheckBox twoColumnsCheckBox;
 	/**
 	 * This is the button that lets you create a graph
 	 */
@@ -250,6 +275,10 @@ public class HomeScreenController {
 	 */
 	private String firstColumnName;
 	/**
+	 * Index of column selected
+	 */
+	private int firstColIndex;
+	/**
 	 * Second selected column
 	 */
 	private String secondColumnName;
@@ -261,6 +290,14 @@ public class HomeScreenController {
 	 * This is the data from the second column selected.
 	 */
 	private String[] secondColumn;
+	/**
+	 * Needed to check type of columns
+	 */
+	private DataDetector dataDetector;
+	/**
+	 * true if first column selected is latitude.
+	 */
+	private Boolean firstColumnIsLatitutde;
 	// ---------------------------------------------------------------
 
 	// Main App that controls different scenes
@@ -415,6 +452,7 @@ public class HomeScreenController {
 			setHeadersInComboBox(true);
 			//we want to undisable the first column button selector.
 			columnSelectorCBTN.setDisable(false);
+			columnSelectorLabel.setDisable(false);
 		} else {
 			createTableButton.setDisable(true);
 			//create a pop up telling someone they have already created a table.
@@ -435,19 +473,83 @@ public class HomeScreenController {
 	public void handleFirstColumnSelection() {
 		//store chosen name column
 		firstColumnName = columnSelectorCBTN.getValue().toString();
+		firstColIndex = readIn.findColumnLocation(firstColumnName);
+		//get the correct column from our data.
+		firstColumn = readIn.getColumnData(firstColIndex);
+		//check to make sure dataType is of one kind.
+		dataDetector = new DataDetector(firstColumn);
+		//check if it is lat/long
+		if (dataDetector.latLongDetector(firstColumnName)) {
+			//hence lat long value is included.
+			latLongSelectorBTN.setSelected(true);
+			
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setContentText("Is the column chosen a Latitude/Longtitude value?");
+			
+			ButtonType okButton = new ButtonType("Yes");
+			ButtonType noButton = new ButtonType("No");
+			alert.getButtonTypes().setAll(okButton, noButton);
+			
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if (result.get() == okButton) {
+				firstColumnIsLatitutde = true;
+			} else {
+				latLongSelectorBTN.setSelected(false);
+				firstColumnIsLatitutde = false;
+				alert.close();
+			}
+		}
+		
+		//if more than 1 data type
+		if (!(dataDetector.contains1DataType())) {
+			//fill other combo box with data types available
+			dataTypeSelectorCBTN.getItems().addAll(dataDetector.typesContained());
+			//alert the user
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setContentText("More than one data type detected - Please select one data type!");
+
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+				alert.close();
+			} else {
+				alert.close();
+			}
+			//has more than one data type. Ask user to choose a data type.
+			dataTypeSelectorCBTN.setDisable(false);
+			return;
+		}
+
+		//Tick the following:
+		dataTypeOKCheckBox.setSelected(true);
+		singleColumnSelectedCheckBox.setSelected(true);
 		
 		//undisable the following:
+		
 		//1. lat/long toggle button
 		latLongSelectorBTN.setDisable(false);
 		//2. second col toggle button
 		isTwoColumnsWantedTBTN.setDisable(false);
-		//2.5 second col combobx button
+		//3. second col combobx button
 		secondColumnSelectorCBTN.setDisable(false);
-		//disable first column selector button
+		//4. disable first column selector button
 		columnSelectorCBTN.setDisable(true);
+		//5. undisable graph generator button
+		createGraphButton.setDisable(false);
 		
 	}
 	
+	public void handleDataTypeSelection() {
+		//get selected data type
+		//sort data
+		//TODO
+	}
+	
+	
+	/**
+	 * Toggle button for selecting two variables.
+	 */
 	public void handlesecondColumnSelectionToggle() {
 		//when turned on, need to show data in combobox
 		if(isTwoColumnsWantedTBTN.isSelected()) {
@@ -459,72 +561,39 @@ public class HomeScreenController {
 		}
 	}
 	
+	/**
+	 * <b>Important Method: Creates graphs!</b>
+	 */
+	public void handleGraphGeneration() {
+		
+		//create observable list creator
+		ObservableListProvider listProvider = new ObservableListProvider(readIn, firstColIndex);
+		pieChart.setData(listProvider.getPieChartObservableList());
+		IntelligenceAndTableVisualiserPanel.setVisible(false);
+		pieChartVisualiPanel.setVisible(true);
+	}
 	
-	
-	
-	
+	public void backFromGraphButton() {
+		pieChartVisualiPanel.setVisible(false);
+		pieChart.getData().clear();
+		IntelligenceAndTableVisualiserPanel.setVisible(true);
+	}
 	
 	
 	// =====================================================================
 	// -------------------------------------------------------------------------------------------------
 	// =====================================================================
 	
-	/**
-	 * This method checks to make sure the datatype is acceptable to make a graph.
-	 * Accepted types include:
-	 * 1. Strings
-	 * 2. Ints
-	 * 3. Doubles
-	 * 
-	 * Basically numbers or words.
-	 * 
-	 * @param selectedColumnName
-	 * @return true if the data can be used to create a graph.
-	 */
-	public Boolean isAcceptedDataType(boolean isFirstColumnSelected) {
-		if (isFirstColumnSelected) {
-			//if true, we need to check the first column selected
-			//find the data corresponding to column selected
-			int headerLocation = findColumnLocation(firstColumnName);
-			firstColumn = readIn.getColumnData(headerLocation);
-			//now use method to loop over data and find if anything is up with it.
-			
-		} else {
-			//we need to check the second column
-		}
-	}
 	
-	/**
-	 * This method is used to loop over String[] to find the data types
-	 * 
-	 */
-	public String getDataTypeOfCol(String[] column) {
-		
-	}
 	
-	/**
-	 * This method finds the location of the header array.
-	 * @param columnName
-	 * @return location of column in our data[]
-	 */
-	public int findColumnLocation(String columnName) {
-		int locationNo = 0;
-		
-		for (String header : headerData) {
-			if (header.equals(columnName)) {
-				break;
-			} else {
-				locationNo++;
-			}
-		}
-		
-		return locationNo;
-	}
+	
+	
+
 	
 	
 	
 	/**
-	 * 
+	 * TODO: FIX THIS SHIT
 	 * @param noDataSelected
 	 */
 	public void setHeadersInComboBox(Boolean noDataSelected) {
