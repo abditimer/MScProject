@@ -177,17 +177,8 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private JFXComboBox secondColumnSelectorCBTN;
-	/**
-	 * This toggle button lets you say you have a graph preference
-	 */
-	@FXML
-	private JFXToggleButton selectGraphTypeTBTN;
-	/**
-	 * preference for graph type toggle button.
-	 * Shows the type of graphs you can generate with the data selected.
-	 */
-	@FXML
-	private JFXComboBox graphTypeSelectorCBTN;
+	
+	
 	/**
 	 * This is the button that lets you create a graph
 	 */
@@ -262,6 +253,14 @@ public class HomeScreenController {
 	 * Second selected column
 	 */
 	private String secondColumnName;
+	/**
+	 * This is the data from the column selected.
+	 */
+	private String[] firstColumn;
+	/**
+	 * This is the data from the second column selected.
+	 */
+	private String[] secondColumn;
 	// ---------------------------------------------------------------
 
 	// Main App that controls different scenes
@@ -296,6 +295,7 @@ public class HomeScreenController {
 	public void initialize() {
 		localCSVFilesFound = new LocalCSVFilesFinder();
 		chooseCSVFileComboBox.getItems().addAll(localCSVFilesFound.getCSVFileNames());
+		
 		tableVisualiPage.setPlaceholder(new Label("waiting..."));
 		
 		
@@ -443,8 +443,9 @@ public class HomeScreenController {
 		isTwoColumnsWantedTBTN.setDisable(false);
 		//2.5 second col combobx button
 		secondColumnSelectorCBTN.setDisable(false);
-		//3. grph type toggle
-		selectGraphTypeTBTN.setDisable(false);
+		//disable first column selector button
+		columnSelectorCBTN.setDisable(true);
+		
 	}
 	
 	public void handlesecondColumnSelectionToggle() {
@@ -467,6 +468,65 @@ public class HomeScreenController {
 	// =====================================================================
 	// -------------------------------------------------------------------------------------------------
 	// =====================================================================
+	
+	/**
+	 * This method checks to make sure the datatype is acceptable to make a graph.
+	 * Accepted types include:
+	 * 1. Strings
+	 * 2. Ints
+	 * 3. Doubles
+	 * 
+	 * Basically numbers or words.
+	 * 
+	 * @param selectedColumnName
+	 * @return true if the data can be used to create a graph.
+	 */
+	public Boolean isAcceptedDataType(boolean isFirstColumnSelected) {
+		if (isFirstColumnSelected) {
+			//if true, we need to check the first column selected
+			//find the data corresponding to column selected
+			int headerLocation = findColumnLocation(firstColumnName);
+			firstColumn = readIn.getColumnData(headerLocation);
+			//now use method to loop over data and find if anything is up with it.
+			
+		} else {
+			//we need to check the second column
+		}
+	}
+	
+	/**
+	 * This method is used to loop over String[] to find the data types
+	 * 
+	 */
+	public String getDataTypeOfCol(String[] column) {
+		
+	}
+	
+	/**
+	 * This method finds the location of the header array.
+	 * @param columnName
+	 * @return location of column in our data[]
+	 */
+	public int findColumnLocation(String columnName) {
+		int locationNo = 0;
+		
+		for (String header : headerData) {
+			if (header.equals(columnName)) {
+				break;
+			} else {
+				locationNo++;
+			}
+		}
+		
+		return locationNo;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param noDataSelected
+	 */
 	public void setHeadersInComboBox(Boolean noDataSelected) {
 		if (noDataSelected) {
 			//This means that no other column has been selected
