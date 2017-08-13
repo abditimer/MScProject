@@ -1,5 +1,6 @@
 package tests;
 
+import data.DataDetector;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -13,7 +14,9 @@ public class DataDetectorTest {
 	String[] threeStringsAnd1Double = {"this", "shouldnt", "work", "1.33"};
 	String[] threeStringsAnd1Int = {"this", "shouldnt", "work", "1.33"};
 	
-	
+	DataDetector detect; 
+			
+			
 	/**
 	 * Test to make sure only one data type is within these arrays
 	 */
@@ -147,4 +150,5 @@ public class DataDetectorTest {
 		
 		assertArrayEquals(expected, actual5);
 	}
+
 }
