@@ -28,6 +28,26 @@ import javafx.scene.chart.PieChart;
  */
 public class DataFormatFX {
 	
+	public CSVReader getReader() {
+		return reader;
+	}
+
+	public void setReader(CSVReader reader) {
+		this.reader = reader;
+	}
+
+	public List<String[]> getColumnData() {
+		return columnData;
+	}
+
+	public void setColumnData(List<String[]> columnData) {
+		this.columnData = columnData;
+	}
+
+	public void setHeaderData(String[] headerData) {
+		this.headerData = headerData;
+	}
+
 	CSVReader reader;
 	//List containing all the rows from csv file except for header
 	private List<String[]> columnData;

@@ -4,6 +4,7 @@ import java.awt.FileDialog;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -252,6 +253,15 @@ public class HomeScreenController {
 	 * This will be where we will store info about the read in csv file.
 	 */
 	private CSVReader readIn;
+	
+	/**
+	 * first Selected column
+	 */
+	private String firstColumnName;
+	/**
+	 * Second selected column
+	 */
+	private String secondColumnName;
 	// ---------------------------------------------------------------
 
 	// Main App that controls different scenes
@@ -286,6 +296,9 @@ public class HomeScreenController {
 	public void initialize() {
 		localCSVFilesFound = new LocalCSVFilesFinder();
 		chooseCSVFileComboBox.getItems().addAll(localCSVFilesFound.getCSVFileNames());
+		tableVisualiPage.setPlaceholder(new Label("waiting..."));
+		
+		
 		// TODO: same as below but with selected string name!
 		// dataForGraphs = new
 		// ObservableListProvider("Pothole_Enquiries_2015.csv");
@@ -372,15 +385,17 @@ public class HomeScreenController {
 		// Returns string with filepath.
 		if (fileSelected.getWasSuccessful()) {
 			csvFileNameSelected = fileSelected.getCSVFilePath();
+			// indicate file is a filepath
+			isFilePath = true;
+			analyseCSVFileButton.setVisible(true);
+			// unlock button
+			UploadNewCSVFileButton.setDisable(false);
+			// show file name selected
+			currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
+		} else {
+			//if they pressed exit
+			UploadNewCSVFileButton.setDisable(false);
 		}
-		// indicate file is a filepath
-		isFilePath = true;
-
-		analyseCSVFileButton.setVisible(true);
-		// unlock button
-		UploadNewCSVFileButton.setDisable(false);
-		// show file name selected
-		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 	}
 	// -----------------------
 	// --Table + Intelligence--
@@ -396,8 +411,10 @@ public class HomeScreenController {
 			isTableCreated = true;
 			//show the generated table.
 			tableVisualiPage.setVisible(true);
+			//method to bring headers into combobox to be selectable.
+			setHeadersInComboBox(true);
 			//we want to undisable the first column button selector.
-			
+			columnSelectorCBTN.setDisable(false);
 		} else {
 			createTableButton.setDisable(true);
 			//create a pop up telling someone they have already created a table.
@@ -416,10 +433,30 @@ public class HomeScreenController {
 	 * This method deals with when a column has been selected from the cmbbx btn.
 	 */
 	public void handleFirstColumnSelection() {
+		//store chosen name column
+		firstColumnName = columnSelectorCBTN.getValue().toString();
 		
+		//undisable the following:
+		//1. lat/long toggle button
+		latLongSelectorBTN.setDisable(false);
+		//2. second col toggle button
+		isTwoColumnsWantedTBTN.setDisable(false);
+		//2.5 second col combobx button
+		secondColumnSelectorCBTN.setDisable(false);
+		//3. grph type toggle
+		selectGraphTypeTBTN.setDisable(false);
 	}
 	
-	
+	public void handlesecondColumnSelectionToggle() {
+		//when turned on, need to show data in combobox
+		if(isTwoColumnsWantedTBTN.isSelected()) {
+			//set up combobox
+			setHeadersInComboBox(false);
+			secondColumnSelectorCBTN.setDisable(false);
+		} else {
+			secondColumnSelectorCBTN.setDisable(true);
+		}
+	}
 	
 	
 	
@@ -430,6 +467,20 @@ public class HomeScreenController {
 	// =====================================================================
 	// -------------------------------------------------------------------------------------------------
 	// =====================================================================
+	public void setHeadersInComboBox(Boolean noDataSelected) {
+		if (noDataSelected) {
+			//This means that no other column has been selected
+			//take the headers of the currently selected csv file and add them to the combobox.
+			columnSelectorCBTN.getItems().addAll(headerData);
+		} else {
+			//if column has already been selected 
+			//need to add everything back to the combobox
+			ArrayList<String> tempHeaderArray = new ArrayList<>(Arrays.asList(headerData));
+			tempHeaderArray.remove(firstColumnName);
+			secondColumnSelectorCBTN.getItems().addAll(tempHeaderArray);
+		}
+	}
+	
 	/**
 	 * This method is called to analyse the file that has been selected.
 	 * It sets both the header String[] and Data List<String[]>.
@@ -511,7 +562,7 @@ public class HomeScreenController {
 	 */
 	public void createTableFromData() {
 		
-		tableVisualiPage.setPlaceholder(new Label("Loading..."));
+	
 		
 		//Creating background thread to populate table
 				Task<Void> task = new Task<Void>() {
@@ -533,7 +584,7 @@ public class HomeScreenController {
 									//add column headers to my table
 									tableVisualiPage.getColumns().add(tempCol);
 								}
-								System.out.println("created headers...");
+								
 							}
 						});
 						
