@@ -19,6 +19,7 @@ import com.teamdev.jxmaps.Marker;
 import com.teamdev.jxmaps.javafx.MapView;
 
 import csvReader.CSVReader;
+import data.ArrayListCreator;
 import data.DataDetector;
 import data.DataFormatFX;
 import javafx.application.Application;
@@ -51,7 +52,8 @@ public class MapCreatorTest extends Application {
 		String[] longtitude = accidentData.getColumnData(3);
 		//string[] of latitudes coordinates
 		String[] latitude = accidentData.getColumnData(4);
-    	
+    	//Some locations:
+		
 		//check that data type is of one type
 		DataDetector detectDoublesLong = new DataDetector(longtitude);
 		System.out.println("longtitude are of one type? : " + detectDoublesLong.contains1DataType());
@@ -59,19 +61,18 @@ public class MapCreatorTest extends Application {
 		System.out.println("Latitude are of one type? : " + detectDoublesLat.contains1DataType());
 		
 		//convert into double[]
-		ArrayList<Double> longtitudeDoubles = DataFormatFX.stringArrayToDouble(longtitude);
-		ArrayList<Double> latitudeDoubles = DataFormatFX.stringArrayToDouble(latitude);
+		ArrayList<Double> longtitudeDoubles = ArrayListCreator.stringArrayToDouble(longtitude);
+		ArrayList<Double> latitudeDoubles = ArrayListCreator.stringArrayToDouble(latitude);
 		
-		
-		for (double a : longtitudeDoubles) {
+		/*for (double a : longtitudeDoubles) {
 			System.out.println(Double.toString(a));
-		}
+		}*/
 		
     	//use the following to test without external file:
 		//ArrayList<Double> longtitudeDoubles = new ArrayList<Double>(Arrays.asList(-1.0004, -1.0005,-1.0006,-1.0007,-1.0008,-1.0009,-1.0010));
 		//ArrayList<Double> latitudeDoubles = new ArrayList<Double>(Arrays.asList(53.003,53.004,53.006,53.007,53.008,53.009,53.0010));
 		
-		MapCreator mapViewObj = new MapCreator(latitudeDoubles, longtitudeDoubles, 200000);
+		MapCreator mapViewObj = new MapCreator(latitudeDoubles, longtitudeDoubles, 50);
     	MapView mapView = mapViewObj.getMapView();
 		
 		

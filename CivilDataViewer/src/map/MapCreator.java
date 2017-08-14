@@ -50,21 +50,32 @@ public class MapCreator {
 	 * This creates a map object for which we can add things to.
 	 */
 	public MapCreator(ArrayList<Double> latitude, ArrayList<Double> longtitude, int limit) {
-		//first make sure our limit is less than 100
+		setLatLongLocations(latitude, longtitude, limit);
+	}
+
+	/**
+	 * This creates a map object for which we can add things to.
+	 */
+	public MapCreator(String[] locationNames, int limit) {
+		//setStringLocation(locationNames, limit);
+	}
+
+	public void setLatLongLocations(ArrayList<Double> latitude, ArrayList<Double> longtitude, int limit) {
+		// first make sure our limit is less than 100
 		int markerLimit;
 		if (limit > 100) {
 			markerLimit = 100;
 		} else {
 			markerLimit = limit;
 		}
-		
+
 		mapView = new MapView();
 
 		mapView.setOnMapReadyHandler(new MapReadyHandler() {
 			@Override
 			public void onMapReady(MapStatus status) {
 				if (status == MapStatus.MAP_STATUS_OK) {
-					
+
 					map = mapView.getMap();
 					map.setZoom(9.0);
 					// set up all the markers from the arraylists
@@ -72,64 +83,65 @@ public class MapCreator {
 					GeocoderRequest request = new GeocoderRequest();
 					// set the location using long/lat
 					request.setAddress("London, UK");
-
-			mapView.getServices().getGeocoder().geocode(request, new GeocoderCallback(map) {
-				@Override
-				public void onComplete(GeocoderResult[] result, GeocoderStatus status) {
-					if (status == GeocoderStatus.OK) {
-						if (isFirstCoordinate) {
-							map.setCenter(result[0].getGeometry().getLocation());
-							isFirstCoordinate = false;
-						}
-						
-						for (int i = 0; i < markerLimit; i++) {
-							Marker marker = new Marker(map);
-							marker.setPosition(new LatLng(latitude.get(i), longtitude.get(i)));
-							final InfoWindow window = new InfoWindow(map);
-							window.setContent(Integer.toString(plottedLocationNo));
-							window.open(map, marker);
-							plottedLocationNo++;
-						}
+					map.setCenter(new LatLng(latitude.get(markerLimit - 1), longtitude.get(markerLimit - 1)));
+					for (int i = 0; i < markerLimit; i++) {
+						Marker marker = new Marker(map);
+						marker.setPosition(new LatLng(latitude.get(i), longtitude.get(i)));
+						final InfoWindow window = new InfoWindow(map);
+						window.setContent(Integer.toString(plottedLocationNo));
+						window.open(map, marker);
+						plottedLocationNo++;
 					}
-				}
-			});
+					
 				}
 			}
 		});
-
 	}
 
-	// this method needs to create a marker using just a string
-	public synchronized void setLatLongLocation(ArrayList<Double> latitude, ArrayList<Double> longtitude) {
+	
+
+	
+	
+	public void setStringLocation(ArrayList<String> location, int limit) {
+		// first make sure our limit is less than 100
+		int markerLimit;
+		if (limit > 100) {
+			markerLimit = 100;
+		} else {
+			markerLimit = limit;
+		}
 		
-	}
-
-	public void setStringLocation(String location) {
-		// create a geocode
+		for (String singleLocation : location) {
+			// create a geocode
 		GeocoderRequest request = new GeocoderRequest();
 		// set the location using long/lat
-		request.setAddress(location);
-
+		request.setAddress(singleLocation);
 		mapView.getServices().getGeocoder().geocode(request, new GeocoderCallback(map) {
 			@Override
 			public void onComplete(GeocoderResult[] result, GeocoderStatus status) {
 				if (status == GeocoderStatus.OK) {
-					if (isFirstCoordinate) {
-						map.setCenter(result[0].getGeometry().getLocation());
-						isFirstCoordinate = false;
+					map.setCenter(result[0].getGeometry().getLocation());
+					for (int i = 0; i < markerLimit; i++) {
+						Marker marker = new Marker(map);
+						marker.setPosition(result[0].getGeometry().getLocation());
+						
+						final InfoWindow window = new InfoWindow(map);
+						window.setContent(Integer.toString(plottedLocationNo));
+						window.open(map, marker);
+						plottedLocationNo++;
 					}
-
-					Marker marker = new Marker(map);
-					marker.setPosition(result[0].getGeometry().getLocation());
-
-					final InfoWindow window = new InfoWindow(map);
-					window.setContent(location);
-					window.open(map, marker);
 				}
+
 			}
 		});
+		}
+		
+		
 	}
-
+	
+	
+	
+	
 	public synchronized void plotArrayOfLatLong(ArrayList<Double> latitude, ArrayList<Double> longtitude) {
 		/*
 		 * int maxSize; if (latitude.size() >= longtitude.size()) { maxSize =

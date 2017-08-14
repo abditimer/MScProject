@@ -260,6 +260,29 @@ public class DataDetector {
 		}
 	}
 	/**
+	 * Picks up if there are any references to Latitude or Longtitude.
+	 * @param headerName column header name
+	 * @return true if the header name suggests its a latitude or longtitude.
+	 */
+	public static Boolean northingEastingDetector(String headerName) {
+		String sentence = headerName;
+		String search1  = "north";
+		String search2  = "east";
+		
+		if ( sentence.toLowerCase().indexOf(search1.toLowerCase()) != -1  || sentence.toLowerCase().indexOf(search2.toLowerCase()) != -1) {
+
+		   return true;
+
+		} else {
+
+		   return false;
+
+		}
+	}
+	
+	
+	
+	/**
 	 * This returns string[] of all the different datatypes
 	 * @return
 	 */
