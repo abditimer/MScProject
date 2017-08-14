@@ -49,8 +49,15 @@ public class MapCreator {
 	/**
 	 * This creates a map object for which we can add things to.
 	 */
-	public MapCreator(ArrayList<Double> latitude, ArrayList<Double> longtitude) {
-
+	public MapCreator(ArrayList<Double> latitude, ArrayList<Double> longtitude, int limit) {
+		//first make sure our limit is less than 100
+		int markerLimit;
+		if (limit > 100) {
+			markerLimit = 100;
+		} else {
+			markerLimit = limit;
+		}
+		
 		mapView = new MapView();
 
 		mapView.setOnMapReadyHandler(new MapReadyHandler() {
@@ -59,7 +66,7 @@ public class MapCreator {
 				if (status == MapStatus.MAP_STATUS_OK) {
 					
 					map = mapView.getMap();
-					map.setZoom(8.0);
+					map.setZoom(9.0);
 					// set up all the markers from the arraylists
 					// create a geocode
 					GeocoderRequest request = new GeocoderRequest();
@@ -74,13 +81,8 @@ public class MapCreator {
 							map.setCenter(result[0].getGeometry().getLocation());
 							isFirstCoordinate = false;
 						}
-						int maxSize = 20;
-						if (latitude.size() >= longtitude.size()) {
-							maxSize = longtitude.size() - 1;
-						} else {
-							maxSize = latitude.size() - 1;
-						}
-						for (int i = 0; i < 30; i++) {
+						
+						for (int i = 0; i < markerLimit; i++) {
 							Marker marker = new Marker(map);
 							marker.setPosition(new LatLng(latitude.get(i), longtitude.get(i)));
 							final InfoWindow window = new InfoWindow(map);

@@ -26,6 +26,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * This file has been created to test the map.
+ * 
+ * @author timer
+ *
+ */
 public class MapCreatorTest extends Application {
 
 	
@@ -61,11 +67,11 @@ public class MapCreatorTest extends Application {
 			System.out.println(Double.toString(a));
 		}
 		
-    	
+    	//use the following to test without external file:
 		//ArrayList<Double> longtitudeDoubles = new ArrayList<Double>(Arrays.asList(-1.0004, -1.0005,-1.0006,-1.0007,-1.0008,-1.0009,-1.0010));
 		//ArrayList<Double> latitudeDoubles = new ArrayList<Double>(Arrays.asList(53.003,53.004,53.006,53.007,53.008,53.009,53.0010));
 		
-		MapCreator mapViewObj = new MapCreator(latitudeDoubles, longtitudeDoubles);
+		MapCreator mapViewObj = new MapCreator(latitudeDoubles, longtitudeDoubles, 200000);
     	MapView mapView = mapViewObj.getMapView();
 		
 		
