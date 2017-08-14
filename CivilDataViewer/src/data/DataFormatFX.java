@@ -193,20 +193,26 @@ public class DataFormatFX {
 	}
 	
 	public static void main(String[] args) {
-		CSVReader reader = new CSVReader("Pothole_Enquiries_2015.csv");
-		DataFormatFX potholeData = new DataFormatFX(reader);
-		String[] columnWanted = potholeData.getColumnData(3);
+		CSVReader reader = new CSVReader("accidents.csv");
+		DataFormatFX accidentData = new DataFormatFX(reader);
+		String[] longtitude = accidentData.getColumnData(3);
+		ArrayList<Double> longtitudeDoubles = stringArrayToDouble(longtitude);
+		DataDetector detectDoubles = new DataDetector(longtitude);
+		//System.out.println(detectDoubles.contains1DataType());
+		
+		String[] latitude = accidentData.getColumnData(4);
+		accidentData.printMapData(accidentData.countAndMapData(longtitude));
+		accidentData.printMapData(accidentData.countAndMapData(latitude));
+		
 		
 		//potholeData.printHeaders();
-		potholeData.printMapData(potholeData.countAndMapData(columnWanted));
+		//accidentData.printMapData(accidentData.countAndMapData(longtitude));
 		
 		//DataFormatFX rainTempData = new DataFormatFX("RainTemp");
-		//DataFormatFX waterTempData = new DataFormatFX("WaterTemperature");
 		//potholeData.printHeaders();
-		//rainTempData.printHeaders();
-		//waterTempData.printHeaders();
 		
-		DataDetector detect = new DataDetector(columnWanted);
+		
+		//DataDetector detect = new DataDetector(columnWanted);
 		//System.out.println(detect.contains1DataType());
 		//System.out.println(detect.containsDouble());
 		
