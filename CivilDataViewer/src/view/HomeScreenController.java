@@ -148,12 +148,12 @@ public class HomeScreenController {
 	// ========================================******* INTELLIGENCE
 	// PAGE************================================
 	/**
-	 * This page is where the user gets to visualy see there data on a table. also questions on 
-	 * selecting the data to analyse
+	 * This page is where the user gets to visualy see there data on a table.
+	 * also questions on selecting the data to analyse
 	 */
 	@FXML
 	private AnchorPane IntelligenceAndTableVisualiserPanel;
-	
+
 	/**
 	 * This is the button that lets you create a table
 	 */
@@ -209,27 +209,24 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private JFXButton createGraphButton;
-	
-	
+
 	/**
 	 * This is the table that will show the data about the CSV file
 	 */
 	@FXML
 	private TableView<ObservableList<StringProperty>> tableVisualiPage;
-	
-	
-	//-----Different Graphs--------------
+
+	// -----Different Graphs--------------
 	/**
-	 *  PieChart Page and pieChart
+	 * PieChart Page and pieChart
 	 */
 	@FXML
 	private AnchorPane pieChartVisualiPanel;
 	@FXML
 	private PieChart pieChart;
-	
-	
+
 	/**
-	 *  BarChart page, barchart and back button.
+	 * BarChart page, barchart and back button.
 	 */
 	@FXML
 	private AnchorPane barChartVisualiPanel;
@@ -240,11 +237,6 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private JFXButton backFromChartsButton;
-	
-	
-
-	
-	
 
 	// *********************************************others references
 	// needed*****************************************************************
@@ -269,7 +261,7 @@ public class HomeScreenController {
 	 * This will be where we will store info about the read in csv file.
 	 */
 	private CSVReader readIn;
-	
+
 	/**
 	 * first Selected column
 	 */
@@ -316,8 +308,8 @@ public class HomeScreenController {
 	private List<String[]> columnData;
 	// String array of the headers
 	private String[] headerData;
-	
-	//lets us know if a table has been generated from data.
+
+	// lets us know if a table has been generated from data.
 	private Boolean isTableCreated = false;
 
 	// ====================================================================
@@ -332,10 +324,9 @@ public class HomeScreenController {
 	public void initialize() {
 		localCSVFilesFound = new LocalCSVFilesFinder();
 		chooseCSVFileComboBox.getItems().addAll(localCSVFilesFound.getCSVFileNames());
-		
+
 		tableVisualiPage.setPlaceholder(new Label("waiting..."));
-		
-		
+
 		// TODO: same as below but with selected string name!
 		// dataForGraphs = new
 		// ObservableListProvider("Pothole_Enquiries_2015.csv");
@@ -377,10 +368,11 @@ public class HomeScreenController {
 		setScreenVisibility(false, false, false, true);
 	}
 
-	// **********Visuali Main page************************************************
+	// **********Visuali Main
+	// page************************************************
 	// -----------------------
 	// --FIRST QUESTION PAGE--
-	//------------------------
+	// ------------------------
 	/**
 	 * This method handles the toggle button for if: 1. want to upload new csv
 	 * file. 2. want to choose a saved csv file.
@@ -395,6 +387,7 @@ public class HomeScreenController {
 			setUpToggleFORCSVDecider(false);
 		}
 	}
+
 	/**
 	 * This method handles when a csv file has been selected from the combobox.
 	 * It populates the table and shows it.
@@ -410,6 +403,7 @@ public class HomeScreenController {
 		// show the file name
 		currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 	}
+
 	/**
 	 * This method handles when a csv file has been uploaded. it shows the data
 	 * in a table.
@@ -430,194 +424,19 @@ public class HomeScreenController {
 			// show file name selected
 			currentlySelectedCSVFileLabel.setText(csvFileNameSelected);
 		} else {
-			//if they pressed exit
+			// if they pressed exit
 			UploadNewCSVFileButton.setDisable(false);
 		}
 	}
-	// -----------------------
-	// --Table + Intelligence--
-	//------------------------
-	/**
-	 * This is the handler for the creation of a table. It allows user to visualise the data they want to analyse. 
-	 */
-	public void handleTableCreationButton() {
-		if (!(isTableCreated)) {
-			//create table for the first time
-			createTableFromData();
-			//table has now been created
-			isTableCreated = true;
-			//show the generated table.
-			tableVisualiPage.setVisible(true);
-			//method to bring headers into combobox to be selectable.
-			setHeadersInComboBox(true);
-			//we want to undisable the first column button selector.
-			columnSelectorCBTN.setDisable(false);
-			columnSelectorLabel.setDisable(false);
-		} else {
-			createTableButton.setDisable(true);
-			//create a pop up telling someone they have already created a table.
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("");
-			alert.setContentText("You have already created a table from your data");
-			Optional<ButtonType> result = alert.showAndWait();
-			//once user presses ok, the alert will close.
-			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-				alert.close();
-			}
-			
-		}
-	}
-	/**
-	 * This method deals with when a column has been selected from the cmbbx btn.
-	 */
-	public void handleFirstColumnSelection() {
-		//store chosen name column
-		firstColumnName = columnSelectorCBTN.getValue().toString();
-		firstColIndex = readIn.findColumnLocation(firstColumnName);
-		//get the correct column from our data.
-		firstColumn = readIn.getColumnData(firstColIndex);
-		//check to make sure dataType is of one kind.
-		dataDetector = new DataDetector(firstColumn);
-		//check if it is lat/long
-		if (dataDetector.latLongDetector(firstColumnName)) {
-			//hence lat long value is included.
-			latLongSelectorBTN.setSelected(true);
-			
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setContentText("Is the column chosen a Latitude/Longtitude value?");
-			
-			ButtonType okButton = new ButtonType("Yes");
-			ButtonType noButton = new ButtonType("No");
-			alert.getButtonTypes().setAll(okButton, noButton);
-			
-			Optional<ButtonType> result = alert.showAndWait();
 
-			if (result.get() == okButton) {
-				firstColumnIsLatitutde = true;
-			} else {
-				latLongSelectorBTN.setSelected(false);
-				firstColumnIsLatitutde = false;
-				alert.close();
-			}
-		}
-		
-		//if more than 1 data type
-		if (!(dataDetector.contains1DataType())) {
-			//fill other combo box with data types available
-			dataTypeSelectorCBTN.getItems().addAll(dataDetector.typesContained());
-			//alert the user
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setContentText("More than one data type detected - Please select one data type!");
-
-			Optional<ButtonType> result = alert.showAndWait();
-
-			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-				alert.close();
-			} else {
-				alert.close();
-			}
-			//has more than one data type. Ask user to choose a data type.
-			dataTypeSelectorCBTN.setDisable(false);
-			return;
-		}
-
-		//Tick the following:
-		dataTypeOKCheckBox.setSelected(true);
-		singleColumnSelectedCheckBox.setSelected(true);
-		
-		//undisable the following:
-		
-		//1. lat/long toggle button
-		latLongSelectorBTN.setDisable(false);
-		//2. second col toggle button
-		isTwoColumnsWantedTBTN.setDisable(false);
-		//3. second col combobx button
-		secondColumnSelectorCBTN.setDisable(false);
-		//4. disable first column selector button
-		columnSelectorCBTN.setDisable(true);
-		//5. undisable graph generator button
-		createGraphButton.setDisable(false);
-		
-	}
-	
-	public void handleDataTypeSelection() {
-		//get selected data type
-		//sort data
-		//TODO
-	}
-	
-	
 	/**
-	 * Toggle button for selecting two variables.
-	 */
-	public void handlesecondColumnSelectionToggle() {
-		//when turned on, need to show data in combobox
-		if(isTwoColumnsWantedTBTN.isSelected()) {
-			//set up combobox
-			setHeadersInComboBox(false);
-			secondColumnSelectorCBTN.setDisable(false);
-		} else {
-			secondColumnSelectorCBTN.setDisable(true);
-		}
-	}
-	
-	/**
-	 * <b>Important Method: Creates graphs!</b>
-	 */
-	public void handleGraphGeneration() {
-		
-		//create observable list creator
-		ObservableListProvider listProvider = new ObservableListProvider(readIn, firstColIndex);
-		pieChart.setData(listProvider.getPieChartObservableList());
-		IntelligenceAndTableVisualiserPanel.setVisible(false);
-		pieChartVisualiPanel.setVisible(true);
-	}
-	
-	public void backFromGraphButton() {
-		pieChartVisualiPanel.setVisible(false);
-		pieChart.getData().clear();
-		IntelligenceAndTableVisualiserPanel.setVisible(true);
-	}
-	
-	
-	// =====================================================================
-	// -------------------------------------------------------------------------------------------------
-	// =====================================================================
-	
-	
-	
-	
-	
-
-	
-	
-	
-	/**
-	 * TODO: FIX THIS SHIT
-	 * @param noDataSelected
-	 */
-	public void setHeadersInComboBox(Boolean noDataSelected) {
-		if (noDataSelected) {
-			//This means that no other column has been selected
-			//take the headers of the currently selected csv file and add them to the combobox.
-			columnSelectorCBTN.getItems().addAll(headerData);
-		} else {
-			//if column has already been selected 
-			//need to add everything back to the combobox
-			ArrayList<String> tempHeaderArray = new ArrayList<>(Arrays.asList(headerData));
-			tempHeaderArray.remove(firstColumnName);
-			secondColumnSelectorCBTN.getItems().addAll(tempHeaderArray);
-		}
-	}
-	
-	/**
-	 * This method is called to analyse the file that has been selected.
-	 * It sets both the header String[] and Data List<String[]>.
+	 * This method is called to analyse the file that has been selected. It sets
+	 * both the header String[] and Data List<String[]>.
 	 */
 	public void analyseCSVFileButton() {
-		//This is our loader indicator
+		// This is our loader indicator
 		ProgressForm pForm = new ProgressForm();
-		//Hard work is being done here
+		// Hard work is being done here
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws InterruptedException {
@@ -639,7 +458,7 @@ public class HomeScreenController {
 				headerData = readIn.getHeader();
 				columnData = readIn.getData();
 
-				 updateProgress(10, 10);
+				updateProgress(10, 10);
 				return null;
 			}
 		};
@@ -656,7 +475,7 @@ public class HomeScreenController {
 			// IntelligenceAndTableVisualiserPanel.setVisible(true);
 			visualiQuestionPanel.setVisible(false);
 			IntelligenceAndTableVisualiserPanel.setVisible(true);
-			
+
 		});
 
 		pForm.getDialogStage().show();
@@ -665,6 +484,179 @@ public class HomeScreenController {
 		thread.start();
 
 	}
+
+	// -----------------------
+	// --Table + Intelligence--
+	// ------------------------
+	/**
+	 * This is the handler for the creation of a table. It allows user to
+	 * visualise the data they want to analyse.
+	 */
+	public void handleTableCreationButton() {
+		if (!(isTableCreated)) {
+			// create table for the first time
+			createTableFromData();
+			// table has now been created
+			isTableCreated = true;
+			// show the generated table.
+			tableVisualiPage.setVisible(true);
+			// method to bring headers into combobox to be selectable.
+			setHeadersInComboBox(true);
+			// we want to undisable the first column button selector.
+			columnSelectorCBTN.setDisable(false);
+			columnSelectorLabel.setDisable(false);
+		} else {
+			createTableButton.setDisable(true);
+			// create a pop up telling someone they have already created a
+			// table.
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("");
+			alert.setContentText("You have already created a table from your data");
+			Optional<ButtonType> result = alert.showAndWait();
+			// once user presses ok, the alert will close.
+			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+				alert.close();
+			}
+
+		}
+	}
+
+	/**
+	 * This method deals with when a column has been selected from the cmbbx
+	 * btn.
+	 */
+	public void handleFirstColumnSelection() {
+		// store chosen name column
+		firstColumnName = columnSelectorCBTN.getValue().toString();
+		firstColIndex = readIn.findColumnLocation(firstColumnName);
+		// get the correct column from our data.
+		firstColumn = readIn.getColumnData(firstColIndex);
+		// check to make sure dataType is of one kind.
+		dataDetector = new DataDetector(firstColumn);
+		// check if it is lat/long
+		if (dataDetector.latLongDetector(firstColumnName)) {
+			// hence lat long value is included.
+			latLongSelectorBTN.setSelected(true);
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setContentText("Is the column chosen a Latitude/Longtitude value?");
+
+			ButtonType okButton = new ButtonType("Yes");
+			ButtonType noButton = new ButtonType("No");
+			alert.getButtonTypes().setAll(okButton, noButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if (result.get() == okButton) {
+				firstColumnIsLatitutde = true;
+			} else {
+				latLongSelectorBTN.setSelected(false);
+				firstColumnIsLatitutde = false;
+				alert.close();
+			}
+		}
+
+		// if more than 1 data type
+		if (!(dataDetector.contains1DataType())) {
+			// fill other combo box with data types available
+			dataTypeSelectorCBTN.getItems().addAll(dataDetector.typesContained());
+			// alert the user
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setContentText("More than one data type detected - Please select one data type!");
+
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+				alert.close();
+			} else {
+				alert.close();
+			}
+			// has more than one data type. Ask user to choose a data type.
+			dataTypeSelectorCBTN.setDisable(false);
+			return;
+		}
+
+		// Tick the following:
+		dataTypeOKCheckBox.setSelected(true);
+		singleColumnSelectedCheckBox.setSelected(true);
+
+		// undisable the following:
+
+		// 1. lat/long toggle button
+		latLongSelectorBTN.setDisable(false);
+		// 2. second col toggle button
+		isTwoColumnsWantedTBTN.setDisable(false);
+		// 3. second col combobx button
+		secondColumnSelectorCBTN.setDisable(false);
+		// 4. disable first column selector button
+		columnSelectorCBTN.setDisable(true);
+		// 5. undisable graph generator button
+		createGraphButton.setDisable(false);
+
+	}
+
+	public void handleDataTypeSelection() {
+		// get selected data type
+		// sort data
+		// TODO
+	}
+
+	/**
+	 * Toggle button for selecting two variables.
+	 */
+	public void handlesecondColumnSelectionToggle() {
+		// when turned on, need to show data in combobox
+		if (isTwoColumnsWantedTBTN.isSelected()) {
+			// set up combobox
+			setHeadersInComboBox(false);
+			secondColumnSelectorCBTN.setDisable(false);
+		} else {
+			secondColumnSelectorCBTN.setDisable(true);
+		}
+	}
+
+	/**
+	 * <b>Important Method: Creates graphs!</b>
+	 */
+	public void handleGraphGeneration() {
+
+		// create observable list creator
+		ObservableListProvider listProvider = new ObservableListProvider(readIn, firstColIndex);
+		pieChart.setData(listProvider.getPieChartObservableList());
+		IntelligenceAndTableVisualiserPanel.setVisible(false);
+		pieChartVisualiPanel.setVisible(true);
+	}
+
+	public void backFromGraphButton() {
+		pieChartVisualiPanel.setVisible(false);
+		pieChart.getData().clear();
+		IntelligenceAndTableVisualiserPanel.setVisible(true);
+	}
+
+	// =====================================================================
+	// -------------------------------------------------------------------------------------------------
+	// =====================================================================
+
+	/**
+	 * TODO: FIX THIS SHIT
+	 * 
+	 * @param noDataSelected
+	 */
+	public void setHeadersInComboBox(Boolean noDataSelected) {
+		if (noDataSelected) {
+			// This means that no other column has been selected
+			// take the headers of the currently selected csv file and add them
+			// to the combobox.
+			columnSelectorCBTN.getItems().addAll(headerData);
+		} else {
+			// if column has already been selected
+			// need to add everything back to the combobox
+			ArrayList<String> tempHeaderArray = new ArrayList<>(Arrays.asList(headerData));
+			tempHeaderArray.remove(firstColumnName);
+			secondColumnSelectorCBTN.getItems().addAll(tempHeaderArray);
+		}
+	}
+
 	/**
 	 * sets up buttons for toggle button.
 	 * 
@@ -685,117 +677,124 @@ public class HomeScreenController {
 			chooseCSVFileLabel.setVisible(true);
 		}
 	}
-	
+
 	/**
 	 * Sets up the table from the csv file selected.
 	 */
 	public void createTableFromData() {
-		
-	
-		
-		//Creating background thread to populate table
-				Task<Void> task = new Task<Void>() {
-					/**
-					 * Are call() creates table
-					 */
+		ProgressForm pForm = new ProgressForm();
+		// Creating background thread to populate table
+		Task<Void> task = new Task<Void>() {
+			/**
+			 * Are call() creates table
+			 */
+			@Override
+			protected Void call() throws Exception {
+				// Create TableColumns
+				Platform.runLater(new Runnable() {
 					@Override
-					protected Void call() throws Exception {
+					public void run() {
+						for (int i = 0; i < headerData.length; i++) {
+							// create a TableColumn from header i
+							TableColumn<ObservableList<StringProperty>, String> tempCol = createColumn(i,
+									headerData[i]);
+							// add column headers to my table
+							tableVisualiPage.getColumns().add(tempCol);
+						}
 
-						//Create TableColumns
-						
-						
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								for (int i = 0; i < headerData.length; i++) {
-									//create a TableColumn from header i
-									TableColumn<ObservableList<StringProperty>, String> tempCol =  createColumn(i, headerData[i]);
-									//add column headers to my table
-									tableVisualiPage.getColumns().add(tempCol);
-								}
-								
-							}
-						});
-						
-						for (String[] row : columnData)
-						
-						Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									// Add additional columns if necessary:
-									for (int i = tableVisualiPage.getColumns().size(); i < row.length; i++) {
-										tableVisualiPage.getColumns().add(createColumn(i, ""));
-									}
-									
-									
-									// Add data from the line to the table column
-									//create a list
-									ObservableList<StringProperty> data = FXCollections.observableArrayList();
-									//each column data, add it to the list.
-									for (String value : row) {
-										data.add(new SimpleStringProperty(value));
-									}
-									//add list to our table.
-									tableVisualiPage.getItems().add(data);
-								}
-							});
-						
-						return null;
 					}
-				};
-				Thread thread = new Thread(task);
-				thread.setDaemon(true);
-				thread.start();
-		
-		
+				});
+
+				for (String[] row : columnData)
+
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							// Add additional columns if necessary:
+							for (int i = tableVisualiPage.getColumns().size(); i < row.length; i++) {
+								tableVisualiPage.getColumns().add(createColumn(i, ""));
+							}
+
+							// Add data from the line to the table column
+							// create a list
+							ObservableList<StringProperty> data = FXCollections.observableArrayList();
+							// each column data, add it to the list.
+							for (String value : row) {
+								data.add(new SimpleStringProperty(value));
+							}
+							// add list to our table.
+							tableVisualiPage.getItems().add(data);
+							updateProgress(10, 10);
+						}
+					});
+
+				return null;
+			}
+		};
+
+		// binds progress of progress bars to progress of task:
+		pForm.activateProgressBar(task);
+
+		task.setOnSucceeded(event -> {
+			pForm.getDialogStage().close();
+
+		});
+
+		pForm.getDialogStage().show();
+		Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.start();
+
 	}
-	
-	
+
 	/**
 	 * Method creates columns based on the read in csv file header size.
 	 * 
-	 * @param columnIndex index of the column
-	 * @param columnTitle tite of the column
+	 * @param columnIndex
+	 *            index of the column
+	 * @param columnTitle
+	 *            tite of the column
 	 * @return TableColumn
 	 */
-	private TableColumn<ObservableList<StringProperty>, String> createColumn(final int columnIndex, String columnTitle) {
-			//create a new column
-			TableColumn<ObservableList<StringProperty>, String> column = new TableColumn<>();
-			String title;
-			//if no title specified
-			if (columnTitle == null || columnTitle.trim().length() == 0) {
-				//just display column number
-				title = "Column " + (columnIndex + 1);
-			} else {
-				//else display column name
-				title = columnTitle;
-			}
-			//set title of column
-			column.setText(title);
-			
-			column.setCellValueFactory(
-					new Callback<TableColumn.CellDataFeatures<ObservableList<StringProperty>, String>, ObservableValue<String>>() {
-						@Override
-						public ObservableValue<String> call(CellDataFeatures<ObservableList<StringProperty>, String> cellDataFeatures) {
-							ObservableList<StringProperty> values = cellDataFeatures.getValue();
-							if (columnIndex >= values.size()) {
-								return new SimpleStringProperty("");
-							} else {
-								return cellDataFeatures.getValue().get(columnIndex);
-							}
-						}
-					});
-			return column;
+	private TableColumn<ObservableList<StringProperty>, String> createColumn(final int columnIndex,
+			String columnTitle) {
+		// create a new column
+		TableColumn<ObservableList<StringProperty>, String> column = new TableColumn<>();
+		String title;
+		// if no title specified
+		if (columnTitle == null || columnTitle.trim().length() == 0) {
+			// just display column number
+			title = "Column " + (columnIndex + 1);
+		} else {
+			// else display column name
+			title = columnTitle;
 		}
+		// set title of column
+		column.setText(title);
+
+		column.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<ObservableList<StringProperty>, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							CellDataFeatures<ObservableList<StringProperty>, String> cellDataFeatures) {
+						ObservableList<StringProperty> values = cellDataFeatures.getValue();
+						if (columnIndex >= values.size()) {
+							return new SimpleStringProperty("");
+						} else {
+							return cellDataFeatures.getValue().get(columnIndex);
+						}
+					}
+				});
+		return column;
+	}
 
 	@SuppressWarnings("unchecked")
 	public void setUpChartData() {
-		
-		
-		//readIn.printCSVFile();
-		
-		//dataForGraphs = new ObservableListProvider(fileName)
-		//pieChart.setData(dataForGraphs.getPieChartObservableList(1));
+
+		// readIn.printCSVFile();
+
+		// dataForGraphs = new ObservableListProvider(fileName)
+		// pieChart.setData(dataForGraphs.getPieChartObservableList(1));
 
 		/*
 		 * phPieChart1Label.setFont(Font.font("SanSerif", FontWeight.BOLD, 15));
@@ -843,9 +842,9 @@ public class HomeScreenController {
 		aboutPanel.setVisible(aboutPanelVisible);
 		contactPanel.setVisible(contactPanelVisible);
 		if (!visualPanelVisible) {
-			//removeChartData();
+			// removeChartData();
 		}
-			//setUpChartData();
+		// setUpChartData();
 	}
 
 	// ================================
