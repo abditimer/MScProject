@@ -20,12 +20,14 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.controls.JFXTreeTableView;
+import com.teamdev.jxmaps.javafx.MapView;
 
 import csvReader.CSVReader;
 import csvReader.DynamicTable;
 import csvReader.FileUploader;
 import csvReader.LocalCSVFilesFinder;
 import csvReader.ProgressForm;
+import data.ArrayListCreator;
 import data.DataDetector;
 import data.DataFormatFX;
 import data.ObservableListProvider;
@@ -59,6 +61,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -68,6 +71,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.MainApp;
+import map.MapCreator;
 
 public class HomeScreenController {
 	// Main field variables ----------------------------------------------
@@ -222,6 +226,16 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private Label dataTypeCol1Label;
+	/**
+	 * This label tells us the type the data is which we have selected
+	 */
+	@FXML
+	private Label col1fileSelectedLabel;
+	/**
+	 * This label tells us the type the data is which we have selected
+	 */
+	@FXML
+	private Label col2fileSelectedLabel;
 
 	// -----Different Graphs--------------
 	/**
@@ -244,6 +258,18 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private JFXButton backFromChartsButton;
+
+	// -----World Map--------------
+	/**
+	 * PieChart Page and pieChart
+	 */
+	@FXML
+	private AnchorPane worldMapAncherPanel;
+	/**
+	 * PieChart Page and pieChart
+	 */
+	@FXML
+	private BorderPane borderPaneMap;
 
 	// *********************************************others references
 	// needed*****************************************************************
@@ -282,6 +308,10 @@ public class HomeScreenController {
 	 */
 	private String secondColumnName;
 	/**
+	 * Index of second column selected
+	 */
+	private int secondColIndex;
+	/**
 	 * This is the data from the column selected.
 	 */
 	private String[] firstColumn;
@@ -297,6 +327,8 @@ public class HomeScreenController {
 	 * true if first column selected is latitude.
 	 */
 	private Boolean firstColumnIsLatitutde;
+
+	Boolean createGraphOrMap = false;
 	// ---------------------------------------------------------------
 
 	// Main App that controls different scenes
@@ -319,6 +351,8 @@ public class HomeScreenController {
 	// lets us know if a table has been generated from data.
 	private Boolean isTableCreated = false;
 	private Boolean twoDataSetsSelected = false;
+	MapCreator mapViewObj;
+	MapView mapView;
 
 	// ====================================================================
 	public void setMainApp(MainApp mainApp) {
@@ -544,30 +578,26 @@ public class HomeScreenController {
 	 * if the data type is not a string, then they have to choose two data sets.
 	 */
 	public void handleFirstColumnSelection() {
+		setNameAndLocationOfFirstColumn(true);
+		/*
+		 * if (!(rulesForColumn1Selector())) { // it doesnt abide by the rules
+		 * // need to select another column setHeadersInCol1ComboBox(true);
+		 * Alert alert = new Alert(AlertType.WARNING); alert.setTitle("");
+		 * alert.
+		 * setContentText("Please select another column. This is not supported."
+		 * ); Optional<ButtonType> result = alert.showAndWait(); // once user
+		 * presses ok, the alert will close. if ((result.isPresent()) &&
+		 * (result.get() == ButtonType.OK)) { alert.close(); } }
+		 */
 
-		setNameAndLocationOfFirstColumn();
 		analyseDataTypeOfColumn();
 
 		// Check if column is lat/long/eastings/northings
 		checkColLatLong();
 
-		if (!(rulesForColumn1Selector())) {
-			// it doesnt abide by the rules
-			//need to select another column
-			setHeadersInCol1ComboBox(true);
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("");
-			alert.setContentText("Please select another column. This is not supported.");
-			Optional<ButtonType> result = alert.showAndWait();
-			// once user presses ok, the alert will close.
-			if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-				alert.close();
-			}
-			
-		}
-		//set up second combobox
+		// set up second combobox
 		setHeadersInCol2ComboBox(true);
-		
+
 		// Tick the following:
 		dataTypeOKCheckBox.setSelected(true);
 		singleColumnSelectedCheckBox.setSelected(true);
@@ -584,9 +614,10 @@ public class HomeScreenController {
 		columnSelectorCBTN.setDisable(true);
 		// 5. undisable graph generator button
 		createGraphButton.setDisable(false);
-		
-		
-		
+
+		// show name of selected file
+		setLabelsShowingDataSelected(true);
+
 	}
 
 	/**
@@ -603,8 +634,6 @@ public class HomeScreenController {
 	 */
 	public Boolean rulesForColumn1Selector() {
 		// is the headers col data either string or double?
-		// String[] chosenArray = DataFormatFX.getColumnData(firstColIndex,
-		// columnData);
 		String[] chosenArray = firstColumn;
 		DataDetector detectDType = new DataDetector(chosenArray);
 		if (detectDType.containsString()) {
@@ -623,6 +652,7 @@ public class HomeScreenController {
 	public void handlesecondColumnSelectionToggle() {
 
 		// when turned on, need to show data in combobox
+		// TODO : OR is the first value a double/int
 		if (isTwoColumnsWantedTBTN.isSelected()) {
 			// set up combobox
 			setHeadersInCol1ComboBox(false);
@@ -633,40 +663,129 @@ public class HomeScreenController {
 	}
 
 	public void handleSecondColumnSelection() {
-		// data must be double
-
-		// dataDetector = new
-		// DataDetector(secondColumnSelectorCBTN.getValue().toString());
+		setNameAndLocationOfFirstColumn(false);
+		// data must be int/double
 
 		// let system know two data sets have been selected.
 		twoDataSetsSelected = true;
+		twoColumnsCheckBox.setSelected(true);
+
+		if (latLongSelectorBTN.isSelected()) {
+			// means it is a map generation
+			handleGraphGeneration();
+		}
 
 		// disable button
 		secondColumnSelectorCBTN.setDisable(true);
+		// show file selected
+		setLabelsShowingDataSelected(false);
 	}
 
 	/**
 	 * <b>Important Method: Creates graphs!</b>
 	 */
 	public void handleGraphGeneration() {
+		System.out.println("graph");
+		if (createGraphOrMap) {
+			System.out.println("incoming");
+			createWorldMap();
+			System.out.println("done");
+		} else {
+			System.out.println("nah fam");
+			createFXGraphs();
 
-		// Some check to see which graph we can create
-		checksToGenerateGraph();
-		// if (!makePieChart || !makeBarChart || so on and so on)
-		// return
+		}
 
-		// hence we get here if we can make a graph
-		// create observable list creator
-		ObservableListProvider listProvider = new ObservableListProvider(readIn, firstColIndex);
-		// do we need another column?
-		// if toggle is on
+	}
 
-		// create chart depending on selected chart.
-		pieChart.setData(listProvider.getPieChartObservableList());
-		pieChartVisualiPanel.setVisible(true);
+	private void createFXGraphs() {
+	// Some check to see which graph we can create
+			checksToGenerateGraph();
+			// if (!makePieChart || !makeBarChart || so on and so on)
+			// return
 
-		// hide the current page.
-		IntelligenceAndTableVisualiserPanel.setVisible(false);
+			// hence we get here if we can make a graph
+			// create observable list creator
+			ObservableListProvider listProvider = new ObservableListProvider(readIn, firstColIndex);
+			// do we need another column?
+			// if toggle is on
+
+			// create chart depending on selected chart.
+			pieChart.setData(listProvider.getPieChartObservableList());
+			pieChartVisualiPanel.setVisible(true);
+
+			// hide the current page.
+			IntelligenceAndTableVisualiserPanel.setVisible(false);
+		
+
+	}
+
+	private void createWorldMap() {
+		System.out.println("asdasdasdasdasdasdasd");
+		ProgressForm pForm = new ProgressForm();
+			//Hard work is being done here
+			Task<Void> task = new Task<Void>() {
+				@Override
+				public Void call() throws InterruptedException {
+				System.out.println("waiting....");
+	
+				//longtitude
+				String[] longtitude = DataFormatFX.getColumnData(firstColIndex, columnData);
+				String[] latitude = DataFormatFX.getColumnData(secondColIndex, columnData);
+				
+				DataDetector detectDoublesLong = new DataDetector(longtitude);
+				DataDetector detectDoublesLat = new DataDetector(longtitude);
+				System.out.println("long are of one type? : " + detectDoublesLong.contains1DataType());
+				System.out.println("lats are of one type? : " + detectDoublesLat.contains1DataType());
+				
+				for (String a : longtitude) {
+					System.out.println(a + " ");
+				}
+				for (String b : latitude) {
+					System.out.println(b + " ");
+				}
+				System.out.println("arraylists============================================================");
+				
+				ArrayList<Double> longtitudeDoubles = ArrayListCreator.stringArrayToDouble(longtitude);
+				ArrayList<Double> latitudeDoubles = ArrayListCreator.stringArrayToDouble(latitude);
+				
+				for (double a : longtitudeDoubles) {
+					System.out.println(a + " ");
+				}
+				for (double b : latitudeDoubles) {
+					System.out.println(b + " ");
+				}
+				
+				System.out.println("it made it here oh my");
+				mapViewObj = new MapCreator(latitudeDoubles, longtitudeDoubles, 50);
+		    	mapViewObj.getMapView();
+				// show map
+		    	System.out.println("wow...this far....");
+		    	updateProgress(10, 10);
+				return null;
+				}
+			};
+			
+			// binds progress of progress bars to progress of task:
+			pForm.activateProgressBar(task);
+			System.out.println("shit should work");
+			// in real life this method would get the result of the task
+			// and update the UI based on its value:
+			task.setOnSucceeded(event -> {
+				pForm.getDialogStage().close();
+				// hide panel
+				System.out.println("yo, its done.");
+				IntelligenceAndTableVisualiserPanel.setVisible(false);
+				borderPaneMap = new BorderPane(mapView);
+				worldMapAncherPanel.setVisible(true);
+				
+			});
+
+			pForm.getDialogStage().show();
+
+			Thread thread = new Thread(task);
+			thread.start();
+		
 
 	}
 
@@ -686,6 +805,21 @@ public class HomeScreenController {
 	// =====================================================================
 	// -------------------------------------------------------------------------------------------------
 	// =====================================================================
+	/**
+	 * shows the file names selected.
+	 * 
+	 * @param firstCol
+	 */
+	private void setLabelsShowingDataSelected(boolean firstCol) {
+		if (firstCol) {
+			col1fileSelectedLabel.setText("Column name: " + firstColumnName);
+			col1fileSelectedLabel.setVisible(true);
+		} else {
+			col2fileSelectedLabel.setText("Column name: " + secondColumnName);
+			col2fileSelectedLabel.setVisible(true);
+		}
+
+	}
 
 	/**
 	 * just check if the data type within the column is of one type.
@@ -750,11 +884,16 @@ public class HomeScreenController {
 	 * and finds out the type of that column, hence determining the data type of
 	 * the actual data.
 	 */
-	public void setNameAndLocationOfFirstColumn() {
-		// store chosen name of column selected from within combobox.
-		firstColumnName = columnSelectorCBTN.getValue().toString();
-		// store location of column chosen, to be used to id the column.
-		firstColIndex = readIn.findColumnLocation(firstColumnName);
+	public void setNameAndLocationOfFirstColumn(Boolean isFirstColumn) {
+		if (isFirstColumn) {
+			// store chosen name of column selected from within combobox.
+			firstColumnName = columnSelectorCBTN.getValue().toString();
+			// store location of column chosen, to be used to id the column.
+			firstColIndex = readIn.findColumnLocation(firstColumnName);
+		} else {
+			secondColumnName = secondColumnSelectorCBTN.getValue().toString();
+			secondColIndex = readIn.findColumnLocation(secondColumnName);
+		}
 	}
 
 	/**
@@ -766,7 +905,7 @@ public class HomeScreenController {
 		if (dataDetector.latLongDetector(firstColumnName) || dataDetector.northingEastingDetector(firstColumnName)) {
 			// hence lat long value is included.
 			latLongSelectorBTN.setSelected(true);
-
+			createGraphOrMap = true;
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setContentText("Column is Lat/Long/Northings/Eastings?");
 
@@ -791,7 +930,7 @@ public class HomeScreenController {
 	 * @param noDataSelected
 	 */
 	public void setHeadersInCol1ComboBox(Boolean noDataSelected) {
-		columnSelectorCBTN.valueProperty().set(null);
+		// columnSelectorCBTN.valueProperty().set(null);
 		if (noDataSelected) {
 			columnSelectorCBTN.getItems().addAll(headerData);
 		}

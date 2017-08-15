@@ -17,13 +17,14 @@ import com.teamdev.jxmaps.MapReadyHandler;
 import com.teamdev.jxmaps.MapStatus;
 import com.teamdev.jxmaps.Marker;
 import com.teamdev.jxmaps.javafx.MapView;
-
+import data.DataFormatFX;
 import csvReader.CSVReader;
 import data.ArrayListCreator;
 import data.DataDetector;
 import data.DataFormatFX;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -34,7 +35,7 @@ import javafx.stage.Stage;
  *
  */
 public class MapCreatorTest extends Application {
-
+	
 	
 	@Override
     public void init() throws Exception {
@@ -47,18 +48,19 @@ public class MapCreatorTest extends Application {
     	
     	//Get the data wanted
     	CSVReader reader = new CSVReader("accidents.csv");
-		DataFormatFX accidentData = new DataFormatFX(reader);
+		//DataFormatFX accidentData = new DataFormatFX(reader);
 		//String[] of longtitudinal coordinates
-		String[] longtitude = accidentData.getColumnData(3);
+		String[] longtitude = DataFormatFX.getColumnData(3, reader.getData());
 		//string[] of latitudes coordinates
-		String[] latitude = accidentData.getColumnData(4);
+		String[] latitude = DataFormatFX.getColumnData(4, reader.getData());
     	//Some locations:
 		
 		//check that data type is of one type
 		DataDetector detectDoublesLong = new DataDetector(longtitude);
-		System.out.println("longtitude are of one type? : " + detectDoublesLong.contains1DataType());
 		DataDetector detectDoublesLat = new DataDetector(longtitude);
-		System.out.println("Latitude are of one type? : " + detectDoublesLat.contains1DataType());
+		
+		
+		//System.out.println("Latitude are of one type? : " + detectDoublesLat.contains1DataType());
 		
 		//convert into double[]
 		ArrayList<Double> longtitudeDoubles = ArrayListCreator.stringArrayToDouble(longtitude);
