@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 import csvReader.CSVReader;
+import data.DataFormatFX;
+
 import org.junit.Test;
 
 public class CSVReaderTest {
@@ -72,7 +74,7 @@ public class CSVReaderTest {
 	// Test if the right number of lines of the csv file are returned.
 	@Test
 	public void test2_3() {
-		for (String actual : potholeData.getColumnData(0)) {
+		for (String actual :  DataFormatFX.getColumnData(0, potholeData.getData())) {
 			assertEquals("\"Pothole\"", actual);
 		}
 	}

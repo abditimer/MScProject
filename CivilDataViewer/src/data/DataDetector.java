@@ -177,7 +177,7 @@ public class DataDetector {
 		}
 		return typesContained;
 	}
-	
+
 	/**
 	 * @return true if String[] contains integer
 	 */
@@ -221,7 +221,7 @@ public class DataDetector {
 			toReturn = (pair.getKey() + " = " + pair.getValue());
 
 		}
-		
+
 		return toReturn;
 	}
 
@@ -239,75 +239,76 @@ public class DataDetector {
 		Double[] doubles = onlyDoubles.stream().toArray(Double[]::new);
 		return doubles;
 	}
+
 	/**
 	 * Picks up if there are any references to Latitude or Longtitude.
-	 * @param headerName column header name
+	 * 
+	 * @param headerName
+	 *            column header name
 	 * @return true if the header name suggests its a latitude or longtitude.
 	 */
 	public static Boolean latLongDetector(String headerName) {
 		String sentence = headerName;
-		String search1  = "lat";
-		String search2  = "long";
-		
-		if ( sentence.toLowerCase().indexOf(search1.toLowerCase()) != -1  || sentence.toLowerCase().indexOf(search2.toLowerCase()) != -1) {
+		String search1 = "lat";
+		String search2 = "long";
 
-		   return true;
+		if (sentence.toLowerCase().indexOf(search1.toLowerCase()) != -1
+				|| sentence.toLowerCase().indexOf(search2.toLowerCase()) != -1) {
+
+			return true;
 
 		} else {
 
-		   return false;
+			return false;
 
 		}
 	}
+
 	/**
 	 * Picks up if there are any references to Latitude or Longtitude.
-	 * @param headerName column header name
+	 * 
+	 * @param headerName
+	 *            column header name
 	 * @return true if the header name suggests its a latitude or longtitude.
 	 */
 	public static Boolean northingEastingDetector(String headerName) {
 		String sentence = headerName;
-		String search1  = "north";
-		String search2  = "east";
-		
-		if ( sentence.toLowerCase().indexOf(search1.toLowerCase()) != -1  || sentence.toLowerCase().indexOf(search2.toLowerCase()) != -1) {
+		String search1 = "north";
+		String search2 = "east";
 
-		   return true;
+		if (sentence.toLowerCase().indexOf(search1.toLowerCase()) != -1
+				|| sentence.toLowerCase().indexOf(search2.toLowerCase()) != -1) {
+
+			return true;
 
 		} else {
 
-		   return false;
+			return false;
 
 		}
 	}
-	
-	
-	
+
 	/**
 	 * This returns string[] of all the different datatypes
+	 * 
 	 * @return
 	 */
 	public String[] typesContained() {
 		String[] types = new String[typesContained.size()];
 		int count = 0;
-		
+
 		Iterator it = typesContained.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();
 			types[count] = pair.getKey().toString();
 			count++;
 		}
-		
+
 		return types;
 	}
-	
-	public static void main(String[] args) {
-		CSVReader accidentsData = new CSVReader("accidents.csv");
-		String[] colTest = accidentsData.getColumnData(3);
-		DataDetector dDetector = new DataDetector(colTest);
 
-		String[] contained = dDetector.typesContained();
-		
-		System.out.println(Arrays.toString(contained));
+	public static void main(String[] args) {
+
 	}
-	
+
 }

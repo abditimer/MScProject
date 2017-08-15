@@ -122,23 +122,37 @@ public class CSVReader {
 		
 	}
 	
-	/**
+/*	*//**
 	 * This allows you to get a string[] of a certain column
 	 * 
 	 * @param colNumber the column you need to extract
 	 * @return a column from the csv file as a string[]
-	 */
+	 *//*
 	public String[] getColumnData(int colNumber) {
+		//create arraylist to store values of change
 		List<String> a = new ArrayList<>();
 		
+		
+		//parameter: column number of info I want returned as String[]
+		
+		//for each row of data, get the colNumbers value
+		//loop over our existing data set
 		for (String[] singleLineFromArray : getData()) {
-			a.add(singleLineFromArray[colNumber]);
+			//for each String[], get the colNumberth String value.
+			String wantedColInfo = singleLineFromArray[colNumber];
+			System.out.println(wantedColInfo);
+			a.add(wantedColInfo);
+			
 		}
+		
+		
+		
+		
 		
 		String[] toReturn = a.toArray(new String[0]);
 		
 		return toReturn;
-	}
+	}*/
 	
 	/**
 	 * Getter for csv data
@@ -227,7 +241,7 @@ public class CSVReader {
 		//test.printLineLengths();
 		//System.out.println(Arrays.toString(test.getHeader()));
 		
-		System.out.println(Arrays.toString(test.getColumnData(0)));
+		//System.out.println(Arrays.toString(test.getColumnData(0)));
 		//System.out.println(Arrays.toString(waterData.getHeader()));
 		//test.countLinesInCSVFile();
 		

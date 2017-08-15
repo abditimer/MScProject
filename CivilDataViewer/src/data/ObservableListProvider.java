@@ -1,5 +1,6 @@
 package data;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -8,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
@@ -18,16 +20,21 @@ import javafx.scene.chart.XYChart.Series;
  * @author timer
  *
  */
-public class ObservableListProvider extends DataFormatFX {
+public class ObservableListProvider{
+	//to use for the graphs
 	private String[] singleStringObservableList;
 	private String[] doubleStringObservableList;
+	//provided data
 	private CSVReader reader;
+	private List<String[]> columnData;
+	private String[] headerData;
 	
 	//data for barcharts
 	public ObservableListProvider(CSVReader reader, int colNumber) {
-		super(reader);
 		this.reader = reader;
-		singleStringObservableList = reader.getColumnData(colNumber);
+		this.columnData = reader.getData();
+		this.headerData = reader.getHeader();
+		singleStringObservableList = DataFormatFX.getColumnData(colNumber, columnData);
 	}
 	
 	
@@ -35,7 +42,7 @@ public class ObservableListProvider extends DataFormatFX {
 	 * Selects and sets a single column
 	 */
 	public void setSingleColumnDataToUse(int column) {
-		singleStringObservableList = super.getColumnData(column); 
+		singleStringObservableList = DataFormatFX.getColumnData(column, columnData); 
 	}
 	
 	/**
@@ -44,14 +51,6 @@ public class ObservableListProvider extends DataFormatFX {
 	public void setDoubleColumnDataToUse(int col1, int col2) {
 		//TODO: write method for observablelist of two datasets
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Iterates over String array and returns observable list that can be used to draw a pie chart
 	 * 
@@ -61,7 +60,7 @@ public class ObservableListProvider extends DataFormatFX {
 		
 		ObservableList<PieChart.Data> observableList = FXCollections.observableArrayList(); 
 		
-		Map<String, Integer> map = super.countAndMapData(singleStringObservableList);
+		Map<String, Integer> map = DataFormatFX.countAndMapData(singleStringObservableList);
 		
         for(Entry<String, Integer> e : map.entrySet()) {
         	observableList.add(new PieChart.Data(e.getKey(), e.getValue()));
@@ -71,20 +70,10 @@ public class ObservableListProvider extends DataFormatFX {
 	}
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public XYChart.Series getBarChartObservableList(int column) {
 		setSingleColumnDataToUse(column);
 		
-		Map<String, Integer> map = super.countAndMapData(singleStringObservableList);
+		Map<String, Integer> map = DataFormatFX.countAndMapData(singleStringObservableList);
 		
 		XYChart.Series dataSeries = new XYChart.Series();
 		
@@ -101,7 +90,7 @@ public class ObservableListProvider extends DataFormatFX {
 		
 		ObservableList<XYChart.Series<String, Integer>> observableList = FXCollections.observableArrayList(); 
 		Series<String, Integer> series = new Series<>();
-		Map<String, Integer> map = super.countAndMapData(singleStringObservableList);
+		Map<String, Integer> map = DataFormatFX.countAndMapData(singleStringObservableList);
 		
 		for(Entry<String, Integer> e : map.entrySet()) {
 			

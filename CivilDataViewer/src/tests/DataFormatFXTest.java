@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import csvReader.CSVReader;
@@ -11,9 +12,12 @@ import data.DataFormatFX;
 import org.junit.Test;
 
 public class DataFormatFXTest {
-	CSVReader reader = new CSVReader("Pothole_Enquiries_2015.csv");
-	DataFormatFX potholeData = new DataFormatFX(reader);
-	Map<String, Integer> actual = potholeData.countAndMapData(potholeData.getColumnData(0));
+	CSVReader potholeData = new CSVReader("Pothole_Enquiries_2015.csv");
+	
+	private List<String[]> columnData = potholeData.getData();
+	String[] col = DataFormatFX.getColumnData(0, columnData);
+	
+	Map<String, Integer> actual = DataFormatFX.countAndMapData(col);
 	Map<String, Integer> expected = new HashMap<>();
 	
 	@Test
@@ -56,9 +60,13 @@ public class DataFormatFXTest {
 	
 	@Test
 	public void test6() {
-		DataFormatFX potholeData = new DataFormatFX(reader);
-		String[] columnWanted = potholeData.getColumnData(3);
-		Map<String, Integer> actual = potholeData.countAndMapData(columnWanted);
+		CSVReader potholeData = new CSVReader("Pothole_Enquiries_2015.csv");
+		
+		List<String[]> columnData = potholeData.getData();
+		String[] col = DataFormatFX.getColumnData(3, columnData);
+		
+		
+		Map<String, Integer> actual = DataFormatFX.countAndMapData(col);
 		
 		Map<String, Integer> expected = new HashMap<>();
 		expected.put("\"ALL CLIENTS\"", 6);
@@ -69,5 +77,6 @@ public class DataFormatFXTest {
 		
 		assertEquals(expected, actual);
 	}
+
 
 }

@@ -47,7 +47,7 @@
       </AnchorPane>
       <AnchorPane fx:id="visualPanel" layoutY="83.0" prefHeight="869.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane fx:id="CSVSelectorPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -86,7 +86,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
+            <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
                <children>
                   <SplitPane dividerPositions="0.37316421895861146" prefHeight="768.0" prefWidth="1500.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
@@ -112,7 +112,12 @@
                                           <Insets bottom="15.0" />
                                        </VBox.margin>
                                     </JFXComboBox>
-                                    <JFXComboBox fx:id="dataTypeSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20" />
+                                    <Label fx:id="dataTypeCol1Label" text="Please select a datatype to work with:" textFill="WHITE" visible="false">
+                                       <font>
+                                          <Font name="Microsoft Sans Serif" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXComboBox fx:id="dataTypeSelectorCBTN" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" onAction="#handleDataTypeSelection" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visible="false" visibleRowCount="20" />
                                     <JFXToggleButton fx:id="latLongSelectorBTN" disable="true" text="is this column representing Latitude or Longtitude?" textFill="WHITE">
                                        <font>
                                           <Font name="Microsoft YaHei" size="15.0" />
@@ -180,6 +185,7 @@
                   <JFXButton buttonType="RAISED" layoutX="503.0" layoutY="820.0" onAction="#backFromGraphButton" prefHeight="41.0" prefWidth="490.0" text="Back" textFill="WHITE" />
                </children>
             </AnchorPane>
+            <AnchorPane layoutY="80.0" prefHeight="792.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
          </children></AnchorPane>
       <AnchorPane fx:id="aboutPanel" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

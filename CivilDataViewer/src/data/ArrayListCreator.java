@@ -8,14 +8,20 @@ import csvReader.CSVReader;
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.OSRef;
 
-public class ArrayListCreator extends DataFormatFX {
-
+public class ArrayListCreator {
+	private CSVReader reader;
+	private List<String[]> columnData;
+	private String[] headerData;
+	
 	public ArrayListCreator(CSVReader reader) {
-		super(reader);
+		this.reader = reader;
+		this.columnData = reader.getData();
+		this.headerData = reader.getHeader();
 	}
 	
 	public ArrayListCreator(List<String[]> columnData, String[] headerData) {
-		super(columnData, headerData);
+		this.columnData = columnData;
+		this.headerData = headerData;
 	}
 	
 	/**
