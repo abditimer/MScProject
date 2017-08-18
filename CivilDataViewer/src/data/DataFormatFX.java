@@ -37,19 +37,24 @@ public class DataFormatFX {
 	public static String[] getColumnData(int colNumber, List<String[]> columnData) {
 		//create arraylist to store values of change
 		List<String> a = new ArrayList<>();
-		
-		//parameter: column number of info I want returned as String[]
-		
-		//for each row of data, get the colNumbers value
-		//loop over our existing data set
-		for (String[] singleLineFromArray : columnData) {
-			//for each String[], get the colNumberth String value.
-			String wantedColInfo = singleLineFromArray[colNumber];
-			a.add(wantedColInfo);
-			
+		//check if column being read is not null
+		if (columnData != null && !columnData.equals("")) {
+			//for each string[] in our List
+			for (String[] singleLineFromArray : columnData) {
+				//as long as the data is not null
+				if (singleLineFromArray != null && !singleLineFromArray.equals("")) {
+					
+					if (singleLineFromArray.length > colNumber){
+						//for each String[], get the colNumberth String value.
+						String wantedColInfo = singleLineFromArray[colNumber];
+						if (wantedColInfo != null && !wantedColInfo.equals("")) {
+							a.add(wantedColInfo);
+						}
+					}
+				}
+			}
 		}
 		String[] toReturn = a.toArray(new String[0]);
-		
 		return toReturn;
 	}
 	

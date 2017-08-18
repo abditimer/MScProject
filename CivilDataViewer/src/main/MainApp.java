@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 
+import backgroundAudio.audioPlayMusic;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import view.HomeScreenController;
 public class MainApp extends Application {
 
 	private Stage primaryStage;
-
+	
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -25,6 +26,7 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("Civil Data Viewer App");
 		this.primaryStage.getIcons().add(new Image("file:resources/images/icon.png"));
 		showHomeScreen();
+		
 	}
 	
 	/**
@@ -43,6 +45,7 @@ public class MainApp extends Application {
 			Scene scene = new Scene(HomeScreen);
 			
 			HomeScreenController controller = loader.getController();
+			
 			controller.setMainApp(this);
 			
 			primaryStage.initStyle(StageStyle.UNDECORATED);

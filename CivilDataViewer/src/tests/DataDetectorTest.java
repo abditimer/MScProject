@@ -3,6 +3,8 @@ package tests;
 import data.DataDetector;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import data.DataDetector;
 
@@ -10,7 +12,7 @@ public class DataDetectorTest {
 	String[] threeString = {"a", "b", "c"};
 	String[] threeInts = {"1", "2", "3"};
 	String[] threeDouble = {"1.0", "2.0", "3.0"};
-	
+	String[] emptyArray = {};
 	String[] threeStringsAnd1Double = {"this", "shouldnt", "work", "1.33"};
 	String[] threeStringsAnd1Int = {"this", "shouldnt", "work", "1.33"};
 	
@@ -142,13 +144,25 @@ public class DataDetectorTest {
 	 */
 	@Test
 	public void test4_1() {
-		String[] expected = { "Integer", "String", "Double"};
+		String[] expected = { "Decimals/Double", "Words/String", "Numbers/Integer"};
 		
 		String[] test = {"this", "2.223322323", "1"};
 		DataDetector detect = new DataDetector(test);
 		String[] actual5 = detect.typesContained();
-		
+		System.out.println(Arrays.toString(actual5));
 		assertArrayEquals(expected, actual5);
+	}
+	/**
+	 * Tests empty arrays
+	 */
+	@Test
+	public void test5() {
+		Boolean expected = true;
+		
+		DataDetector detect = new DataDetector(emptyArray);
+		Boolean actual = detect.isColumnEmpty();
+		
+		assertEquals(expected, actual);
 	}
 
 }

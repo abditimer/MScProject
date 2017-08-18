@@ -1,5 +1,6 @@
 package data;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.List;
@@ -30,16 +31,15 @@ public class DataDetector {
 	// different data types seperated:
 	private ArrayList<String> onlyStrings;
 	private ArrayList<Integer> onlyInts;
-	ArrayList<Double> onlyDoubles;
+	private ArrayList<Double> onlyDoubles;
+	private Boolean isColumnEmpty = false;
 
 	public DataDetector(String[] columnData) {
 		this.columnData = columnData;
 		typesContained = new HashMap<>();
-
 		onlyStrings = new ArrayList<>();
 		onlyInts = new ArrayList<>();
 		onlyDoubles = new ArrayList<>();
-
 		analyseTypesContained();
 	}
 
@@ -51,64 +51,73 @@ public class DataDetector {
 	 *            column you want to check
 	 */
 	public void analyseTypesContained() {
-		int itsAnInt;
+		int itsAnInteger;
 		double itsADouble;
 		String itsAString;
-
-		for (String a : columnData) {
-			if (a.equals("")) {
-				continue;
-			}
-			String input = a;
-
-			try {
-				// Try - if it is an int
-				itsAnInt = Integer.parseInt(input);
-				if (typesContained.containsKey("Integer")) {
-					// already has an integer
-					typesContained.put("Integer", (typesContained.get("Integer") + 1));
-				} else {
-					// doesnt have an integer
-					typesContained.put("Integer", 1);
+		//if the string[] is not empty or null
+		if (columnData != null && !columnData.equals("") && (columnData.length > 0)) {
+			//if the column data is not null
+			for (String a : columnData) {
+				if (a.equals("")) {
+					continue;
 				}
-				onlyInts.add(itsAnInt);
-				continue;
-			} catch (NumberFormatException e) {
-			}
+				String stringToCheck = a;
 
-			try {
-				// Try - if it is a double
-				itsADouble = Double.parseDouble(input);
-
-				if (typesContained.containsKey("Double")) {
-					// already has an integer
-					typesContained.put("Double", (typesContained.get("Double") + 1));
-				} else {
-					// doesnt have an integer
-					typesContained.put("Double", 1);
+				try {
+					// It's an integer
+					itsAnInteger = Integer.parseInt(stringToCheck);
+					
+					if (typesContained.containsKey("Numbers/Integer")) {
+						// already has an integer
+						typesContained.put("Numbers/Integer", (typesContained.get("Numbers/Integer") + 1));
+					} else {
+						// doesnt have an integer
+						typesContained.put("Numbers/Integer", 1);
+					}
+					onlyInts.add(itsAnInteger);
+					continue;
+				} catch (NumberFormatException e) {
 				}
-				onlyDoubles.add(itsADouble);
-				continue;
-			} catch (NumberFormatException e) {
-			}
 
-			try {
-				// Try - if it is a string
-				itsAString = input;
+				try {
+					// Try - if it is a double
+					itsADouble = Double.parseDouble(stringToCheck);
 
-				if (typesContained.containsKey("String")) {
-					// already has an integer
-					typesContained.put("String", (typesContained.get("String") + 1));
-				} else {
-					// doesnt have an integer
-					typesContained.put("String", 1);
+					if (typesContained.containsKey("Decimals/Double")) {
+						// already has an integer
+						typesContained.put("Decimals/Double", (typesContained.get("Decimals/Double") + 1));
+					} else {
+						// doesnt have an integer
+						typesContained.put("Decimals/Double", 1);
+					}
+					onlyDoubles.add(itsADouble);
+					continue;
+				} catch (NumberFormatException e) {
 				}
-				onlyStrings.add(itsAString);
-				continue;
-			} catch (NumberFormatException e) {
-			}
 
+				try {
+					// Try - if it is a string
+					itsAString = stringToCheck;
+
+					if (typesContained.containsKey("Words/String")) {
+						// already has an integer
+						typesContained.put("Words/String", (typesContained.get("Words/String") + 1));
+					} else {
+						// doesnt have an integer
+						typesContained.put("Words/String", 1);
+					}
+					onlyStrings.add(itsAString);
+					continue;
+				} catch (NumberFormatException e) {
+				}
+
+			}
+		} else {
+			//column is null
+			isColumnEmpty = true;
 		}
+		
+		
 	}
 
 	/**
@@ -133,12 +142,12 @@ public class DataDetector {
 			try {
 				// Try - if it is an int
 				itsAnInt = Integer.parseInt(input);
-				if (typesContained.containsKey("Integer")) {
+				if (typesContained.containsKey("Numbers/Integer")) {
 					// already has an integer
-					typesContained.put("Integer", (typesContained.get("Integer") + 1));
+					typesContained.put("Numbers/Integer", (typesContained.get("Numbers/Integer") + 1));
 				} else {
 					// doesnt have an integer
-					typesContained.put("Integer", 1);
+					typesContained.put("Numbers/Integer", 1);
 				}
 				continue;
 			} catch (NumberFormatException e) {
@@ -148,12 +157,12 @@ public class DataDetector {
 				// Try - if it is a double
 				itsADouble = Double.parseDouble(input);
 
-				if (typesContained.containsKey("Double")) {
+				if (typesContained.containsKey("Decimals/Double")) {
 					// already has an integer
-					typesContained.put("Double", (typesContained.get("Double") + 1));
+					typesContained.put("Decimals/Double", (typesContained.get("Decimals/Double") + 1));
 				} else {
 					// doesnt have an integer
-					typesContained.put("Double", 1);
+					typesContained.put("Decimals/Double", 1);
 				}
 				continue;
 			} catch (NumberFormatException e) {
@@ -163,12 +172,12 @@ public class DataDetector {
 				// Try - if it is a string
 				itsAString = input;
 
-				if (typesContained.containsKey("String")) {
+				if (typesContained.containsKey("Words/String")) {
 					// already has an integer
-					typesContained.put("String", (typesContained.get("String") + 1));
+					typesContained.put("Words/String", (typesContained.get("Words/String") + 1));
 				} else {
 					// doesnt have an integer
-					typesContained.put("String", 1);
+					typesContained.put("Words/String", 1);
 				}
 				continue;
 			} catch (NumberFormatException e) {
@@ -182,21 +191,25 @@ public class DataDetector {
 	 * @return true if String[] contains integer
 	 */
 	public Boolean containsInt() {
-		return typesContained.containsKey("Integer");
+		return typesContained.containsKey("Numbers/Integer");
+	}
+	
+	public Boolean isColumnEmpty() {
+		return isColumnEmpty;
 	}
 
 	/**
 	 * @return true if String[] contains Strings
 	 */
 	public Boolean containsString() {
-		return typesContained.containsKey("String");
+		return typesContained.containsKey("Words/String");
 	}
 
 	/**
 	 * @return true if String[] contains doubles
 	 */
 	public Boolean containsDouble() {
-		return typesContained.containsKey("Double");
+		return typesContained.containsKey("Decimals/Double");
 	}
 
 	/**
@@ -218,7 +231,9 @@ public class DataDetector {
 		Iterator it = typesContained.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();
-			toReturn = (pair.getKey() + " = " + pair.getValue());
+			//if this causes issues, change to
+			//toReturn = (pair.getKey() + " = " + pair.getValue());
+			toReturn = (pair.getKey() + ".");
 
 		}
 
@@ -308,7 +323,12 @@ public class DataDetector {
 	}
 
 	public static void main(String[] args) {
-
+		//String[] expected = { "Integer", "String", "Double"};
+		
+		String[] test = {"this", "2.223322323", "1"};
+		DataDetector detect = new DataDetector(test);
+		String[] actual5 = detect.typesContained();
+	System.out.println(Arrays.toString(actual5));
 	}
 
 }
