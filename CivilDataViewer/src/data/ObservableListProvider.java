@@ -101,7 +101,25 @@ public class ObservableListProvider{
 		
 	}
 	
-	
+	/**
+	 * Method is used to provide the data needed by the barchart.
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static ObservableList<XYChart.Series<String, Integer>> generateBarChartListFromString(String[] stringColumn) {
+
+		ObservableList<XYChart.Series<String, Integer>> observableList = FXCollections.observableArrayList();
+		Series<String, Integer> series = new Series<>();
+		//Create a map from Column provided
+		Map<String, Integer> map = DataFormatFX.countAndMapData(stringColumn);
+
+		for (Entry<String, Integer> e : map.entrySet()) {
+
+			series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
+		}
+		observableList.addAll(series);
+		return observableList;
+	}
 	
 	public static void main(String[] args) {
 		

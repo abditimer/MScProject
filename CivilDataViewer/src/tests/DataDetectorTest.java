@@ -16,6 +16,8 @@ public class DataDetectorTest {
 	String[] threeStringsAnd1Double = {"this", "shouldnt", "work", "1.33"};
 	String[] threeStringsAnd1Int = {"this", "shouldnt", "work", "1.33"};
 	
+	String[] lotsOfInts = { "1", "2","3","4", "5","6","7", "8","9", "10"};
+	
 	DataDetector detect; 
 			
 			
@@ -163,6 +165,17 @@ public class DataDetectorTest {
 		Boolean actual = detect.isColumnEmpty();
 		
 		assertEquals(expected, actual);
+	}
+	/**
+	 * Tests more complex arrays
+	 */
+	@Test
+	public void test6() {
+		Integer[] expected = {1,2,3,4,5,6,7,8,9, 10};
+		
+		DataDetector detect = new DataDetector(lotsOfInts);
+		
+		assertArrayEquals(detect.getOnlyInts(), expected);
 	}
 
 }

@@ -1,28 +1,17 @@
 package view;
 
-import java.awt.FileDialog;
-import java.awt.ScrollPane;
-import java.awt.event.ActionEvent;
-import java.io.File;
+import java.awt.Checkbox;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Map.Entry;
-import java.util.concurrent.CountDownLatch;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
-import com.jfoenix.controls.JFXTreeTableView;
 import com.teamdev.jxmaps.javafx.MapView;
 
 import backgroundAudio.audioPlayMusic;
@@ -41,12 +30,9 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -55,62 +41,84 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import main.MainApp;
 import map.MapCreator;
 
 public class HomeScreenController {
 	// Main field variables ----------------------------------------------
+	/**
+	 * AnchorPane for one of the main pages.
+	 */
 	@FXML
 	private AnchorPane homePanel;
+	/**
+	 * AnchorPane for one of the main pages.
+	 */
 	@FXML
 	private AnchorPane visualPanel;
+	/**
+	 * AnchorPane for one of the main pages.
+	 */
 	@FXML
 	private AnchorPane aboutPanel;
+	/**
+	 * AnchorPane for one of the main pages.
+	 */
 	@FXML
 	private AnchorPane contactPanel;
 	// these refer to the top navigation buttons
+	/**
+	 * Button that allows you to move between screens.
+	 */
 	@FXML
 	private Button homePanelButton;
+	/**
+	 * Button that allows you to move between screens.
+	 */
 	@FXML
 	private Button visualPanelButton;
+	/**
+	 * Button that allows you to move between screens.
+	 */
 	@FXML
 	private Button aboutPanelButton;
+	/**
+	 * Button that allows you to move between screens.
+	 */
 	@FXML
 	private Button contactPanelButton;
 	// minus and close buttons
+	/**
+	 * unique button to minimise the screen.
+	 */
 	@FXML
 	private Button minusButton;
+	/**
+	 * Unique button to close the screen.
+	 */
 	@FXML
 	private Button closeButton;
+	/**
+	 * unique way to move the screen about.
+	 */
 	@FXML
 	private Button moveScreenButton;
 
-	// ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬Visuali -
-	// Question page---------------------------------------------
+	// Visuali CSV selector page.
+	// ------------------------------------------------
 	/**
 	 * Panel that is the CSV selector process. Contains: 1. CSVSelectorPanel 2.
 	 * IntelligenceAndTableVisualiserPanel
@@ -121,7 +129,6 @@ public class HomeScreenController {
 	private AnchorPane visualiQuestionPanel;
 	@FXML
 	private AnchorPane CSVSelectorPanel;
-
 	/**
 	 * ToggleButton to choose whether to upload a file or choose a saved file.
 	 */
@@ -160,8 +167,7 @@ public class HomeScreenController {
 	 * This is the table that shows up on the UI - showing the CSV file that has
 	 * been read.
 	 */
-	// ========================================******* INTELLIGENCE
-	// PAGE************================================
+	// Intelligence automation page***************************************
 	/**
 	 * lets you return and choose a different csv file
 	 */
@@ -263,7 +269,7 @@ public class HomeScreenController {
 	private Label col2DataTypeLabel;
 	// -
 	// ***********************************
-	// -----Different Graphs--------------
+	// -----Different Graphs pages--------------
 	// ***********************************
 	// -
 	/**
@@ -279,27 +285,31 @@ public class HomeScreenController {
 	@FXML
 	private AnchorPane barChartVisualiPanel;
 	@FXML
-	private BarChart barChart;
-	CategoryAxis xAxisBarChart = new CategoryAxis();
-	NumberAxis yAxisBarChart;
+	private CategoryAxis xAxisBarChart = new CategoryAxis();
+	private NumberAxis yAxisBarChart = new NumberAxis();
+	@FXML
+	private BarChart barChart = new BarChart<>(xAxisBarChart, yAxisBarChart);
+	private XYChart.Series barChartSeries;
 
 	/**
 	 * ScatterGraph Page and pieChart
 	 */
 	@FXML
 	private AnchorPane scatterChartVisualiPanel;
-	NumberAxis xAxis = new NumberAxis();
-	NumberAxis yAxis = new NumberAxis();
+	NumberAxis xAxisScatterChart = new NumberAxis();
+	NumberAxis yAxisScatterChart = new NumberAxis();
 	@FXML
-	private ScatterChart<Double, Double> scatterChart;
+	private ScatterChart scatterChart = new ScatterChart(xAxisScatterChart, yAxisScatterChart);
+	private XYChart.Series scatterChartSeries;
 	/**
 	 * Button to return from different charts page.
 	 */
 	@FXML
 	private JFXButton backFromChartsButton;
 
-	// *********************************************others references
-	// needed*****************************************************************
+	// *********************************************
+	// others references needed
+	// *****************************************************************
 
 	// needed for movable screen
 	private double xOffset = 0;
@@ -358,10 +368,17 @@ public class HomeScreenController {
 	 * true if first column selected is latitude.
 	 */
 	private Boolean firstColumnIsLatOrEasts;
-
+	/**
+	 * Boolean to track if coordinates have been recognised
+	 */
 	private Boolean canCreateMap = false;
-
+	/**
+	 * Converting and storing longtitudes.
+	 */
 	private ArrayList<Double> longtitudeDoubles;
+	/**
+	 * Converting and storing latitudes.
+	 */
 	private ArrayList<Double> latitudeDoubles;
 	/**
 	 * This is true if col#1 has mutliple data types
@@ -390,26 +407,19 @@ public class HomeScreenController {
 
 	// Main App that controls different scenes
 	private MainApp mainApp;
-
+	// observable list provider that will be used to create graphs.
 	private ObservableListProvider dataForGraphs;
 	// get the csv file names available to view
 	private LocalCSVFilesFinder localCSVFilesFound;
-	// sets up our table
-	/**
-	 * This provides the table data that will populate a TableView
-	 */
-	private DynamicTable table;
-
 	// List containing all the rows from csv file except for header
 	private List<String[]> columnData;
 	// String array of the headers
 	private String[] headerData;
-
+	// String array of the headers
+	private String[] headerDataSecondColumn;
 	// lets us know if a table has been generated from data.
 	private Boolean isTableCreated = false;
-	private Boolean twoDataSetsSelected = false;
 	private Boolean firstColAccepted = false;
-
 	private MapCreator mapViewObj;
 	private MapView mapView;
 	private Stage primaryStage;
@@ -426,18 +436,18 @@ public class HomeScreenController {
 	 */
 	@FXML
 	public void initialize() {
+		// below gets the names of any files stored within this program.
 		localCSVFilesFound = new LocalCSVFilesFinder();
 		chooseCSVFileComboBox.getItems().addAll(localCSVFilesFound.getCSVFileNames());
+		// below sets the waiting text within the table, ready for when its
+		// called.
 		tableVisualiPage.setPlaceholder(new Label("waiting..."));
+		// The below starts music
 		audioPlayMusic playMusic = new audioPlayMusic();
-		// TODO: same as below but with selected string name!
-		 
-		// ObservableListProvider("Pothole_Enquiries_2015.csv");
-
 	}
 
 	// =====================================================================
-	// -------------------------------------------------------------------------------------------------
+	// code for controlling the header buttons
 	// =====================================================================
 
 	// The following code will now control the buttons on the top of all
@@ -471,11 +481,11 @@ public class HomeScreenController {
 		setScreenVisibility(false, false, false, true);
 	}
 
-	// **********Visuali Main
-	// page************************************************
-	// -----------------------
-	// --FIRST QUESTION PAGE--
-	// ------------------------
+	// ***********************************************
+	// Visuali Main page.
+	// The following methods are called on the page that handles selecting a csv
+	// file.
+	// ************************************************
 	/**
 	 * This method handles the toggle button for if: 1. want to upload new csv
 	 * file. 2. want to choose a saved csv file.
@@ -493,7 +503,8 @@ public class HomeScreenController {
 
 	/**
 	 * This method handles when a csv file has been selected from the combobox.
-	 * It populates the table and shows it.
+	 * It populates the table and shows it. Hence, choosing a locally selected
+	 * file.
 	 */
 	public void handleCSVFileSelectedFromComboBoxButton() {
 		// String of the filename selected
@@ -501,7 +512,6 @@ public class HomeScreenController {
 		// System.out.println(csvFileNameSelected);
 		// set that the file name is just a file name.
 		isFilePath = false;
-
 		// shows the analyser button
 		analyseCSVFileButton.setVisible(true);
 		// show the file name
@@ -538,31 +548,25 @@ public class HomeScreenController {
 	 * both the header String[] and Data List<String[]>.
 	 */
 	public void analyseCSVFileButton() {
-
 		// This is our loader indicator
 		ProgressForm pForm = new ProgressForm();
 		// Hard work is being done here
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws InterruptedException {
-
 				// Here the background thread will run more complicated
 				// computations.
-
-				// now create a csvReader object using the data - in background
-				// thread
+				// now create a csvReader object using the data
 				if (isFilePath) {
-					// its a filepath hence
+					// its a filepath hence;
 					readIn = new CSVReader(csvFileNameSelected, true);
 
 				} else {
 					readIn = new CSVReader(csvFileNameSelected);
 				}
-
 				// return and store the header && data
 				headerData = readIn.getHeader();
 				columnData = readIn.getData();
-
 				updateProgress(10, 10);
 				return null;
 			}
@@ -570,26 +574,34 @@ public class HomeScreenController {
 
 		// binds progress of progress bars to progress of task:
 		pForm.activateProgressBar(task);
-
 		// in real life this method would get the result of the task
 		// and update the UI based on its value:
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
-			// System.out.println(Arrays.toString(readIn.getHeader()));
-			// visualise the next anchorpane + table.
-			// IntelligenceAndTableVisualiserPanel.setVisible(true);
+			// visualise the correct pages.
+
+			dataTypeOKCheckBox.setSelected(false);
+			singleColumnSelectedCheckBox.setSelected(false);
+			twoColumnsCheckBox.setSelected(false);
+			checkBoxBarChart.setSelected(false);
+			checkBoxPieChart.setSelected(false);
+			checkBoxScatterChart.setSelected(false);
+			latLongCheckBox.setSelected(false);
+			possibleToGenerateMapCheckBox.setSelected(false);
+
 			visualiQuestionPanel.setVisible(false);
 			IntelligenceAndTableVisualiserPanel.setVisible(true);
-
 		});
 
 		pForm.getDialogStage().show();
-
+		// Start the thread
 		Thread thread = new Thread(task);
 		thread.start();
-
 	}
 
+	// -----------------------
+	// --Table + Intelligence--
+	// ------------------------
 	/**
 	 * This method is used when a user wants to return to the previous page in
 	 * order to upload another file.
@@ -597,6 +609,8 @@ public class HomeScreenController {
 	public void handleBackToCSVFileSelectorPage() {
 		// hides the panel that shows the table panel.
 		IntelligenceAndTableVisualiserPanel.setVisible(false);
+		dataTypeCol1Label.setVisible(false);
+		dataTypeSelectorCBTN.setVisible(false);
 		// lets you reset the table
 		isTableCreated = false;
 		// shows the panel that lets you select a csv file
@@ -609,25 +623,15 @@ public class HomeScreenController {
 		// disable buttons on the previous page
 		columnSelectorCBTN.setDisable(true);
 		secondColumnSelectorCBTN.setDisable(true);
-		clearComboBoxButtons();
 	}
 
-	private void clearComboBoxButtons() {
-		columnSelectorCBTN.getItems().clear();
-		secondColumnSelectorCBTN.getItems().clear();
-		System.out.println("items cleared");
-
-	}
-
-	// -----------------------
-	// --Table + Intelligence--
-	// ------------------------
 	/**
 	 * This is the handler for the creation of a table. It allows user to
 	 * visualise the data they want to analyse.
 	 */
 	public void handleTableCreationButton() {
 		if (!(isTableCreated)) {
+			System.out.println("Creating table...");
 			tableVisualiPage.getItems().clear();
 			// create table for the first time
 			createTableFromData();
@@ -652,18 +656,20 @@ public class HomeScreenController {
 	/**
 	 * When a user selects the firstColSelector CMBXBTN, then three things can
 	 * happen: (1) The column could be empty/null. (2) The column can be
-	 * detected to be a Mapping. (3) The column could be an accepted type
-	 * (String/Double/Int).
+	 * detected to be a coordinate (3) The column could be an accepted data
+	 * type. (String/Double/Int).
 	 * 
-	 * Steps this method takes: 1. Column is selected, so we save the column
-	 * header name + location.
-	 * 
-	 * 2. we check the data type.
-	 * 
-	 * 2.1 if there is only 1 data type = success
-	 * 
-	 * 2.2 if more than one data type, mention it to the user, and let them
-	 * decide which data type they want.
+	 * Steps this method takes:
+	 * <ul>
+	 * <li>1. Column is selected, so we save the column header name +
+	 * location.</li>
+	 * <li>2. we check the data type.</li>
+	 * <ul>
+	 * <li>2.1 if there is only 1 data type = success</li>
+	 * <li>2.2 if more than one data type, mention it to the user, and let them
+	 * decide which data type they want.</li>
+	 * </ul>
+	 * </ul>
 	 */
 	public void handleFirstColumnSelection() {
 		// Sets the name and location of the first column selected
@@ -673,28 +679,39 @@ public class HomeScreenController {
 	}
 
 	/**
-	 * just check if the data type within the column is:
-	 * 
-	 * 1. if firstCol is empty
-	 * 
-	 * 2. if firstCol is of one type
-	 * 
-	 * 3. if more than 1 type - opens up the datatype selector button!
+	 * This is called the moment a column has been selected from our
+	 * pre-uploaded table. This method takes the value of the selected column,
+	 * and finds out the type of that column, hence determining the data type of
+	 * the actual data.
 	 */
-	private void dataCheckForFirstCol() {
-		// This gets the column data that we want and sets it. - it skips any
-		// null cells
+	private void setNameAndLocationOfFirstColumn() {
+		// store chosen name of column selected from within combobox.
+		firstColumnName = columnSelectorCBTN.getValue().toString();
+		// store location of column chosen, to be used to id the column.
+		firstColIndex = readIn.findColumnLocation(firstColumnName);
+		// This gets the column data that we want and returns firstColumn
+		// String[].
 		firstColumn = DataFormatFX.getColumnData(firstColIndex, columnData);
 		// create a dataDetector object based on the selected column.
 		firstColDataTypeDetected = new DataDetector(firstColumn);
+	}
 
+	/**
+	 * just check if the data type within the column is:
+	 * <ul>
+	 * <li>1. if firstCol is empty</li>
+	 * <li>2. if firstCol is of one type</li>
+	 * <li>3. if more than 1 type - opens up the datatype selector button!</li>
+	 * </ul>
+	 */
+	private void dataCheckForFirstCol() {
 		// if Column == empty
 		if (firstColDataTypeDetected.isColumnEmpty()) {
 			createWarningDialog("Column is empty - Please select another column!");
 			firstColAccepted = false;
 			return;
 		} else {
-			// check if only accepted types
+			// Column is not empty, hence check if we can accept it.
 			// if column == weird format
 			if (!(rulesForColumn1Selector())) {
 				// it doesnt abide by the rules
@@ -704,10 +721,10 @@ public class HomeScreenController {
 			}
 			// if column == GOOD
 			if (firstColDataTypeDetected.contains1DataType()) {
-				System.out.println("Column is good.");
+				System.out.println("Column has been accepted.");
 				// hence contains one data type only. we are all set.
-				// hide stuff for showing more than 1 datatype
 				setUpDataTypeOfCol1Label(false);
+				// boolean indicating that we have accepted first column
 				firstColAccepted = true;
 				// select single column selected and datatype recognised
 				// checkbox.
@@ -717,7 +734,7 @@ public class HomeScreenController {
 				checkColLatLong();
 				// ----
 				// set up second combobox
-				setHeadersInCol2ComboBox(true);
+				setHeadersInCol2ComboBox();
 				// 3. second col combobx button
 				setupSecondColumnComboBX();
 				secondColumnSelectorCBTN.setDisable(false);
@@ -728,6 +745,7 @@ public class HomeScreenController {
 				col1DataType = firstColDataTypeDetected.printDataTypes();
 				showColumnsDataTypes();
 				col1DataTypeLabel.setVisible(true);
+				// set up the graphs checkboxes
 				if (firstColDataTypeDetected.containsString()) {
 					setUpBooleanForColumn1(true, false, false);
 					setUpCheckBoxesForGraphs(true, true, false);
@@ -741,9 +759,9 @@ public class HomeScreenController {
 			} else {
 				System.out.println("column has more than 1 datatype.");
 				// if column == more than 1 datatype
-				// -
+				firstColAccepted = false;
 				// fill other combo box with data types available
-				dataTypeSelectorCBTN.getItems().addAll(firstColDataTypeDetected.typesContained());
+				dataTypeSelectorCBTN.getItems().setAll(firstColDataTypeDetected.typesContained());
 				// alert the user
 				createWarningDialog("More than one data type detected - Please select one data type!");
 				// has more than one data type. Ask user to choose a data type.
@@ -811,32 +829,30 @@ public class HomeScreenController {
 	 * that.
 	 */
 	public void handleDataTypeSelected() {
+		// Lets find out which data type it actually belongs to
 		if (dataTypeSelectorCBTN.getValue().toString().equals("Numbers/Integer")) {
+			// the first column is integer[]
 			firstColSelectedINT = firstColDataTypeDetected.getOnlyInts();
-			// note that the first column is not a string[] and actually is an
-			// integer.
 			setDataTypeColumn1(true, true, false, false);
 		} else if (dataTypeSelectorCBTN.getValue().toString().equals("Decimals/Double")) {
-			firstColSelectedDOUBLE = firstColDataTypeDetected.getOnlyDoubles();
 			// note that the first column is not a string[] and actually doubel.
+			firstColSelectedDOUBLE = firstColDataTypeDetected.getOnlyDoubles();
 			setDataTypeColumn1(true, false, true, false);
+			// Check if column is lat/long/eastings/northings
+			checkColLatLong();
 		} else if (dataTypeSelectorCBTN.getValue().toString().equals("Words/String")) {
-			firstColSelectedSTRING = firstColDataTypeDetected.getOnlyStrings();
 			// note that the first column is String[].
+			firstColSelectedSTRING = firstColDataTypeDetected.getOnlyStrings();
 			setDataTypeColumn1(true, false, false, true);
 		}
-		// show other buttons now
-
 		firstColAccepted = true;
 		// select single column selected and datatype recognised
 		// checkbox.
 		singleColumnSelectedCheckBox.setSelected(true);
 		dataTypeOKCheckBox.setSelected(true);
-		// Check if column is lat/long/eastings/northings
-		checkColLatLong();
 		// ----
 		// set up second combobox
-		setHeadersInCol2ComboBox(true);
+		setHeadersInCol2ComboBox();
 		// 3. second col combobx button
 		setupSecondColumnComboBX();
 		secondColumnSelectorCBTN.setDisable(false);
@@ -844,7 +860,7 @@ public class HomeScreenController {
 		// columnSelectorCBTN.setDisable(true);
 		// 5. undisable graph generator button
 		generationButton.setDisable(false);
-
+		// sets up checkboxes depending on selection.
 		if (firstColDataTypeDetected.containsString()) {
 			setUpBooleanForColumn1(true, false, false);
 			setUpCheckBoxesForGraphs(true, true, false);
@@ -875,26 +891,46 @@ public class HomeScreenController {
 		dataTypeChangedCol1 = datatypeChanged;
 		// Datatype String?
 		dataTypeCol1IsString = isString;
+		checkBoxPieChart.setSelected(isString);
 		// DataType Double?
 		dataTypeCol1IsDouble = isDouble;
 		// DataType Int?
 		dataTypeCol1IsInteger = isInt;
-
+		// sets the string of the datatype here.
 		col1DataType = dataTypeSelectorCBTN.getValue().toString();
+		// reveals the data type on a label on the gui
 		showColumnsDataTypes();
-		col1DataTypeLabel.setVisible(true);
-	}
-
-	private void showColumnsDataTypes() {
-		col1DataTypeLabel.setText("First columns data type: " + col1DataType);
-	}
-
-	private void showSecondColumnDataTypes() {
-		col2DataTypeLabel.setText("Second columns data type: " + col2DataType);
 	}
 
 	/**
-	 * This method sets up the labels within the second combobox
+	 * Method shows the datatype of the first column on a label on the gui.
+	 */
+	private void showColumnsDataTypes() {
+		if (!col1DataType.isEmpty()) {
+			col1DataTypeLabel.setText("First columns data type: " + col1DataType);
+			col1DataTypeLabel.setVisible(true);
+		} else {
+			col1DataTypeLabel.setVisible(false);
+		}
+
+	}
+
+	/**
+	 * Method shows the datatype of the second column on a label on the gui.
+	 */
+	private void showSecondColumnDataTypes() {
+		if (!col2DataType.isEmpty()) {
+			col2DataTypeLabel.setText("Second columns data type: " + col2DataType);
+			col2DataTypeLabel.setVisible(true);
+		} else {
+			col2DataTypeLabel.setVisible(false);
+		}
+
+	}
+
+	/**
+	 * This method sets up the labels within the second combobox. It makes sure
+	 * to remove the header selected from the first column.
 	 */
 	private void setupSecondColumnComboBX() {
 		int tempCount = 0;
@@ -919,26 +955,38 @@ public class HomeScreenController {
 		// cant be a piechart now.
 		checkBoxPieChart.setSelected(false);
 		secondColUsed = true;
+		// set name + location of second column header.
 		setNameAndLocationOfSecondColumn();
-
-		// disable button
-		secondColumnSelectorCBTN.setDisable(true);
-		// let system know two data sets have been selected.
-		twoDataSetsSelected = true;
+		// show to the user they have selected two columns.
 		twoColumnsCheckBox.setSelected(true);
 		col2DataType = secondColDataTypeDetected.printDataTypes();
 		showSecondColumnDataTypes();
 		col2DataTypeLabel.setVisible(true);
+		// if first columns not coordinate or string, must be scatter graph
+		if ((!dataTypeCol1IsString) && (!firstColumnIsLatOrEasts)) {
+			checkBoxScatterChart.setSelected(true);
+		}
 	}
 
+	/**
+	 * Method decides, depending on the columns selected, on which graph to
+	 * create. The options include:
+	 * <ul>
+	 * <li>A map.</li>
+	 * <li>A Pie Chart</li>
+	 * <li>A Bar Chart</li>
+	 * <li>A Scatter Chart</li>
+	 */
 	public void handleGenerateMapOrGraph() {
+
+		// If Longitude/Latitude values selected
 		if (latLongCheckBox.isSelected() || canCreateMap) {
-			System.out.println("create map");
-			// means it is a map generation
+			System.out.println("creating a map...");
 			createWorldMap();
 		} else if ((!secondColUsed) || checkBoxPieChart.isSelected()) {
+			// If pie chart wanted
 			if (checkBoxBarChart.isSelected()) {
-				
+				// and if bar chart box has been selected
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Chart selection");
 				alert.setContentText("Which chart would you like?");
@@ -947,11 +995,14 @@ public class HomeScreenController {
 				alert.getButtonTypes().setAll(okButton, noButton);
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == okButton) {
+					// want a barchart...
 					alert.close();
+					System.out.println("Creating a bar chart...");
 					IntelligenceAndTableVisualiserPanel.setVisible(false);
 					barChartVisualiPanel.setVisible(true);
-					//means only string selected
-					barChart.setData(getBarChartData());
+					// means only string selected
+					barChart.setData(ObservableListProvider.generateBarChartListFromString(firstColumn));
+					createdBar = true;
 				} else {
 					alert.close();
 					// means we must generate pie chart
@@ -959,12 +1010,11 @@ public class HomeScreenController {
 					createPieChart();
 					createdPie = true;
 				}
-				
-				
+
 			}
-			
+
 		} else if (secondColUsed) {
-			// must be a barchart or scatter graph
+			// For barchart: col1=String, col2=int
 			if (dataTypeCol1IsString) {
 				// must be barchart
 				System.out.println("create bar");
@@ -1001,14 +1051,14 @@ public class HomeScreenController {
 				longtitudeDoubles = ArrayListCreator.stringArrayToDouble(firstColumn);
 				latitudeDoubles = ArrayListCreator.stringArrayToDouble(secondColumn);
 				System.out.println("longitudes=======================");
-				for (double one : longtitudeDoubles){
+				for (double one : longtitudeDoubles) {
 					System.out.println(one);
 				}
 				System.out.println("latitudes=======================");
-				for (double one : latitudeDoubles){
+				for (double one : latitudeDoubles) {
 					System.out.println(one);
 				}
-				
+
 				updateProgress(10, 10);
 				return null;
 			}
@@ -1018,7 +1068,7 @@ public class HomeScreenController {
 		System.out.println("came out of the thread for creating map");
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
-			
+
 			// hide panel
 			int maxPoints = (int) mapSlider.getValue();
 			System.out.println("slider is at: " + maxPoints);
@@ -1064,90 +1114,98 @@ public class HomeScreenController {
 	}
 
 	private void createBarChart() {
+		// add it all to our barchart
 		IntelligenceAndTableVisualiserPanel.setVisible(false);
 		barChartVisualiPanel.setVisible(true);
 		// X AXIS is always string
 		// IF Y AXIS == INT
+
 		if (secondColDataTypeDetected.containsInt()) {
 			System.out.println("contains ints....");
 			// assume Y AXIS == INT
 			xAxisBarChart.setLabel("x axis");
-			yAxisBarChart = new NumberAxis();
-			barChart = new BarChart<>(xAxisBarChart, yAxisBarChart);
-			// create observable list for the barchart.
-			ObservableList<XYChart.Series<String, Double>> data = FXCollections.observableArrayList();
+			yAxisBarChart.setLabel("y axis");
+			barChart.setTitle("title");
 
-			Series<String, Double> barChartSeries = new Series<>();
-			Integer[] secondColData = secondColDataTypeDetected.getOnlyInts();
-			Double[] doubleArray = copyFromIntArray(secondColData);
-
-			for (Double d : doubleArray) {
-				System.out.println(Double.toString(d));
-			}
-
-			// find max size for looping
-			int maxSize = 0;
-			if (firstColumn.length > doubleArray.length) {
-				maxSize = doubleArray.length;
-			} else {
-				maxSize = firstColumn.length;
-			}
-			for (int i = 0; i < maxSize; i++) {
-				System.out.println("String: " + firstColumn[i]);
-				System.out.println("double: " + doubleArray[i]);
-				barChartSeries.getData().add(new XYChart.Data(firstColumn[i], doubleArray[i]));
-			}
-
-			data.add(barChartSeries);
-			barChart.setData(data);
-
+			ProgressForm pForm = new ProgressForm();
+			Task<Void> task = new Task<Void>() {
+				@Override
+				public Void call() throws InterruptedException {
+					// create series list for the barchart.
+					barChartSeries = new XYChart.Series();
+					Integer[] secondColData = secondColDataTypeDetected.getOnlyInts();
+					// find max size for looping
+					int maxSize = 0;
+					if (firstColumn.length > secondColData.length) {
+						maxSize = secondColData.length;
+					} else {
+						maxSize = firstColumn.length;
+					}
+					for (int i = 0; i < maxSize; i++) {
+						String x1 = firstColumn[i];
+						Integer y1 = secondColData[i];
+						barChartSeries.getData().add(new XYChart.Data(x1, y1));
+					}
+					updateProgress(10, 10);
+					return null;
+				}
+			};
+			// binds progress of progress bars to progress of task:
+			pForm.activateProgressBar(task);
+			// in real life this method would get the result of the task
+			// and update the UI based on its value:
+			task.setOnSucceeded(event -> {
+				pForm.getDialogStage().close();
+				barChart.getData().add(barChartSeries);
+			});
+			pForm.getDialogStage().show();
+			Thread thread = new Thread(task);
+			thread.start();
 		} else {
 			System.out.println("contains doubles");
-			// assume Y AXIS == DOUBLE
-			yAxisBarChart = new NumberAxis();
-			barChart = new BarChart<>(xAxisBarChart, yAxisBarChart);
-			
-			// create observable list for the barchart.
-			ObservableList<XYChart.Series<String, Double>> data = FXCollections.observableArrayList();
+			// assume Y AXIS == Double
+			xAxisBarChart.setLabel("x axis");
+			yAxisBarChart.setLabel("y axis");
+			barChart.setTitle("title");
 
-			Series<String, Double> barChartSeries = new Series<>();
-			Double[] doubleArray = secondColDataTypeDetected.getOnlyDoubles();
-
-			// find max size for looping
-			int maxSize = 0;
-			if (firstColumn.length > doubleArray.length) {
-				maxSize = doubleArray.length;
-			} else {
-				maxSize = firstColumn.length;
-			}
-			for (int i = 0; i < maxSize; i++) {
-				barChartSeries.getData().add(new XYChart.Data(firstColumn[i], doubleArray[i]));
-			}
-
-			data.add(barChartSeries);
-			barChart.setData(data);
-			// add it all to our barchart
-
+			ProgressForm pForm = new ProgressForm();
+			Task<Void> task = new Task<Void>() {
+				@Override
+				public Void call() throws InterruptedException {
+					// create series list for the barchart.
+					barChartSeries = new XYChart.Series();
+					Double[] secondColData = secondColDataTypeDetected.getOnlyDoubles();
+					// find max size for looping
+					int maxSize = 0;
+					if (firstColumn.length > secondColData.length) {
+						maxSize = secondColData.length;
+					} else {
+						maxSize = firstColumn.length;
+					}
+					for (int i = 0; i < maxSize; i++) {
+						String x1 = firstColumn[i];
+						Double y1 = secondColData[i];
+						barChartSeries.getData().add(new XYChart.Data(x1, y1));
+					}
+					updateProgress(10, 10);
+					return null;
+				}
+			};
+			// binds progress of progress bars to progress of task:
+			pForm.activateProgressBar(task);
+			// in real life this method would get the result of the task
+			// and update the UI based on its value:
+			task.setOnSucceeded(event -> {
+				pForm.getDialogStage().close();
+				barChart.getData().add(barChartSeries);
+			});
+			pForm.getDialogStage().show();
+			Thread thread = new Thread(task);
+			thread.start();
 		}
 
 	}
-	
-	public ObservableList<XYChart.Series<String, Integer>> getBarChartData() {
-		
-		
-		ObservableList<XYChart.Series<String, Integer>> observableList = FXCollections.observableArrayList(); 
-		Series<String, Integer> series = new Series<>();
-		Map<String, Integer> map = DataFormatFX.countAndMapData(firstColumn);
-		
-		for(Entry<String, Integer> e : map.entrySet()) {
-			
-			series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
-		}
-		observableList.addAll(series);
-		return observableList;
-		
-	}
-	
+
 	/**
 	 * helper method to convert int[] -> double[]
 	 */
@@ -1160,7 +1218,48 @@ public class HomeScreenController {
 	}
 
 	private void createScatterChart() {
+		IntelligenceAndTableVisualiserPanel.setVisible(false);
+		scatterChartVisualiPanel.setVisible(true);
+		
+		System.out.println("Creating a scatter chart....");
+		xAxisScatterChart.setLabel("x axis");
+		yAxisScatterChart.setLabel("y axis");
+		scatterChart.setTitle("title");
 
+		ProgressForm pForm = new ProgressForm();
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws InterruptedException {
+				// create series list for the barchart.
+				scatterChartSeries = new XYChart.Series();
+				Double[] secondColData = secondColDataTypeDetected.getOnlyDoubles();
+				// find max size for looping
+				int maxSize = 0;
+				if (firstColumn.length > secondColData.length) {
+					maxSize = secondColData.length;
+				} else {
+					maxSize = firstColumn.length;
+				}
+				for (int i = 0; i < maxSize; i++) {
+					String x1 = firstColumn[i];
+					Double y1 = secondColData[i];
+					scatterChartSeries.getData().add(new XYChart.Data(x1, y1));
+				}
+				updateProgress(10, 10);
+				return null;
+			}
+		};
+		// binds progress of progress bars to progress of task:
+		pForm.activateProgressBar(task);
+		// in real life this method would get the result of the task
+		// and update the UI based on its value:
+		task.setOnSucceeded(event -> {
+			pForm.getDialogStage().close();
+			scatterChart.getData().add(scatterChartSeries);
+		});
+		pForm.getDialogStage().show();
+		Thread thread = new Thread(task);
+		thread.start();
 	}
 
 	// =====================================================================
@@ -1185,24 +1284,11 @@ public class HomeScreenController {
 		}
 	}
 
-	/**
-	 * This is called the moment a column has been selected from our
-	 * pre-uploaded table. This method takes the value of the selected column,
-	 * and finds out the type of that column, hence determining the data type of
-	 * the actual data.
-	 */
-	private void setNameAndLocationOfFirstColumn() {
-		// store chosen name of column selected from within combobox.
-		firstColumnName = columnSelectorCBTN.getValue().toString();
-		// store location of column chosen, to be used to id the column.
-		firstColIndex = readIn.findColumnLocation(firstColumnName);
-
-	}
-
 	private void setNameAndLocationOfSecondColumn() {
 		secondColumnName = secondColumnSelectorCBTN.getValue().toString();
 		secondColIndex = readIn.findColumnLocation(secondColumnName);
 		secondColumn = DataFormatFX.getColumnData(secondColIndex, columnData);
+		secondColDataTypeDetected = new DataDetector(secondColumn);
 	}
 
 	/**
@@ -1212,30 +1298,34 @@ public class HomeScreenController {
 	private void checkColLatLong() {
 		// check if it is lat/long
 		if (DataDetector.latLongDetector(firstColumnName) || DataDetector.northingEastingDetector(firstColumnName)) {
-			// hence lat long value is included.
-			latLongCheckBox.setVisible(true);
-
 			// Alert user that we have found that they are trying to create a
 			// map.
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Coordinates detected...");
-			alert.setContentText("Selected Longtitude or Eastings?");
+			alert.setContentText("Selected Longtitude or Eastings (In that order)?");
 			ButtonType okButton = new ButtonType("Yes");
 			ButtonType noButton = new ButtonType("No");
 			alert.getButtonTypes().setAll(okButton, noButton);
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == okButton) {
+				// Means it is a coordinate.
 				firstColumnIsLatOrEasts = true;
 				latLongCheckBox.setSelected(true);
+				mapSlider.setVisible(true);
 				canCreateMap = true;
 			} else {
-				// check the latlongbuttonHERE
+				// wrongly identified as coordinate
 				latLongCheckBox.setSelected(false);
 				firstColumnIsLatOrEasts = false;
 				alert.close();
 			}
+		} else {
+			// its not lat/long - safety net.
+			mapSlider.setVisible(false);
+			firstColumnIsLatOrEasts = false;
+			latLongCheckBox.setSelected(false);
+			canCreateMap = false;
 		}
-
 	}
 
 	/**
@@ -1245,30 +1335,30 @@ public class HomeScreenController {
 	 *            if true set all the names. if false, set certain names.
 	 */
 	public void setHeadersInCol1ComboBox() {
-		// columnSelectorCBTN.valueProperty().set(null);
-		// columnSelectorCBTN = new JFXComboBox<>();
-		// System.out.println(Arrays.toString(headerData));
-		columnSelectorCBTN.getItems().addAll(headerData);
+		columnSelectorCBTN.getItems().setAll(headerData);
 	}
 
 	/**
-	 * TODO: FIX THIS
+	 * if true, this sets headers within the second column selector.
 	 * 
 	 * @param noDataSelected
 	 */
-	public void setHeadersInCol2ComboBox(Boolean noDataSelected) {
-		secondColumnSelectorCBTN.valueProperty().set(null);
-		if (noDataSelected) {
-			final List<String> list = new ArrayList<String>();
-			Collections.addAll(list, headerData);
-			list.remove(firstColumnName);
-			headerData = list.toArray(new String[list.size()]);
-			secondColumnSelectorCBTN.getItems().addAll(headerData);
-		}
+	public void setHeadersInCol2ComboBox() {
+		// set data within second column
+		// removing selected first column header label as an option
+		final List<String> list = new ArrayList<String>();
+		Collections.addAll(list, headerData);
+		list.remove(firstColumnName);
+		headerDataSecondColumn = list.toArray(new String[list.size()]);
+		secondColumnSelectorCBTN.getItems().setAll(headerDataSecondColumn);
 	}
 
 	/**
-	 * sets up buttons for toggle button.
+	 * method for deciding what to show up depending on the selection.
+	 * <ul>
+	 * <li>If the user wants to upload a new file.</li>
+	 * <li>If the user wants to choose an existing file.</li>
+	 * </ul>
 	 * 
 	 * @param isUpload
 	 *            true = if user wants to upload new file. false = if user wants
@@ -1277,7 +1367,6 @@ public class HomeScreenController {
 	public void setUpToggleFORCSVDecider(Boolean isUpload) {
 		if (isUpload) {
 			UploadNewCSVFileButton.setVisible(true);
-			// uploadCSVFileLabel.setVisible(true);
 			chooseCSVFileComboBox.setVisible(false);
 			chooseCSVFileLabel.setVisible(false);
 		} else {
@@ -1344,10 +1433,8 @@ public class HomeScreenController {
 
 		// binds progress of progress bars to progress of task:
 		pForm.activateProgressBar(task);
-
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
-
 		});
 
 		pForm.getDialogStage().show();
@@ -1424,16 +1511,6 @@ public class HomeScreenController {
 		 * data.getPieValue()); }); });
 		 * 
 		 * phBarChart1.setData(dataforPieChart.getBarChartData(4));
-		 */
-	}
-
-	/**
-	 * Resets all the charts data
-	 */
-	public void removeChartData() {
-		/*
-		 * phBarChart1.getData().clear(); phPieChart1.getData().clear();
-		 * phPieChart2.getData().clear();
 		 */
 	}
 

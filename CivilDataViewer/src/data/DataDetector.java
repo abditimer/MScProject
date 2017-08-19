@@ -323,12 +323,9 @@ public class DataDetector {
 	}
 
 	public static void main(String[] args) {
-		//String[] expected = { "Integer", "String", "Double"};
-		
-		String[] test = {"this", "2.223322323", "1"};
-		DataDetector detect = new DataDetector(test);
-		String[] actual5 = detect.typesContained();
-	System.out.println(Arrays.toString(actual5));
+		CSVReader reader = new CSVReader("bridgeData.csv");
+		DataDetector detected = new DataDetector(DataFormatFX.getColumnData(1, reader.getData()));
+		System.out.println(l,l,l(detected.printDataTypes()));
 	}
 
 }

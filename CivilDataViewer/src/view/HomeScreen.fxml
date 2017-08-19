@@ -36,7 +36,7 @@
             <Image url="@../../resources/images/background.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="homePanel" disable="true" layoutX="63.0" layoutY="94.0" prefHeight="700.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="homePanel" disable="true" layoutX="63.0" layoutY="94.0" prefHeight="700.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
             <InnerShadow />
          </effect>
@@ -48,9 +48,9 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="visualPanel" layoutY="83.0" prefHeight="869.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="visualPanel" layoutY="83.0" prefHeight="869.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane fx:id="CSVSelectorPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -89,13 +89,13 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
+            <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
                <children>
                   <SplitPane dividerPositions="0.37316421895861146" prefHeight="768.0" prefWidth="1500.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="556.0" style="-fx-background-color: #222222;">
                            <children>
-                              <VBox alignment="TOP_CENTER" prefHeight="704.0" prefWidth="556.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox alignment="TOP_CENTER" prefHeight="721.0" prefWidth="556.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <JFXButton fx:id="backFromChartsButton" onAction="#handleBackToCSVFileSelectorPage" text="Choose a different file" textFill="#797575" underline="true">
                                        <VBox.margin>
@@ -171,17 +171,17 @@
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                     </JFXCheckBox>
-                                    <JFXCheckBox fx:id="possibleToGenerateMapCheckBox" checkedColor="#b0b54b" disable="true" layoutX="245.0" layoutY="576.0" text="Generate Map" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
                                     <JFXCheckBox fx:id="latLongCheckBox" checkedColor="#b0b54b" disable="true" text="Coordinate selected" textFill="WHITE">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </JFXCheckBox>
-                                    <JFXSlider fx:id="mapSlider" blockIncrement="5.0" maxWidth="400.0" showTickMarks="true" />
+                                    <JFXCheckBox fx:id="possibleToGenerateMapCheckBox" checkedColor="#b0b54b" disable="true" layoutX="245.0" layoutY="576.0" text="Generate Map" textFill="WHITE">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                    <JFXSlider fx:id="mapSlider" blockIncrement="5.0" maxWidth="400.0" showTickMarks="true" visible="false" />
                                     <JFXButton fx:id="generationButton" buttonType="RAISED" disable="true" layoutX="186.0" layoutY="25.0" onAction="#handleGenerateMapOrGraph" prefHeight="27.0" prefWidth="397.0" style="-fx-border-color: ffffff;" text="Generate" textFill="WHITE">
                                        <VBox.margin>
                                           <Insets top="30.0" />

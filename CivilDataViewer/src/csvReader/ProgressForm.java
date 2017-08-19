@@ -3,6 +3,7 @@ package csvReader;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
@@ -22,9 +23,8 @@ public class ProgressForm {
         dialogStage.initStyle(StageStyle.UNDECORATED);
         dialogStage.initModality(Modality.APPLICATION_MODAL);
 
-       /* // PROGRESS BAR
-        final Label label = new Label();
-        label.setText("alerto");*/
+        //final Label label = new Label();
+        //label.setText("Progress....");
 
         pb.setProgress(-1F);
         pin.setProgress(-1F);

@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,5 +79,10 @@ public class DataFormatFXTest {
 		assertEquals(expected, actual);
 	}
 
-
+	@Test
+	public void test7() {
+		List<String[]> test  = new ArrayList<>();
+		Map<String, Integer> actual = DataFormatFX.countAndMapData(DataFormatFX.getColumnData(2, test));
+		DataFormatFX.printMapData(actual);
+	}
 }
