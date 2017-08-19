@@ -13,7 +13,7 @@ import javafx.util.Callback;
 
 /**
  *
- * @author nonfrt
+ * @author 
  */
 public class TableStuff extends Application {
 

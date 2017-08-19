@@ -992,6 +992,7 @@ public class HomeScreenController {
 	 * This method is called and creates a world map in an outside scene.
 	 */
 	private void createWorldMap() {
+		System.out.println("Creating world map...");
 		ProgressForm pForm = new ProgressForm();
 		Task<Void> task = new Task<Void>() {
 			@Override
@@ -999,6 +1000,15 @@ public class HomeScreenController {
 
 				longtitudeDoubles = ArrayListCreator.stringArrayToDouble(firstColumn);
 				latitudeDoubles = ArrayListCreator.stringArrayToDouble(secondColumn);
+				System.out.println("longitudes=======================");
+				for (double one : longtitudeDoubles){
+					System.out.println(one);
+				}
+				System.out.println("latitudes=======================");
+				for (double one : latitudeDoubles){
+					System.out.println(one);
+				}
+				
 				updateProgress(10, 10);
 				return null;
 			}
@@ -1008,6 +1018,7 @@ public class HomeScreenController {
 		System.out.println("came out of the thread for creating map");
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
+			
 			// hide panel
 			int maxPoints = (int) mapSlider.getValue();
 			System.out.println("slider is at: " + maxPoints);

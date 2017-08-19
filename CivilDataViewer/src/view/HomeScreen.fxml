@@ -36,7 +36,7 @@
             <Image url="@../../resources/images/background.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="homePanel" disable="true" layoutX="63.0" layoutY="94.0" prefHeight="700.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="homePanel" disable="true" layoutX="63.0" layoutY="94.0" prefHeight="700.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
             <InnerShadow />
          </effect>
@@ -48,9 +48,9 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="visualPanel" layoutY="83.0" prefHeight="869.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="visualPanel" layoutY="83.0" prefHeight="869.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane fx:id="CSVSelectorPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -89,7 +89,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
+            <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
                <children>
                   <SplitPane dividerPositions="0.37316421895861146" prefHeight="768.0" prefWidth="1500.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
@@ -129,7 +129,7 @@
                                        <VBox.margin>
                                           <Insets bottom="15.0" />
                                        </VBox.margin></JFXComboBox>
-                                    <JFXComboBox fx:id="secondColumnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="227.0" onAction="#handleSecondColumnSelection" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20">
+                                    <JFXComboBox fx:id="secondColumnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="227.0" onAction="#handleSecondColumnSelection" prefHeight="25.0" prefWidth="285.0" promptText="Want to select another column?" unFocusColor="WHITE" visibleRowCount="20">
                                        <VBox.margin>
                                           <Insets bottom="15.0" />
                                        </VBox.margin>
