@@ -31,288 +31,309 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HomeScreenController">
    <children>
-      <ImageView pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../resources/images/background.png" />
-         </image>
-      </ImageView>
-      <AnchorPane fx:id="homePanel" disable="true" layoutX="63.0" layoutY="94.0" prefHeight="700.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <effect>
-            <InnerShadow />
-         </effect>
+      <AnchorPane fx:id="allScreensPanels" disable="true" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../resources/images/homeScreen.png" />
+                  <Image url="@../../resources/images/background.png" />
                </image>
             </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="visualPanel" layoutY="83.0" prefHeight="869.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="homePanel" disable="true" prefHeight="700.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
                <children>
-                  <AnchorPane fx:id="CSVSelectorPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ImageView pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/homeScreen.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="visualPanel" prefHeight="869.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label layoutX="567.0" layoutY="313.0" prefHeight="36.0" prefWidth="196.0" text="Currently selected file:" textFill="WHITE">
-                           <font>
-                              <Font name="Gadugi" size="20.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="currentlySelectedCSVFileLabel" layoutX="770.0" layoutY="313.0" prefHeight="36.0" prefWidth="673.0" textFill="WHITE">
-                           <font>
-                              <Font name="Nirmala UI Semilight" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="chooseCSVFileLabel" layoutX="275.0" layoutY="347.0" text="Please select a CSV file to Visualise:" textAlignment="RIGHT" textFill="WHITE">
-                           <font>
-                              <Font name="Gadugi" size="28.0" />
-                           </font>
-                        </Label>
-                        <JFXComboBox fx:id="chooseCSVFileComboBox" layoutX="751.0" layoutY="355.0" onAction="#handleCSVFileSelectedFromComboBoxButton" prefHeight="25.0" prefWidth="438.0" promptText="Please select a previously updated file here..." unFocusColor="#d0c5c5" />
-                        <JFXButton fx:id="UploadNewCSVFileButton" buttonType="RAISED" layoutX="513.0" layoutY="352.0" onAction="#handleNewCSVFileUpload" prefHeight="55.0" prefWidth="540.0" style="-fx-border-color: ffffff;" text="Click here to upload a new file" textFill="WHITE" visible="false">
-                           <font>
-                              <Font name="Gadugi" size="18.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton fx:id="analyseCSVFileButton" buttonType="RAISED" layoutX="584.0" layoutY="441.0" onAction="#analyseCSVFileButton" prefHeight="31.0" prefWidth="419.0" style="-fx-border-color: ffffff;" text="Analyse this file" textFill="WHITE" visible="false">
-                           <font>
-                              <Font name="Gadugi" size="18.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXToggleButton fx:id="uploadOrSelectCSVFileToggleButton" layoutX="451.0" layoutY="249.0" onAction="#handleUploadOrSavedCSFFileSelectToggleButton" prefHeight="55.0" prefWidth="665.0" text="Upload a new CSV file?" textFill="WHITE" toggleColor="#8a1212" toggleLineColor="WHITE" unToggleLineColor="#4d4242">
-                           <font>
-                              <Font name="Century Gothic" size="23.0" />
-                           </font>
-                        </JFXToggleButton>
+                        <AnchorPane fx:id="CSVSelectorPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label layoutX="567.0" layoutY="313.0" prefHeight="36.0" prefWidth="196.0" text="Currently selected file:" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gadugi" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="currentlySelectedCSVFileLabel" layoutX="770.0" layoutY="313.0" prefHeight="36.0" prefWidth="673.0" textFill="WHITE">
+                                 <font>
+                                    <Font name="Nirmala UI Semilight" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="chooseCSVFileLabel" layoutX="275.0" layoutY="347.0" text="Please select a CSV file to Visualise:" textAlignment="RIGHT" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gadugi" size="28.0" />
+                                 </font>
+                              </Label>
+                              <JFXComboBox fx:id="chooseCSVFileComboBox" layoutX="751.0" layoutY="355.0" onAction="#handleCSVFileSelectedFromComboBoxButton" prefHeight="25.0" prefWidth="438.0" promptText="Please select a previously updated file here..." unFocusColor="#d0c5c5" />
+                              <JFXButton fx:id="UploadNewCSVFileButton" buttonType="RAISED" layoutX="513.0" layoutY="352.0" onAction="#handleNewCSVFileUpload" prefHeight="55.0" prefWidth="540.0" style="-fx-border-color: ffffff;" text="Click here to upload a new file" textFill="WHITE" visible="false">
+                                 <font>
+                                    <Font name="Gadugi" size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="analyseCSVFileButton" buttonType="RAISED" layoutX="584.0" layoutY="441.0" onAction="#analyseCSVFileButton" prefHeight="31.0" prefWidth="419.0" style="-fx-border-color: ffffff;" text="Analyse this file" textFill="WHITE" visible="false">
+                                 <font>
+                                    <Font name="Gadugi" size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXToggleButton fx:id="uploadOrSelectCSVFileToggleButton" layoutX="451.0" layoutY="249.0" onAction="#handleUploadOrSavedCSFFileSelectToggleButton" prefHeight="55.0" prefWidth="665.0" text="Upload a new CSV file?" textFill="WHITE" toggleColor="#8a1212" toggleLineColor="WHITE" unToggleLineColor="#4d4242">
+                                 <font>
+                                    <Font name="Century Gothic" size="23.0" />
+                                 </font>
+                              </JFXToggleButton>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
+                     <children>
+                        <SplitPane dividerPositions="0.37316421895861146" prefHeight="768.0" prefWidth="1500.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="556.0" style="-fx-background-color: #222222;">
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" prefHeight="721.0" prefWidth="556.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <JFXButton fx:id="backFromChartsButton" onAction="#handleBackToCSVFileSelectorPage" text="Choose a different file" textFill="#797575" underline="true">
+                                             <VBox.margin>
+                                                <Insets top="15.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
+                                          <JFXButton fx:id="createTableButton" buttonType="RAISED" onAction="#handleTableCreationButton" prefHeight="19.0" prefWidth="205.0" style="-fx-border-color: ffffff;" text="Generate Table" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
+                                          <Label fx:id="columnSelectorLabel" disable="true" text="Please select a Column to analyse:" textFill="WHITE">
+                                             <font>
+                                                <Font name="Microsoft Sans Serif" size="18.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <JFXComboBox fx:id="columnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" onAction="#handleFirstColumnSelection" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20">
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" />
+                                             </VBox.margin>
+                                          </JFXComboBox>
+                                          <Label fx:id="dataTypeCol1Label" text="Please select a data type to work with:" textFill="WHITE" visible="false">
+                                             <font>
+                                                <Font name="Microsoft Sans Serif" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXComboBox fx:id="dataTypeSelectorCBTN" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" onAction="#handleDataTypeSelected" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visible="false" visibleRowCount="20">
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" />
+                                             </VBox.margin>
+                                          </JFXComboBox>
+                                          <JFXComboBox fx:id="secondColumnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="227.0" onAction="#handleSecondColumnSelection" prefHeight="25.0" prefWidth="285.0" promptText="Want to select another column?" unFocusColor="WHITE" visibleRowCount="20">
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" />
+                                             </VBox.margin>
+                                          </JFXComboBox>
+                                          <Label fx:id="col1DataTypeLabel" textFill="#726464" />
+                                          <Label fx:id="col2DataTypeLabel" layoutX="288.0" layoutY="291.0" textFill="#726464" />
+                                          <Line endX="100.0" scaleX="1.3" startX="-100.0" stroke="#575252" strokeMiterLimit="20.0" strokeWidth="0.8">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" top="30.0" />
+                                             </VBox.margin>
+                                          </Line>
+                                          <JFXCheckBox fx:id="dataTypeOKCheckBox" checkedColor="#16bb69" disable="true" text="Data type recognised" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox fx:id="singleColumnSelectedCheckBox" checkedColor="#1f5339" disable="true" layoutX="214.0" layoutY="387.0" text="Single Column Selected" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox fx:id="twoColumnsCheckBox" checkedColor="#1f5339" disable="true" layoutX="207.0" layoutY="404.0" text="Two Columns Selected" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox fx:id="checkBoxPieChart" checkedColor="#bf1c48" disable="true" text="Generate Pie Chart" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox fx:id="checkBoxBarChart" checkedColor="#bf1c48" disable="true" layoutX="229.0" layoutY="441.0" text="Generate Bar Chart" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox fx:id="checkBoxScatterChart" checkedColor="#bf1c48" disable="true" layoutX="229.0" layoutY="458.0" text="Generate Scatter Graph" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox fx:id="latLongCheckBox" checkedColor="#b0b54b" disable="true" text="Coordinate selected" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXCheckBox fx:id="possibleToGenerateMapCheckBox" checkedColor="#b0b54b" disable="true" layoutX="245.0" layoutY="576.0" text="Generate Map" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </JFXCheckBox>
+                                          <JFXSlider fx:id="mapSlider" blockIncrement="5.0" maxWidth="400.0" showTickMarks="true" visible="false" />
+                                          <JFXButton fx:id="generationButton" buttonType="RAISED" disable="true" layoutX="186.0" layoutY="25.0" onAction="#handleGenerateMapOrGraph" prefHeight="27.0" prefWidth="397.0" style="-fx-border-color: ffffff;" text="Generate" textFill="WHITE">
+                                             <VBox.margin>
+                                                <Insets top="30.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
+                                          <JFXButton fx:id="analyseFileButton" layoutX="90.0" layoutY="649.0" onAction="#handleAnalyseFileSelectedBtn" prefHeight="27.0" prefWidth="397.0" text="Simple analyses" textFill="#837e7e" underline="true">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
+                                          <JFXButton fx:id="advancedAnalysesButton" layoutX="90.0" layoutY="686.0" onAction="#handleAdvancedAnalysis" prefHeight="27.0" prefWidth="397.0" text="Advanced analyses" textFill="#837e7e" underline="true" visible="false" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #222222;">
+                                 <children>
+                                    <TableView fx:id="tableVisualiPage" prefHeight="696.0" prefWidth="923.0" style="-fx-background-color: #222222;" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="barChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BarChart fx:id="barChart" layoutX="1.0" layoutY="80.0" prefHeight="725.0" prefWidth="1475.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                        <JFXButton buttonType="RAISED" layoutX="477.0" layoutY="813.0" onAction="#backFromGraphButton" prefHeight="31.0" prefWidth="486.0" text="Back" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="pieChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <PieChart fx:id="pieChart" layoutX="7.0" layoutY="68.0" prefHeight="744.0" prefWidth="1472.0" />
+                        <JFXButton buttonType="RAISED" layoutX="503.0" layoutY="820.0" onAction="#backFromGraphButton" prefHeight="41.0" prefWidth="490.0" text="Back" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="scatterChartVisualiPanel" prefHeight="763.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="88.0">
+                     <children>
+                        <ScatterChart fx:id="scatterChart" prefHeight="656.0" prefWidth="1492.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </ScatterChart>
+                        <JFXButton buttonType="RAISED" layoutX="499.0" layoutY="698.0" onAction="#backFromGraphButton" prefHeight="41.0" prefWidth="490.0" text="Back" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
+            <AnchorPane fx:id="aboutPanel" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <SplitPane dividerPositions="0.37316421895861146" prefHeight="768.0" prefWidth="1500.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="556.0" style="-fx-background-color: #222222;">
-                           <children>
-                              <VBox alignment="TOP_CENTER" prefHeight="721.0" prefWidth="556.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <JFXButton fx:id="backFromChartsButton" onAction="#handleBackToCSVFileSelectorPage" text="Choose a different file" textFill="#797575" underline="true">
-                                       <VBox.margin>
-                                          <Insets top="15.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                    <JFXButton fx:id="createTableButton" buttonType="RAISED" onAction="#handleTableCreationButton" prefHeight="19.0" prefWidth="205.0" style="-fx-border-color: ffffff;" text="Generate Table" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" top="15.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                    <Label fx:id="columnSelectorLabel" disable="true" text="Please select a Column to analyse:" textFill="WHITE">
-                                       <font>
-                                          <Font name="Microsoft Sans Serif" size="18.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <JFXComboBox fx:id="columnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" onAction="#handleFirstColumnSelection" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20">
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" />
-                                       </VBox.margin>
-                                    </JFXComboBox>
-                                    <Label fx:id="dataTypeCol1Label" text="Please select a data type to work with:" textFill="WHITE" visible="false">
-                                       <font>
-                                          <Font name="Microsoft Sans Serif" size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <JFXComboBox fx:id="dataTypeSelectorCBTN" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" onAction="#handleDataTypeSelected" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visible="false" visibleRowCount="20">
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" />
-                                       </VBox.margin></JFXComboBox>
-                                    <JFXComboBox fx:id="secondColumnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="227.0" onAction="#handleSecondColumnSelection" prefHeight="25.0" prefWidth="285.0" promptText="Want to select another column?" unFocusColor="WHITE" visibleRowCount="20">
-                                       <VBox.margin>
-                                          <Insets bottom="15.0" />
-                                       </VBox.margin>
-                                    </JFXComboBox>
-                                    <Label fx:id="col1DataTypeLabel" textFill="#726464" />
-                                    <Label fx:id="col2DataTypeLabel" layoutX="288.0" layoutY="291.0" textFill="#726464" />
-                                    <Line endX="100.0" scaleX="1.3" startX="-100.0" stroke="#575252" strokeMiterLimit="20.0" strokeWidth="0.8">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" top="40.0" />
-                                       </VBox.margin>
-                                    </Line>
-                                    <JFXCheckBox fx:id="dataTypeOKCheckBox" checkedColor="#16bb69" disable="true" text="Data type recognised" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="singleColumnSelectedCheckBox" checkedColor="#1f5339" disable="true" layoutX="214.0" layoutY="387.0" text="Single Column Selected" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="twoColumnsCheckBox" checkedColor="#1f5339" disable="true" layoutX="207.0" layoutY="404.0" text="Two Columns Selected" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="20.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="checkBoxPieChart" checkedColor="#bf1c48" disable="true" text="Generate Pie Chart" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="checkBoxBarChart" checkedColor="#bf1c48" disable="true" layoutX="229.0" layoutY="441.0" text="Generate Bar Chart" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="checkBoxScatterChart" checkedColor="#bf1c48" disable="true" layoutX="229.0" layoutY="458.0" text="Generate Scatter Graph" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="20.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="latLongCheckBox" checkedColor="#b0b54b" disable="true" text="Coordinate selected" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="possibleToGenerateMapCheckBox" checkedColor="#b0b54b" disable="true" layoutX="245.0" layoutY="576.0" text="Generate Map" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXSlider fx:id="mapSlider" blockIncrement="5.0" maxWidth="400.0" showTickMarks="true" visible="false" />
-                                    <JFXButton fx:id="generationButton" buttonType="RAISED" disable="true" layoutX="186.0" layoutY="25.0" onAction="#handleGenerateMapOrGraph" prefHeight="27.0" prefWidth="397.0" style="-fx-border-color: ffffff;" text="Generate" textFill="WHITE">
-                                       <VBox.margin>
-                                          <Insets top="30.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #222222;">
-                           <children>
-                              <TableView fx:id="tableVisualiPage" prefHeight="696.0" prefWidth="923.0" style="-fx-background-color: #222222;" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
+                  <ImageView pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/AboutScreen.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="barChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="contactPanel" disable="true" prefHeight="726.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <BarChart fx:id="barChart" layoutX="1.0" layoutY="80.0" prefHeight="725.0" prefWidth="1475.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </BarChart>
-                  <JFXButton buttonType="RAISED" layoutX="477.0" layoutY="813.0" onAction="#backFromGraphButton" prefHeight="31.0" prefWidth="486.0" text="Back" textFill="WHITE" />
+                  <ImageView pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/contactPage.png" />
+                     </image>
+                  </ImageView>
+                  <GridPane layoutX="287.0" layoutY="335.0" prefHeight="268.0" prefWidth="436.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="0.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="328.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="46.666656494140625" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="49.333343505859375" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="144.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="161.0" minHeight="10.0" prefHeight="32.33331298828125" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Name" textFill="WHITE" GridPane.halignment="RIGHT">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Email" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Message" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <TextField GridPane.columnIndex="1" />
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextArea prefHeight="90.0" prefWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <JFXButton buttonType="RAISED" prefHeight="22.0" prefWidth="57.0" text="Send" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pieChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="1500.0" AnchorPane.bottomAnchor="827.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <PieChart fx:id="pieChart" layoutX="7.0" layoutY="68.0" prefHeight="744.0" prefWidth="1472.0" />
-                  <JFXButton buttonType="RAISED" layoutX="503.0" layoutY="820.0" onAction="#backFromGraphButton" prefHeight="41.0" prefWidth="490.0" text="Back" textFill="WHITE" />
+                  <Button fx:id="moveScreenButton" mnemonicParsing="false" onAction="#handleMovingScreen" prefHeight="19.0" prefWidth="1420.0" style="-fx-opacity: 0;" text="moveScreenButton" />
+                  <Button fx:id="minusButton" layoutX="1428.0" layoutY="8.0" mnemonicParsing="false" onAction="#minusButtonClicked" prefHeight="33.0" prefWidth="32.0" style="-fx-opacity: 0;" text="minusButton" />
+                  <Button fx:id="closeButton" layoutX="1463.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="33.0" prefWidth="32.0" style="-fx-opacity: 0;" text="closeButton" />
+                  <ButtonBar layoutX="145.0" layoutY="27.0" prefHeight="40.0" prefWidth="350.0">
+                     <buttons>
+                        <JFXButton fx:id="homePanelButton" onAction="#homeButtonClicked" text="HOME" textFill="#e1dddd">
+                           <font>
+                              <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="visualPanelButton" onAction="#visualButtonClicked" text="VISUALI" textFill="#e1dddd">
+                           <font>
+                              <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="aboutPanelButton" onAction="#aboutButtonClicked" text="ABOUT" textFill="#e1dddd">
+                           <font>
+                              <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="contactPanelButton" onAction="#contactButtonClicked" text="CONTACT" textFill="#e1dddd">
+                           <font>
+                              <Font name="Franklin Gothic Demi Cond" size="13.0" />
+                           </font>
+                        </JFXButton>
+                     </buttons>
+                  </ButtonBar>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="scatterChartVisualiPanel" prefHeight="763.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="88.0">
-               <children>
-                  <ScatterChart fx:id="scatterChart" prefHeight="656.0" prefWidth="1492.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </ScatterChart>
-                  <JFXButton buttonType="RAISED" layoutX="499.0" layoutY="698.0" onAction="#backFromGraphButton" prefHeight="41.0" prefWidth="490.0" text="Back" textFill="WHITE" />
-               </children>
-            </AnchorPane>
-         </children></AnchorPane>
-      <AnchorPane fx:id="aboutPanel" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../resources/images/AboutScreen.png" />
-               </image>
-            </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="contactPanel" disable="true" prefHeight="726.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="splashScreenPanl" onDragDetected="#handleSplashScreen" onKeyPressed="#handleSplashScreen" onMouseClicked="#handleSplashScreen" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView pickOnBounds="true" preserveRatio="true">
+            <ImageView layoutX="432.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../resources/images/contactPage.png" />
+                  <Image url="@../../resources/images/welcomeScreen.png" />
                </image>
             </ImageView>
-            <GridPane layoutX="287.0" layoutY="335.0" prefHeight="268.0" prefWidth="436.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="0.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="328.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="46.666656494140625" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="49.333343505859375" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="144.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="161.0" minHeight="10.0" prefHeight="32.33331298828125" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Name" textFill="WHITE" GridPane.halignment="RIGHT">
-                     <GridPane.margin>
-                        <Insets right="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="Email" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets right="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="Message" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets right="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextArea prefHeight="90.0" prefWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <JFXButton buttonType="RAISED" prefHeight="22.0" prefWidth="57.0" text="Send" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-               </children>
-            </GridPane>
-         </children>
-      </AnchorPane>
-      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="1500.0" AnchorPane.bottomAnchor="827.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button fx:id="moveScreenButton" mnemonicParsing="false" onAction="#handleMovingScreen" prefHeight="19.0" prefWidth="1420.0" style="-fx-opacity: 0;" text="moveScreenButton" />
-            <Button fx:id="minusButton" layoutX="1428.0" layoutY="8.0" mnemonicParsing="false" onAction="#minusButtonClicked" prefHeight="33.0" prefWidth="32.0" style="-fx-opacity: 0;" text="minusButton" />
-            <Button fx:id="closeButton" layoutX="1463.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="33.0" prefWidth="32.0" style="-fx-opacity: 0;" text="closeButton" />
-            <ButtonBar layoutX="145.0" layoutY="27.0" prefHeight="40.0" prefWidth="350.0">
-               <buttons>
-                  <JFXButton fx:id="homePanelButton" onAction="#homeButtonClicked" text="HOME" textFill="#e1dddd">
-                     <font>
-                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="visualPanelButton" onAction="#visualButtonClicked" text="VISUALI" textFill="#e1dddd">
-                     <font>
-                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="aboutPanelButton" onAction="#aboutButtonClicked" text="ABOUT" textFill="#e1dddd">
-                     <font>
-                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="contactPanelButton" onAction="#contactButtonClicked" text="CONTACT" textFill="#e1dddd">
-                     <font>
-                        <Font name="Franklin Gothic Demi Cond" size="13.0" />
-                     </font>
-                  </JFXButton>
-               </buttons>
-            </ButtonBar>
          </children>
       </AnchorPane>
    </children>

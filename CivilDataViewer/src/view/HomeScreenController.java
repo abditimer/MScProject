@@ -20,10 +20,12 @@ import csvReader.DynamicTable;
 import csvReader.FileUploader;
 import csvReader.LocalCSVFilesFinder;
 import csvReader.ProgressForm;
+import data.AdvancedAnalysis;
 import data.ArrayListCreator;
 import data.DataDetector;
 import data.DataFormatFX;
 import data.ObservableListProvider;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -54,10 +56,22 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import main.MainApp;
 import map.MapCreator;
 
 public class HomeScreenController {
+	/**
+	 * Panel holding my entire software components.
+	 */
+	@FXML
+	private AnchorPane allScreensPanels;
+	/**
+	 * Panel holding splashscreen.
+	 */
+	@FXML
+	private AnchorPane splashScreenPanl;
+	
 	// Main field variables ----------------------------------------------
 	/**
 	 * AnchorPane for one of the main pages.
@@ -263,10 +277,26 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private JFXButton generationButton;
+	/**
+	 * Label that shows you data type of first col.
+	 */
 	@FXML
 	private Label col1DataTypeLabel;
+	/**
+	 * Label that shows you data type of second col.
+	 */
 	@FXML
 	private Label col2DataTypeLabel;
+	/**
+	 * Button that lets you learn more about the data selected.
+	 */
+	@FXML
+	private JFXButton analyseFileButton;
+	/**
+	 * Button that lets you learn more about the data selected.
+	 */
+	@FXML
+	private JFXButton advancedAnalysesButton;
 	// -
 	// ***********************************
 	// -----Different Graphs pages--------------
@@ -403,6 +433,10 @@ public class HomeScreenController {
 	private boolean createdPie = false;
 	private boolean createdBar = false;
 	private boolean createdScatter = false;
+	/**
+	 * Displays mode, median etc.
+	 */
+	private String toDisplayAdvanceInfo;
 	// ---------------------------------------------------------------
 
 	// Main App that controls different scenes
@@ -611,6 +645,7 @@ public class HomeScreenController {
 		IntelligenceAndTableVisualiserPanel.setVisible(false);
 		dataTypeCol1Label.setVisible(false);
 		dataTypeSelectorCBTN.setVisible(false);
+		advancedAnalysesButton.setVisible(false);
 		// lets you reset the table
 		isTableCreated = false;
 		// shows the panel that lets you select a csv file
@@ -752,9 +787,11 @@ public class HomeScreenController {
 				} else if (firstColDataTypeDetected.containsDouble()) {
 					setUpBooleanForColumn1(false, true, false);
 					setUpCheckBoxesForGraphs(false, false, true);
+					advancedAnalysesButton.setVisible(true);
 				} else if (firstColDataTypeDetected.containsInt()) {
 					setUpBooleanForColumn1(false, false, true);
 					setUpCheckBoxesForGraphs(false, false, true);
+					advancedAnalysesButton.setVisible(true);
 				}
 			} else {
 				System.out.println("column has more than 1 datatype.");
@@ -867,9 +904,11 @@ public class HomeScreenController {
 		} else if (firstColDataTypeDetected.containsDouble()) {
 			setUpBooleanForColumn1(false, true, false);
 			setUpCheckBoxesForGraphs(false, false, true);
+			advancedAnalysesButton.setVisible(true);
 		} else if (firstColDataTypeDetected.containsInt()) {
 			setUpBooleanForColumn1(false, false, true);
 			setUpCheckBoxesForGraphs(false, false, true);
+			advancedAnalysesButton.setVisible(true);
 		}
 	}
 
@@ -913,6 +952,57 @@ public class HomeScreenController {
 			col1DataTypeLabel.setVisible(false);
 		}
 
+	}
+
+	/**
+	 * This method will allow for a dialog to tell the user more information
+	 * about the column selected.
+	 */
+	public void handleAnalyseFileSelectedBtn() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information about the file.");
+		alert.setHeaderText("Information gathered:");
+		String toDisplay = "Name of File: " + csvFileNameSelected + ".\n" + "Name of column selected: "
+				+ firstColumnName + ".\n" + "Number of lines: " + firstColumn.length + ".\n" + "Columns data type: "
+				+ firstColDataTypeDetected.printDataTypes() + ".\n";
+		alert.setContentText(toDisplay);
+		alert.showAndWait();
+	}
+	
+	public void handleAdvancedAnalysis() {
+		System.out.println("Analysin file...");
+		ProgressForm pForm = new ProgressForm();
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws InterruptedException {
+				//Work out max and min of String
+				
+				AdvancedAnalysis advanceAnalysis = new AdvancedAnalysis(firstColDataTypeDetected);
+				toDisplayAdvanceInfo = advanceAnalysis.toString();
+				updateProgress(10, 10);
+				return null;
+			}
+		};
+
+		pForm.activateProgressBar(task);
+		System.out.println("came out of the thread for analysing file");
+		task.setOnSucceeded(event -> {
+			pForm.getDialogStage().close();
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Advanced column analysis.");
+			alert.setTitle("More column info.");
+			
+			String toDisplay = toDisplayAdvanceInfo;
+			alert.setContentText(toDisplay);
+			alert.showAndWait();
+
+		});
+
+		pForm.getDialogStage().show();
+
+		Thread thread = new Thread(task);
+		thread.start();
 	}
 
 	/**
@@ -1220,7 +1310,7 @@ public class HomeScreenController {
 	private void createScatterChart() {
 		IntelligenceAndTableVisualiserPanel.setVisible(false);
 		scatterChartVisualiPanel.setVisible(true);
-		
+
 		System.out.println("Creating a scatter chart....");
 		xAxisScatterChart.setLabel("x axis");
 		yAxisScatterChart.setLabel("y axis");
@@ -1589,6 +1679,16 @@ public class HomeScreenController {
 				mainApp.getPrimaryStage().setY(event.getScreenY() - yOffset);
 			}
 		});
+	}
+	
+	public void handleSplashScreen() {
+		FadeTransition ft = new FadeTransition(Duration.millis(3000), splashScreenPanl);
+		ft.setFromValue(1.0);
+		ft.setToValue(0.0);
+		ft.play();
+		splashScreenPanl.setDisable(true);
+		
+		allScreensPanels.setDisable(false);
 	}
 
 }
