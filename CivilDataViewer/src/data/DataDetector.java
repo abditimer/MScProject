@@ -325,7 +325,7 @@ public class DataDetector {
 	public static void main(String[] args) {
 		CSVReader reader = new CSVReader("bridgeData.csv");
 		DataDetector detected = new DataDetector(DataFormatFX.getColumnData(1, reader.getData()));
-		System.out.println(l,l,l(detected.printDataTypes()));
+		
 	}
 
 }
