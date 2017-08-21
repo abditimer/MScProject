@@ -71,13 +71,18 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private AnchorPane splashScreenPanl;
-	
+
 	// Main field variables ----------------------------------------------
 	/**
 	 * AnchorPane for one of the main pages.
 	 */
 	@FXML
 	private AnchorPane homePanel;
+	/**
+	 * AnchorPane for info panel.
+	 */
+	@FXML
+	private AnchorPane infoPanel;
 	/**
 	 * AnchorPane for one of the main pages.
 	 */
@@ -99,6 +104,11 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private Button homePanelButton;
+	/**
+	 * Button that shows the information page.
+	 */
+	@FXML
+	private Button infoPanelButton;
 	/**
 	 * Button that allows you to move between screens.
 	 */
@@ -130,7 +140,54 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private Button moveScreenButton;
-
+	//Anchor page items ----------------------------------
+	/**
+	 * AnchorPane for history page.
+	 */
+	@FXML
+	private AnchorPane historyPanel;
+	/**
+	 * AnchorPane for future page.
+	 */
+	@FXML
+	private AnchorPane futurePanel;
+	/**
+	 * AnchorPane for people page.
+	 */
+	@FXML
+	private AnchorPane peoplePanel;
+	/**
+	 * AnchorPane for me page.
+	 */
+	@FXML
+	private AnchorPane mePanel;
+	/**
+	 * Unique button to hide panel.
+	 */
+	@FXML
+	private Button minimiseBeautyButton;
+	//Buttons that control the pages within this page.
+	/**
+	 * Unique button to close the screen.
+	 */
+	@FXML
+	private Button historyButton;
+	/**
+	 * Unique button to close the screen.
+	 */
+	@FXML
+	private Button futureButton;
+	/**
+	 * Unique button to close the screen.
+	 */
+	@FXML
+	private Button peopleButton;
+	/**
+	 * Unique button to close the screen.
+	 */
+	@FXML
+	private Button meButton;
+	
 	// Visuali CSV selector page.
 	// ------------------------------------------------
 	/**
@@ -491,28 +548,35 @@ public class HomeScreenController {
 	 * Button for going to the homePanel screen
 	 */
 	public void homeButtonClicked() {
-		setScreenVisibility(true, false, false, false);
+		setScreenVisibility(true,false, false, false, false);
 	}
 
 	/**
 	 * Button for going to the homePanel screen
 	 */
 	public void visualButtonClicked() {
-		setScreenVisibility(false, true, false, false);
+		setScreenVisibility(false,false, true, false, false);
 	}
 
 	/**
 	 * Button for going to the homePanel screen
 	 */
 	public void aboutButtonClicked() {
-		setScreenVisibility(false, false, true, false);
+		setScreenVisibility(false, false, false, true, false);
 	}
 
 	/**
 	 * Button for going to the homePanel screen
 	 */
 	public void contactButtonClicked() {
-		setScreenVisibility(false, false, false, true);
+		setScreenVisibility(false,false, false, false, true);
+	}
+	
+	/**
+	 * Button for going to the info screen
+	 */
+	public void infoButtonClicked() {
+		setScreenVisibility(false,true, false, false, false);
 	}
 
 	// ***********************************************
@@ -968,15 +1032,15 @@ public class HomeScreenController {
 		alert.setContentText(toDisplay);
 		alert.showAndWait();
 	}
-	
+
 	public void handleAdvancedAnalysis() {
 		System.out.println("Analysin file...");
 		ProgressForm pForm = new ProgressForm();
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws InterruptedException {
-				//Work out max and min of String
-				
+				// Work out max and min of String
+
 				AdvancedAnalysis advanceAnalysis = new AdvancedAnalysis(firstColDataTypeDetected);
 				toDisplayAdvanceInfo = advanceAnalysis.toString();
 				updateProgress(10, 10);
@@ -988,11 +1052,11 @@ public class HomeScreenController {
 		System.out.println("came out of the thread for analysing file");
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
-			
+
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Advanced column analysis.");
 			alert.setTitle("More column info.");
-			
+
 			String toDisplay = toDisplayAdvanceInfo;
 			alert.setContentText(toDisplay);
 			alert.showAndWait();
@@ -1612,14 +1676,17 @@ public class HomeScreenController {
 	 * @param aboutPanelVisible
 	 * @param contactPanelVisible
 	 */
-	public void setScreenVisibility(Boolean homeScreenVisible, Boolean visualPanelVisible, Boolean aboutPanelVisible,
+	public void setScreenVisibility(Boolean homeScreenVisible, Boolean infoScreenVisible, Boolean visualPanelVisible, Boolean aboutPanelVisible,
 			Boolean contactPanelVisible) {
+		
 		homePanel.setVisible(homeScreenVisible);
+		infoPanel.setVisible(infoScreenVisible);
 		visualPanel.setVisible(visualPanelVisible);
 		aboutPanel.setVisible(aboutPanelVisible);
 		contactPanel.setVisible(contactPanelVisible);
 
 		homePanelButton.setUnderline(homeScreenVisible);
+		infoPanelButton.setUnderline(infoScreenVisible);
 		visualPanelButton.setUnderline(visualPanelVisible);
 		aboutPanelButton.setUnderline(aboutPanelVisible);
 		contactPanelButton.setUnderline(contactPanelVisible);
@@ -1630,6 +1697,35 @@ public class HomeScreenController {
 		// setUpChartData();
 	}
 
+	// ================================
+	// Code that handles the information page.
+	// ================================
+	
+	public void hideBeautyPanel() {
+		setSmartCityPages(false, false, false, false);
+		infoPanel.setVisible(true);
+	}
+	
+	private void setSmartCityPages(boolean history, boolean future, boolean keypeople, boolean me) {
+		historyPanel.setVisible(history);
+		futurePanel.setVisible(future);
+		peoplePanel.setVisible(keypeople);
+		mePanel.setVisible(me);
+	}
+	
+	public void openHistoryPanel() {
+		setSmartCityPages(true, false, false, false);
+	}
+	public void openFutureyPanel() {
+		setSmartCityPages(false, true, false, false);
+	}
+	public void openKeyPeoplePanel() {
+		setSmartCityPages(false, false, true, false);
+	}
+	public void openMePanel() {
+		setSmartCityPages(false, false, false, true);
+	}
+	
 	// ================================
 	// METHODS THAT DONT NEED TO BE EDITED
 	// ================================
@@ -1680,14 +1776,14 @@ public class HomeScreenController {
 			}
 		});
 	}
-	
+
 	public void handleSplashScreen() {
 		FadeTransition ft = new FadeTransition(Duration.millis(3000), splashScreenPanl);
 		ft.setFromValue(1.0);
 		ft.setToValue(0.0);
 		ft.play();
 		splashScreenPanl.setDisable(true);
-		
+
 		allScreensPanels.setDisable(false);
 	}
 
