@@ -24,9 +24,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HomeScreenController">
@@ -38,7 +38,7 @@
                   <Image url="@../../resources/images/background.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="homePanel" disable="true" prefHeight="700.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="homePanel" prefHeight="700.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <effect>
                   <InnerShadow />
                </effect>
@@ -46,6 +46,36 @@
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../resources/images/homeScreen.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="icon1" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icons/bck1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="icon2" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icons/bck2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="icon3" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icons/bck4.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="icon4" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icons/bck5.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="icon5" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icons/bck6.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="icon6" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icons/bck7.png" />
                      </image>
                   </ImageView>
                </children>
@@ -62,6 +92,11 @@
                   <Button fx:id="futureButton" layoutX="680.0" layoutY="287.0" mnemonicParsing="false" onAction="#openFutureyPanel" prefHeight="99.0" prefWidth="106.0" style="-fx-opacity: 0;" />
                   <Button fx:id="peopleButton" layoutX="952.0" layoutY="333.0" mnemonicParsing="false" onAction="#openKeyPeoplePanel" prefHeight="99.0" prefWidth="106.0" style="-fx-opacity: 0;" />
                   <Button fx:id="meButton" layoutX="1120.0" layoutY="326.0" mnemonicParsing="false" onAction="#openMePanel" prefHeight="99.0" prefWidth="106.0" style="-fx-opacity: 0;" />
+                  <ImageView fx:id="carIcon" layoutX="1410.0" layoutY="836.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/smallCar.png" />
+                     </image>
+                  </ImageView>
                   <AnchorPane fx:id="historyPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <children>
                         <ImageView pickOnBounds="true" preserveRatio="true">
@@ -104,100 +139,136 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="visualPanel" prefHeight="869.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="visualPanel" prefHeight="869.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <AnchorPane fx:id="CSVSelectorPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label layoutX="567.0" layoutY="313.0" prefHeight="36.0" prefWidth="196.0" text="Currently selected file:" textFill="WHITE">
-                                 <font>
-                                    <Font name="Gadugi" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="currentlySelectedCSVFileLabel" layoutX="770.0" layoutY="313.0" prefHeight="36.0" prefWidth="673.0" textFill="WHITE">
-                                 <font>
-                                    <Font name="Nirmala UI Semilight" size="12.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="chooseCSVFileLabel" layoutX="275.0" layoutY="347.0" text="Please select a CSV file to Visualise:" textAlignment="RIGHT" textFill="WHITE">
-                                 <font>
-                                    <Font name="Gadugi" size="28.0" />
-                                 </font>
-                              </Label>
-                              <JFXComboBox fx:id="chooseCSVFileComboBox" layoutX="751.0" layoutY="355.0" onAction="#handleCSVFileSelectedFromComboBoxButton" prefHeight="25.0" prefWidth="438.0" promptText="Please select a previously updated file here..." unFocusColor="#d0c5c5" />
-                              <JFXButton fx:id="UploadNewCSVFileButton" buttonType="RAISED" layoutX="513.0" layoutY="352.0" onAction="#handleNewCSVFileUpload" prefHeight="55.0" prefWidth="540.0" style="-fx-border-color: ffffff;" text="Click here to upload a new file" textFill="WHITE" visible="false">
-                                 <font>
-                                    <Font name="Gadugi" size="18.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="analyseCSVFileButton" buttonType="RAISED" layoutX="584.0" layoutY="441.0" onAction="#analyseCSVFileButton" prefHeight="31.0" prefWidth="419.0" style="-fx-border-color: ffffff;" text="Analyse this file" textFill="WHITE" visible="false">
-                                 <font>
-                                    <Font name="Gadugi" size="18.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXToggleButton fx:id="uploadOrSelectCSVFileToggleButton" layoutX="451.0" layoutY="249.0" onAction="#handleUploadOrSavedCSFFileSelectToggleButton" prefHeight="55.0" prefWidth="665.0" text="Upload a new CSV file?" textFill="WHITE" toggleColor="#8a1212" toggleLineColor="WHITE" unToggleLineColor="#4d4242">
-                                 <font>
-                                    <Font name="Century Gothic" size="23.0" />
-                                 </font>
-                              </JFXToggleButton>
+                              <HBox layoutX="627.0" layoutY="828.0" prefHeight="31.0" prefWidth="842.0">
+                                 <children>
+                                    <Label text="Current number of saved files:" textFill="WHITE">
+                                       <font>
+                                          <Font name="Gadugi" size="20.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="numberOfFiles" textFill="WHITE">
+                                       <font>
+                                          <Font name="Gadugi" size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <VBox alignment="CENTER" layoutX="23.0" layoutY="176.0" prefHeight="474.0" prefWidth="1458.0">
+                                 <children>
+                                    <JFXToggleButton fx:id="uploadOrSelectCSVFileToggleButton" onAction="#handleUploadOrSavedCSFFileSelectToggleButton" prefHeight="55.0" prefWidth="665.0" text="Upload a new CSV file?" textFill="WHITE" toggleColor="#8a1212" toggleLineColor="WHITE" unToggleColor="#c6ddd0" unToggleLineColor="#4d4242">
+                                       <font>
+                                          <Font name="Century Gothic" size="23.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </JFXToggleButton>
+                                    <JFXButton fx:id="UploadNewCSVFileButton" buttonType="RAISED" onAction="#handleNewCSVFileUpload" prefHeight="55.0" prefWidth="540.0" style="-fx-border-color: ffffff;" text="Click here to upload a new file" textFill="WHITE" visible="false">
+                                       <font>
+                                          <Font name="Gadugi" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
+                                    <Label fx:id="chooseCSVFileLabel" text="Please select a CSV file to Visualise:" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="Gadugi" size="20.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <JFXComboBox fx:id="chooseCSVFileComboBox" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleCSVFileSelectedFromComboBoxButton" prefHeight="41.0" prefWidth="662.0" promptText="Please select a previously updated file here..." unFocusColor="#d0c5c5">
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                       </VBox.margin>
+                                    </JFXComboBox>
+                                    <Label prefHeight="36.0" prefWidth="196.0" text="Currently selected file:" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="Gadugi" size="20.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="currentlySelectedCSVFileLabel" prefHeight="36.0" prefWidth="673.0" textFill="WHITE">
+                                       <font>
+                                          <Font name="Nirmala UI Semilight" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <JFXButton fx:id="analyseCSVFileButton" buttonType="RAISED" onAction="#analyseCSVFileButton" prefHeight="31.0" prefWidth="419.0" style="-fx-border-color: ffffff;" text="Analyse this file" textFill="WHITE" visible="false">
+                                       <font>
+                                          <Font name="Gadugi" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="12.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
                      <children>
-                        <SplitPane dividerPositions="0.37316421895861146" prefHeight="768.0" prefWidth="1500.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.37316421895861146" prefHeight="769.0" prefWidth="1500.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="556.0" style="-fx-background-color: #222222;">
                                  <children>
                                     <VBox alignment="TOP_CENTER" prefHeight="721.0" prefWidth="556.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <JFXButton fx:id="backFromChartsButton" onAction="#handleBackToCSVFileSelectorPage" text="Choose a different file" textFill="#797575" underline="true">
-                                             <VBox.margin>
-                                                <Insets top="15.0" />
-                                             </VBox.margin>
-                                          </JFXButton>
-                                          <JFXButton fx:id="createTableButton" buttonType="RAISED" onAction="#handleTableCreationButton" prefHeight="19.0" prefWidth="205.0" style="-fx-border-color: ffffff;" text="Generate Table" textFill="WHITE">
+                                          <JFXButton fx:id="createTableButton" buttonType="RAISED" onAction="#handleTableCreationButton" prefHeight="27.0" prefWidth="350.0" style="-fx-border-color: ffffff;" text="Generate Table" textFill="WHITE">
                                              <VBox.margin>
                                                 <Insets bottom="15.0" top="15.0" />
                                              </VBox.margin>
                                           </JFXButton>
                                           <Label fx:id="columnSelectorLabel" disable="true" text="Please select a Column to analyse:" textFill="WHITE">
                                              <font>
-                                                <Font name="Microsoft Sans Serif" size="18.0" />
+                                                <Font name="Gadugi" size="20.0" />
                                              </font>
                                              <VBox.margin>
                                                 <Insets top="5.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <JFXComboBox fx:id="columnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" onAction="#handleFirstColumnSelection" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visibleRowCount="20">
+                                          <JFXComboBox fx:id="columnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" onAction="#handleFirstColumnSelection" prefHeight="25.0" prefWidth="350.0" unFocusColor="WHITE" visibleRowCount="20">
                                              <VBox.margin>
                                                 <Insets bottom="15.0" />
                                              </VBox.margin>
                                           </JFXComboBox>
                                           <Label fx:id="dataTypeCol1Label" text="Please select a data type to work with:" textFill="WHITE" visible="false">
                                              <font>
-                                                <Font name="Microsoft Sans Serif" size="18.0" />
+                                                <Font name="Gadugi" size="20.0" />
                                              </font>
                                           </Label>
-                                          <JFXComboBox fx:id="dataTypeSelectorCBTN" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" onAction="#handleDataTypeSelected" prefHeight="25.0" prefWidth="285.0" unFocusColor="WHITE" visible="false" visibleRowCount="20">
+                                          <JFXComboBox fx:id="dataTypeSelectorCBTN" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="93.0" onAction="#handleDataTypeSelected" prefHeight="25.0" prefWidth="350.0" unFocusColor="WHITE" visible="false" visibleRowCount="20">
                                              <VBox.margin>
                                                 <Insets bottom="15.0" />
                                              </VBox.margin>
                                           </JFXComboBox>
-                                          <JFXComboBox fx:id="secondColumnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="227.0" onAction="#handleSecondColumnSelection" prefHeight="25.0" prefWidth="285.0" promptText="Want to select another column?" unFocusColor="WHITE" visibleRowCount="20">
+                                          <JFXComboBox fx:id="secondColumnSelectorCBTN" disable="true" focusColor="WHITE" labelFloat="true" layoutX="146.0" layoutY="227.0" onAction="#handleSecondColumnSelection" prefHeight="25.0" prefWidth="350.0" promptText="Want to select another column?" unFocusColor="WHITE" visibleRowCount="20">
                                              <VBox.margin>
                                                 <Insets bottom="15.0" />
                                              </VBox.margin>
                                           </JFXComboBox>
                                           <Label fx:id="col1DataTypeLabel" textFill="#726464" />
-                                          <Label fx:id="col2DataTypeLabel" layoutX="288.0" layoutY="291.0" textFill="#726464" />
-                                          <Line endX="100.0" scaleX="1.3" startX="-100.0" stroke="#575252" strokeMiterLimit="20.0" strokeWidth="0.8">
+                                          <Label fx:id="col2DataTypeLabel" layoutX="288.0" layoutY="291.0" textFill="#726464">
                                              <VBox.margin>
-                                                <Insets bottom="10.0" top="30.0" />
-                                             </VBox.margin>
-                                          </Line>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin></Label>
                                           <JFXCheckBox fx:id="dataTypeOKCheckBox" checkedColor="#16bb69" disable="true" text="Data type recognised" textFill="WHITE">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" />
@@ -239,17 +310,22 @@
                                              </VBox.margin>
                                           </JFXCheckBox>
                                           <JFXSlider fx:id="mapSlider" blockIncrement="5.0" maxWidth="400.0" showTickMarks="true" visible="false" />
-                                          <JFXButton fx:id="generationButton" buttonType="RAISED" disable="true" layoutX="186.0" layoutY="25.0" onAction="#handleGenerateMapOrGraph" prefHeight="27.0" prefWidth="397.0" style="-fx-border-color: ffffff;" text="Generate" textFill="WHITE">
+                                          <JFXButton fx:id="generationButton" buttonType="RAISED" disable="true" layoutX="186.0" layoutY="25.0" onAction="#handleGenerateMapOrGraph" prefHeight="27.0" prefWidth="350.0" style="-fx-border-color: ffffff;" text="Generate" textFill="#61c295">
                                              <VBox.margin>
                                                 <Insets top="30.0" />
                                              </VBox.margin>
                                           </JFXButton>
-                                          <JFXButton fx:id="analyseFileButton" layoutX="90.0" layoutY="649.0" onAction="#handleAnalyseFileSelectedBtn" prefHeight="27.0" prefWidth="397.0" text="Simple analyses" textFill="#837e7e" underline="true">
+                                          <JFXButton fx:id="analyseFileButton" layoutX="90.0" layoutY="649.0" onAction="#handleAnalyseFileSelectedBtn" prefHeight="27.0" prefWidth="397.0" text="More information..." textFill="#837e7e" underline="true">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </JFXButton>
                                           <JFXButton fx:id="advancedAnalysesButton" layoutX="90.0" layoutY="686.0" onAction="#handleAdvancedAnalysis" prefHeight="27.0" prefWidth="397.0" text="Advanced analyses" textFill="#837e7e" underline="true" visible="false" />
+                                          <JFXButton fx:id="backFromChartsButton" buttonType="RAISED" onAction="#handleBackToCSVFileSelectorPage" text="Choose a different file" textFill="#d7d2d2" underline="true">
+                                             <VBox.margin>
+                                                <Insets top="15.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
                                        </children>
                                     </VBox>
                                  </children>
@@ -265,7 +341,7 @@
                   </AnchorPane>
                   <AnchorPane fx:id="barChartVisualiPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <BarChart fx:id="barChart" layoutX="1.0" layoutY="80.0" prefHeight="725.0" prefWidth="1475.0">
+                        <BarChart fx:id="barChart" layoutX="1.0" layoutY="80.0" legendVisible="false" prefHeight="725.0" prefWidth="1475.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -284,7 +360,7 @@
                   </AnchorPane>
                   <AnchorPane fx:id="scatterChartVisualiPanel" prefHeight="763.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="88.0">
                      <children>
-                        <ScatterChart fx:id="scatterChart" prefHeight="656.0" prefWidth="1492.0">
+                        <ScatterChart fx:id="scatterChart" legendVisible="false" prefHeight="656.0" prefWidth="1492.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -295,15 +371,6 @@
                         <JFXButton buttonType="RAISED" layoutX="499.0" layoutY="698.0" onAction="#backFromGraphButton" prefHeight="41.0" prefWidth="490.0" text="Back" textFill="WHITE" />
                      </children>
                   </AnchorPane>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="aboutPanel" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ImageView pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/images/AboutScreen.png" />
-                     </image>
-                  </ImageView>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="contactPanel" disable="true" prefHeight="726.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -370,11 +437,6 @@
                               <Font name="Franklin Gothic Demi Cond" size="13.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="aboutPanelButton" onAction="#aboutButtonClicked" text="ABOUT" textFill="#e1dddd">
-                           <font>
-                              <Font name="Franklin Gothic Demi Cond" size="13.0" />
-                           </font>
-                        </JFXButton>
                         <JFXButton fx:id="contactPanelButton" onAction="#contactButtonClicked" text="CONTACT" textFill="#e1dddd">
                            <font>
                               <Font name="Franklin Gothic Demi Cond" size="13.0" />
@@ -386,6 +448,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
+      <Button fx:id="musicButton" layoutX="1448.0" layoutY="850.0" mnemonicParsing="false" onAction="#handleMusic" prefHeight="48.0" prefWidth="49.0" style="-fx-opacity: 0;" text="minusButton" />
       <AnchorPane fx:id="splashScreenPanl" onDragDetected="#handleSplashScreen" onKeyPressed="#handleSplashScreen" onMouseClicked="#handleSplashScreen" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView layoutX="432.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">

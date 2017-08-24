@@ -8,11 +8,20 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class audioPlayMusic {
+	private MediaPlayer mediaPlayer;
 	
 	public audioPlayMusic() {
 	    final URL resource = getClass().getResource("backgroundMusic.mp3");
 	    final Media media = new Media(resource.toString());
-	    final MediaPlayer mediaPlayer = new MediaPlayer(media);
-	    mediaPlayer.play();
+	    this.mediaPlayer = new MediaPlayer(media);
+	    
+	}
+	
+	public void playMusic() {
+		mediaPlayer.play();
+	}
+	
+	public void pauseMusic() {
+		mediaPlayer.pause();
 	}
 }

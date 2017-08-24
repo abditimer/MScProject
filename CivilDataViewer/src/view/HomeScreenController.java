@@ -14,6 +14,7 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.teamdev.jxmaps.javafx.MapView;
 
+import animationImages.SlideShow;
 import backgroundAudio.audioPlayMusic;
 import csvReader.CSVReader;
 import csvReader.DynamicTable;
@@ -26,6 +27,11 @@ import data.DataDetector;
 import data.DataFormatFX;
 import data.ObservableListProvider;
 import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -46,6 +52,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -79,6 +86,16 @@ public class HomeScreenController {
 	@FXML
 	private AnchorPane homePanel;
 	/**
+	 * This is how our animation is created
+	 */
+	private SlideShow simpleSlideShow;
+	/**
+	 * AnchorPane for transitioning homescreen images.
+	 */
+	@FXML
+	private AnchorPane iconHomePageAnimation;
+	
+	/**
 	 * AnchorPane for info panel.
 	 */
 	@FXML
@@ -88,11 +105,6 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private AnchorPane visualPanel;
-	/**
-	 * AnchorPane for one of the main pages.
-	 */
-	@FXML
-	private AnchorPane aboutPanel;
 	/**
 	 * AnchorPane for one of the main pages.
 	 */
@@ -118,11 +130,6 @@ public class HomeScreenController {
 	 * Button that allows you to move between screens.
 	 */
 	@FXML
-	private Button aboutPanelButton;
-	/**
-	 * Button that allows you to move between screens.
-	 */
-	@FXML
 	private Button contactPanelButton;
 	// minus and close buttons
 	/**
@@ -130,6 +137,11 @@ public class HomeScreenController {
 	 */
 	@FXML
 	private Button minusButton;
+	/**
+	 * unique button to play/pause music.
+	 */
+	@FXML
+	private Button musicButton;
 	/**
 	 * Unique button to close the screen.
 	 */
@@ -397,7 +409,29 @@ public class HomeScreenController {
 	// *********************************************
 	// others references needed
 	// *****************************************************************
-
+	/**
+	 * This will show the user the number of files on record.
+	 */
+	@FXML
+	private Label numberOfFiles = new Label();
+	/**
+	 * This is the homepage fading item 1.
+	 */
+	@FXML
+	private ImageView icon1;
+	@FXML
+	private ImageView icon2;
+	@FXML
+	private ImageView icon3;
+	@FXML
+	private ImageView icon4;
+	@FXML
+	private ImageView icon5;
+	@FXML
+	private ImageView icon6;
+	@FXML
+	private ImageView carIcon;
+	
 	// needed for movable screen
 	private double xOffset = 0;
 	private double yOffset = 0;
@@ -494,6 +528,10 @@ public class HomeScreenController {
 	 * Displays mode, median etc.
 	 */
 	private String toDisplayAdvanceInfo;
+	/**
+	 * lets us know if the music has been paused or not.
+	 */
+	private boolean isMusicPaused = false;
 	// ---------------------------------------------------------------
 
 	// Main App that controls different scenes
@@ -515,6 +553,11 @@ public class HomeScreenController {
 	private MapView mapView;
 	private Stage primaryStage;
 	private Stage mapStage;
+	/**
+	 * Our music class that lets us play music
+	 */
+	audioPlayMusic playMusic;
+	
 
 	// ====================================================================
 	public void setMainApp(MainApp mainApp) {
@@ -534,8 +577,19 @@ public class HomeScreenController {
 		// called.
 		tableVisualiPage.setPlaceholder(new Label("waiting..."));
 		// The below starts music
-		audioPlayMusic playMusic = new audioPlayMusic();
+		playMusic = new audioPlayMusic();
+		playMusic.playMusic();
+		isMusicPaused = false;
+		//set the homepage translating images up.
+		translationIcons();
+		//set up the moving car.
+		translateCar();
+		//show number of files currently on record to the user.
+		numberOfFiles.setText(localCSVFilesFound.numberOfFiles());
 	}
+	
+	
+
 
 	// =====================================================================
 	// code for controlling the header buttons
@@ -548,35 +602,35 @@ public class HomeScreenController {
 	 * Button for going to the homePanel screen
 	 */
 	public void homeButtonClicked() {
-		setScreenVisibility(true,false, false, false, false);
+		setScreenVisibility(true,false, false,  false);
 	}
 
 	/**
 	 * Button for going to the homePanel screen
 	 */
 	public void visualButtonClicked() {
-		setScreenVisibility(false,false, true, false, false);
+		setScreenVisibility(false,false, true,  false);
 	}
 
 	/**
 	 * Button for going to the homePanel screen
 	 */
 	public void aboutButtonClicked() {
-		setScreenVisibility(false, false, false, true, false);
+		setScreenVisibility(false, false, false,  false);
 	}
 
 	/**
 	 * Button for going to the homePanel screen
 	 */
 	public void contactButtonClicked() {
-		setScreenVisibility(false,false, false, false, true);
+		setScreenVisibility(false,false, false,  true);
 	}
 	
 	/**
 	 * Button for going to the info screen
 	 */
 	public void infoButtonClicked() {
-		setScreenVisibility(false,true, false, false, false);
+		setScreenVisibility(false,true, false,  false);
 	}
 
 	// ***********************************************
@@ -722,6 +776,9 @@ public class HomeScreenController {
 		// disable buttons on the previous page
 		columnSelectorCBTN.setDisable(true);
 		secondColumnSelectorCBTN.setDisable(true);
+		//hide buttons that show data type
+		col1DataTypeLabel.setVisible(false);
+		col2DataTypeLabel.setVisible(false);
 	}
 
 	/**
@@ -1189,6 +1246,7 @@ public class HomeScreenController {
 		ObservableListProvider listProvider = new ObservableListProvider(readIn, firstColIndex);
 		// create chart depending on selected chart.
 		pieChart.setData(listProvider.getPieChartObservableList());
+		
 		pieChartVisualiPanel.setVisible(true);
 	}
 
@@ -1196,7 +1254,6 @@ public class HomeScreenController {
 	 * This method is called and creates a world map in an outside scene.
 	 */
 	private void createWorldMap() {
-		System.out.println("Creating world map...");
 		ProgressForm pForm = new ProgressForm();
 		Task<Void> task = new Task<Void>() {
 			@Override
@@ -1204,15 +1261,7 @@ public class HomeScreenController {
 
 				longtitudeDoubles = ArrayListCreator.stringArrayToDouble(firstColumn);
 				latitudeDoubles = ArrayListCreator.stringArrayToDouble(secondColumn);
-				System.out.println("longitudes=======================");
-				for (double one : longtitudeDoubles) {
-					System.out.println(one);
-				}
-				System.out.println("latitudes=======================");
-				for (double one : latitudeDoubles) {
-					System.out.println(one);
-				}
-
+				
 				updateProgress(10, 10);
 				return null;
 			}
@@ -1357,7 +1406,7 @@ public class HomeScreenController {
 			Thread thread = new Thread(task);
 			thread.start();
 		}
-
+		
 	}
 
 	/**
@@ -1410,6 +1459,7 @@ public class HomeScreenController {
 		task.setOnSucceeded(event -> {
 			pForm.getDialogStage().close();
 			scatterChart.getData().add(scatterChartSeries);
+			
 		});
 		pForm.getDialogStage().show();
 		Thread thread = new Thread(task);
@@ -1673,22 +1723,19 @@ public class HomeScreenController {
 	 * 
 	 * @param homeScreenVisible
 	 * @param visualPanelVisible
-	 * @param aboutPanelVisible
 	 * @param contactPanelVisible
 	 */
-	public void setScreenVisibility(Boolean homeScreenVisible, Boolean infoScreenVisible, Boolean visualPanelVisible, Boolean aboutPanelVisible,
+	public void setScreenVisibility(Boolean homeScreenVisible, Boolean infoScreenVisible, Boolean visualPanelVisible,
 			Boolean contactPanelVisible) {
 		
 		homePanel.setVisible(homeScreenVisible);
 		infoPanel.setVisible(infoScreenVisible);
 		visualPanel.setVisible(visualPanelVisible);
-		aboutPanel.setVisible(aboutPanelVisible);
 		contactPanel.setVisible(contactPanelVisible);
 
 		homePanelButton.setUnderline(homeScreenVisible);
 		infoPanelButton.setUnderline(infoScreenVisible);
 		visualPanelButton.setUnderline(visualPanelVisible);
-		aboutPanelButton.setUnderline(aboutPanelVisible);
 		contactPanelButton.setUnderline(contactPanelVisible);
 
 		if (!visualPanelVisible) {
@@ -1755,6 +1802,72 @@ public class HomeScreenController {
 		}
 
 	}
+	
+	private void translateCar() {
+		TranslateTransition t1 = new TranslateTransition(Duration.millis(8000));
+		t1.setNode(carIcon);
+		t1.setFromX(300);
+		t1.setToX(-1700);
+		t1.setCycleCount(Timeline.INDEFINITE);
+		t1.play();
+	}
+	
+	/**
+	 * Method has been created to create an animation sequence for the use of an animated sequence.
+	 * It calls the various images in order and establishes an order that they should be displayed.
+	 * As they come in, they are faded into the screen, and subsequently faded out.
+	 */
+	private void translationIcons() {
+		//Icon 1s transition
+		
+		FadeTransition t1 = new FadeTransition(Duration.millis(2500));
+		t1.setNode(icon1);
+		//t1.setFromValue(1.0);
+		//t1.setToValue(0.0);
+		//t1.setAutoReverse(true);
+		
+		FadeTransition t2 = new FadeTransition(Duration.millis(5000));
+		t2.setNode(icon2);
+		t2.setFromValue(0.0);
+		t2.setToValue(1.0);
+		t2.setAutoReverse(true);
+		
+		FadeTransition t3 = new FadeTransition(Duration.millis(5000));
+		t3.setNode(icon3);
+		t3.setFromValue(0.0);
+		t3.setToValue(1.0);
+		t3.setAutoReverse(true);
+		
+		FadeTransition t4 = new FadeTransition(Duration.millis(5000));
+		t4.setNode(icon4);
+		t4.setFromValue(0.0);
+		t4.setToValue(1.0);
+		t4.setAutoReverse(true);
+		
+		FadeTransition t5 = new FadeTransition(Duration.millis(5000));
+		t5.setNode(icon5);
+		t5.setFromValue(0.0);
+		t5.setToValue(1.0);
+		t5.setAutoReverse(true);
+		
+		FadeTransition t6 = new FadeTransition(Duration.millis(5000));
+		t6.setNode(icon6);
+		t6.setFromValue(0.0);
+		t6.setToValue(1.0);
+		t6.setAutoReverse(true);
+		
+		
+		FadeTransition t7 = new FadeTransition(Duration.millis(2500));
+		t7.setNode(icon1);
+		t7.setFromValue(0.0);
+		t7.setToValue(1.0);
+		
+		SequentialTransition st = new SequentialTransition(t1,t2, t3, t4, t5, t6);
+		st.setInterpolator(Interpolator.LINEAR);
+		st.setCycleCount(Timeline.INDEFINITE);
+		st.play();
+		
+	}
 
 	/**
 	 * allows for top of the screen to be movable. invisible button above area
@@ -1785,6 +1898,21 @@ public class HomeScreenController {
 		splashScreenPanl.setDisable(true);
 
 		allScreensPanels.setDisable(false);
+	}
+	
+	/**
+	 * This method handles the music, playing or pausing it.
+	 */
+	public void handleMusic() {
+		if (isMusicPaused) {
+			//music is paused
+			playMusic.playMusic();
+			isMusicPaused = false;
+		} else {
+			//means is currently playing
+			playMusic.pauseMusic();
+			isMusicPaused = true;
+		}
 	}
 
 }

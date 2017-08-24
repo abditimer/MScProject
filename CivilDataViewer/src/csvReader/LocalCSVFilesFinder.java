@@ -47,6 +47,11 @@ public class LocalCSVFilesFinder {
 	public ObservableList<String> getCSVFileNames() {
 		return fileNames;
 	}
+	
+	public String numberOfFiles() {
+		String sizeFile = Integer.toString(fileNames.size());
+		return sizeFile;
+	}
 
 	public static void main(String[] args) {
 		LocalCSVFilesFinder test = new LocalCSVFilesFinder();

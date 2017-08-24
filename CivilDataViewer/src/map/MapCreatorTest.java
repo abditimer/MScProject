@@ -90,12 +90,5 @@ public class MapCreatorTest extends Application {
     	System.out.println("yo");
         launch(args);
     }
-	
-	
-	
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
 
 }
