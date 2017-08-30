@@ -14,7 +14,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import view.HomeScreenController;
-
+/**
+ * This class is the main class that runs the application - Visuali.
+ * Created by Abdikhaliq Timer for the submission into the MSc Computer Science Summer project.
+ * This class is really big, with many components linking to one another.
+ * please refer to the UML diagrams.
+ * 
+ * 
+ * @author Abdikhaliq Timer
+ *
+ */
 public class MainApp extends Application {
 
 	private Stage primaryStage;

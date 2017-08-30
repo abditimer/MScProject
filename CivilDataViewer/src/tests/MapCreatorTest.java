@@ -1,4 +1,4 @@
-package map;
+package tests;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import map.MapCreator;
 
 /**
  * This file has been created to test the map.

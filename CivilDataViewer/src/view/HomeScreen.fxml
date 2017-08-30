@@ -38,7 +38,7 @@
                   <Image url="@../../resources/images/background.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="homePanel" prefHeight="700.0" prefWidth="1290.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="homePanel" prefHeight="700.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <effect>
                   <InnerShadow />
                </effect>
@@ -139,9 +139,9 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="visualPanel" prefHeight="869.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="visualPanel" prefHeight="869.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="visualiQuestionPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <AnchorPane fx:id="CSVSelectorPanel" prefHeight="900.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
@@ -223,7 +223,7 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
+                  <AnchorPane fx:id="IntelligenceAndTableVisualiserPanel" layoutY="93.0" prefHeight="772.0" prefWidth="1500.0" visible="false" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="93.0">
                      <children>
                         <SplitPane dividerPositions="0.37316421895861146" prefHeight="769.0" prefWidth="1500.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>

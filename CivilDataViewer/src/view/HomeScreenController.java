@@ -1229,7 +1229,7 @@ public class HomeScreenController {
 			if (dataTypeCol1IsString) {
 				// must be barchart
 				System.out.println("create bar");
-				createBarChart();
+				createBarChart(); 
 				createdBar = true;
 			} else {
 				// must be a scatter graph
@@ -1427,8 +1427,7 @@ public class HomeScreenController {
 		System.out.println("Creating a scatter chart....");
 		xAxisScatterChart.setLabel("x axis");
 		yAxisScatterChart.setLabel("y axis");
-		scatterChart.setTitle("title");
-
+		
 		ProgressForm pForm = new ProgressForm();
 		Task<Void> task = new Task<Void>() {
 			@Override
