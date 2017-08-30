@@ -14,6 +14,15 @@ No prerequisites, except for knowledge in running a Java file.
 
 No installation required. Run the "MainApp" Class found in the 'Main' package. Once this is run, the application should run itself.
 
+## Images of the Running software
+
+![alt text](https://github.com/abditimer/MScProject/blob/master/CivilDataViewer/resources/githubImages/%232.PNG)
+![alt text](https://github.com/abditimer/MScProject/blob/master/CivilDataViewer/resources/githubImages/%233.PNG)
+![alt text](https://github.com/abditimer/MScProject/blob/master/CivilDataViewer/resources/githubImages/%237.PNG)
+
+Find more here: 
+![Link to more images, click here.](https://github.com/abditimer/MScProject/tree/master/CivilDataViewer/resources/githubImages)
+
 ## Running the tests
 
 I have included a package that details the unit testing (done using JUnit tests), that can be found in the package 'tests' package.
