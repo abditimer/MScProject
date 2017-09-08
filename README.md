@@ -10,9 +10,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 No prerequisites, except for knowledge in running a Java file.
 
-### Installing
+### Installing/Running
 
-No installation required. Run the "MainApp" Class found in the 'Main' package. Once this is run, the application should run itself.
+No installation required. 
+
+Run the "MainApp" Class found in the 'Main' package. Once this is run, the application should run itself.
+
+You will know the software is running by the playing music. 
 
 ## Images of the Running software
 
